@@ -167,11 +167,32 @@ public class UsersManagementService {
         }
     }
 
-    public ReqRes getAllUsers() {
+    public ReqRes getAllEmployees() {
         ReqRes reqRes = new ReqRes();
 
         try {
-            List<OurUsers> result = usersRepo.findAll();
+            List<OurUsers> result = usersRepo.findByRoleOrRoleOrRole( "ADMIN", "SUPERVISOR", "RECEPTIONIST");
+            if (!result.isEmpty()){
+                reqRes.setOurUsersList(result);
+                reqRes.setStatusCode(200);
+                reqRes.setMessage("Successful");
+            } else {
+                reqRes.setStatusCode(404);
+                reqRes.setMessage("No Users Found");
+            }
+            return reqRes;
+        } catch (Exception e) {
+            reqRes.setStatusCode(500);
+            reqRes.setMessage("Error occured: " + e.getMessage());
+            return reqRes;
+        }
+    }
+
+    public ReqRes getAllCustomers() {
+        ReqRes reqRes = new ReqRes();
+
+        try {
+            List<OurUsers> result = usersRepo.findByRole( "CUSTOMER");
             if (!result.isEmpty()){
                 reqRes.setOurUsersList(result);
                 reqRes.setStatusCode(200);
@@ -273,4 +294,6 @@ public class UsersManagementService {
         return reqRes;
 
     }
+
+
 }

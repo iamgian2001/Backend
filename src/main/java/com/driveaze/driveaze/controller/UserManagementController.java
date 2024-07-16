@@ -34,9 +34,14 @@ public class UserManagementController {
         return ResponseEntity.ok(userManagementService.refreshToken(req));
     }
 
-    @GetMapping("/admin/get-all-users")
-    public ResponseEntity<ReqRes> getAllUsers() {
-        return ResponseEntity.ok(userManagementService.getAllUsers());
+    @GetMapping("/admin/get-all-employees")
+    public ResponseEntity<ReqRes> getAllEmployees() {
+        return ResponseEntity.ok(userManagementService.getAllEmployees());
+    }
+
+    @GetMapping("/admin/get-all-customers")
+    public ResponseEntity<ReqRes> getAllCustomers() {
+        return ResponseEntity.ok(userManagementService.getAllCustomers());
     }
 
     @GetMapping("/admin/get-users/{userId}")
