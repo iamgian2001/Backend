@@ -30,6 +30,12 @@ public class UsersManagementService {
         ReqRes resp = new ReqRes();
 
         try {
+            if (employeeRegistrationRequest.getPassword() == null || employeeRegistrationRequest.getPassword().isEmpty()) {
+                resp.setStatusCode(400);
+                resp.setMessage("Password cannot be null or empty");
+                return resp;
+            }
+
             Optional<OurUsers> existingUserByName = usersRepo.findByName(employeeRegistrationRequest.getName());
             if (existingUserByName.isPresent()) {
                 resp.setStatusCode(400);
