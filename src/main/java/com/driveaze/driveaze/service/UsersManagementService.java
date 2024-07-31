@@ -52,7 +52,6 @@ public class UsersManagementService {
 
             OurUsers ourUser = new OurUsers();
             ourUser.setEmail(employeeRegistrationRequest.getEmail());
-            ourUser.setAddress(employeeRegistrationRequest.getAddress());
             ourUser.setRole(employeeRegistrationRequest.getRole());
             ourUser.setName(employeeRegistrationRequest.getName());
             ourUser.setContactNumber(employeeRegistrationRequest.getContactNumber());
@@ -75,12 +74,12 @@ public class UsersManagementService {
         ReqRes resp = new ReqRes();
 
         try {
-            Optional<OurUsers> existingUserByName = usersRepo.findByName(customerRegistrationRequest.getName());
-            if (existingUserByName.isPresent()) {
-                resp.setStatusCode(400);
-                resp.setMessage("Username is taken!");
-                return resp;
-            }
+//            Optional<OurUsers> existingUserByName = usersRepo.findByName(customerRegistrationRequest.getName());
+//            if (existingUserByName.isPresent()) {
+//                resp.setStatusCode(400);
+//                resp.setMessage("Username is taken!");
+//                return resp;
+//            }
 
             Optional<OurUsers> existingUserByEmail = usersRepo.findByEmail(customerRegistrationRequest.getEmail());
             if (existingUserByEmail.isPresent()) {
@@ -91,7 +90,6 @@ public class UsersManagementService {
 
             OurUsers ourUser = new OurUsers();
             ourUser.setEmail(customerRegistrationRequest.getEmail());
-            ourUser.setAddress(customerRegistrationRequest.getAddress());
             ourUser.setRole("CUSTOMER");
             ourUser.setName(customerRegistrationRequest.getName());
             ourUser.setContactNumber(customerRegistrationRequest.getContactNumber());
@@ -256,7 +254,6 @@ public class UsersManagementService {
                 OurUsers existingUser = userOptional.get();
                 existingUser.setEmail(updatedUser.getEmail());
                 existingUser.setName(updatedUser.getName());
-                existingUser.setAddress(updatedUser.getAddress());
                 existingUser.setRole(updatedUser.getRole());
 
                 // Check if password is present in the request
