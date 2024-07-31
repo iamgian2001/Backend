@@ -17,13 +17,23 @@ import java.util.List;
 public class OurUsers implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id", length =45)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long Id;
+
+    @Column(name = "email", length = 100)
     private String email;
+
+    @Column(name = "contact_number", length = 100)
     private String contactNumber;
+
+    @Column(name = "name", length = 100, nullable = false)
     private String name;
+
+    @Column(name = "password", length = 255, nullable = false)
     private String password;
-    private String address;
+
+    @Column(name = "role", length = 100)
     private String role;
 
 
