@@ -130,8 +130,6 @@ public class UsersManagementService {
                 return response;
             }
 
-//            authenticationManager
-//                    .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
             var user = usersRepo.findByEmail(loginRequest.getEmail()).orElseThrow();
             var jwt = jwtUtils.generateToken(user);
             var refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), user);
@@ -175,7 +173,7 @@ public class UsersManagementService {
         ReqRes reqRes = new ReqRes();
 
         try {
-            List<OurUsers> result = usersRepo.findByRoleOrRoleOrRole( "ADMIN", "SUPERVISOR", "RECEPTIONIST");
+            List<OurUsers> result = usersRepo.findByRoleOrRoleOrRoleOrRoleOrRoleOrRole( "ADMIN", "SUPERVISOR", "RECEPTIONIST", "MANAGER", "WAREHOUSE_KEEPER", "TECHNICIAN");
             if (!result.isEmpty()){
                 reqRes.setOurUsersList(result);
                 reqRes.setStatusCode(200);
