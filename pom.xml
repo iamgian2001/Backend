@@ -95,6 +95,13 @@
 			<artifactId>jackson-databind</artifactId>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.2.0</version> <!-- Compatible with Spring Boot 3.x -->
+		</dependency>
+
 	</dependencies>
 
 	<build>

@@ -33,13 +33,17 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
-                .authorizeHttpRequests(request-> request.requestMatchers("/auth/**", "/public/**").permitAll()
+                .authorizeHttpRequests(request-> request
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/auth/**", "/public/**").permitAll()
                         .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
-//                        .requestMatchers("/user/**").hasAnyAuthority("USER")
+                        .requestMatchers("/manager/**").hasAnyAuthority("MANAGER")
                         .requestMatchers("/supervisor/**").hasAnyAuthority("SUPERVISOR")
                         .requestMatchers("/receptionist/**").hasAnyAuthority("RECEPTIONIST")
+                        .requestMatchers("/warehouse_keeper/**").hasAnyAuthority("WAREHOUSE_KEEPER")
+                        .requestMatchers("/technician/**").hasAnyAuthority("TECHNICIAN")
                         .requestMatchers("/customer/**").hasAnyAuthority("CUSTOMER")
-                        .requestMatchers("/anyuser/**").hasAnyAuthority("ADMIN", "USER", "CUSTOMER", "RECEPTIONIST", "SUPERVISOR")
+                        .requestMatchers("/anyuser/**").hasAnyAuthority("ADMIN", "USER", "CUSTOMER", "RECEPTIONIST", "SUPERVISOR", "MANAGER", "WAREHOUSE_KEEPER", "TECHNICIAN")
                         .anyRequest().authenticated())
                 .sessionManagement(manager-> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(
