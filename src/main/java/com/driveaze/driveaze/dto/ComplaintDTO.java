@@ -1,26 +1,20 @@
-package com.driveaze.driveaze.entity;
+package com.driveaze.driveaze.dto;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
-@Entity
-@Table(name = "complaint")
-public class Complaint {
+public class ComplaintDTO {
 
-    @Id
-    @Column(name = "complaint_id",length = 45)
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int complaintId;
-
-    @Column(name = "description", length =500, nullable = false)
     private String description;
-
-    @Column(name = "status", length = 1)
     private int status;
 
-    public Complaint() {
+    public ComplaintDTO() {
     }
 
-    public Complaint(int complaintId, String description, int status) {
+    public ComplaintDTO(int complaintId, String description, int status) {
         this.complaintId = complaintId;
         this.description = description;
         this.status = status;
@@ -52,5 +46,3 @@ public class Complaint {
 
 
 }
-
-
