@@ -7,6 +7,8 @@ import com.driveaze.driveaze.service.CustomerComplaintService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -19,6 +21,7 @@ public class CustomerComplaintServiceIMPL implements CustomerComplaintService {
         Complaint complaint = new Complaint(
                 complaintDTO.getComplaintId(),
                 complaintDTO.getDescription(),
+                complaintDTO.getDate(),
                 complaintDTO.getStatus()
         );
 
@@ -28,4 +31,25 @@ public class CustomerComplaintServiceIMPL implements CustomerComplaintService {
             System.out.println("complaint already exists");
         }
     }
+
+    @Override
+    public List<ComplaintDTO> retrieveComplaints() { // Renamed for clarity
+        List<Complaint> complaints = complaintRepo.findAll();
+        List<ComplaintDTO> complaintDTOs = new ArrayList<>();
+
+        // Convert Complaint entities to ComplaintDTOs
+        for (Complaint complaint : complaints) {
+            ComplaintDTO complaintDTO = new ComplaintDTO(
+                    complaint.getComplaintId(),
+                    complaint.getDescription(),
+                    complaint.getDate(),
+                    complaint.getStatus()
+            );
+            complaintDTOs.add(complaintDTO);
+        }
+
+        return complaintDTOs;
+    }
+
+
 }

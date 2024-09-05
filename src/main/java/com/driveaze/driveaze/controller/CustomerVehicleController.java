@@ -18,4 +18,6 @@ public class CustomerVehicleController {
         customerVehicleService.addCustomerVehicle(customerVehicleDTO);
         return "Saved";
     }
+
+
 }

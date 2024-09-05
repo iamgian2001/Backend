@@ -2,7 +2,11 @@ package com.driveaze.driveaze.service;
 
 import com.driveaze.driveaze.dto.ComplaintDTO;
 
+import java.util.List;
+
 public interface CustomerComplaintService {
 
     void addComplaint(ComplaintDTO complaintDTO);
+
+    public List<ComplaintDTO> retrieveComplaints();
 }
