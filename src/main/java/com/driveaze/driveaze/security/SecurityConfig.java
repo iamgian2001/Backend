@@ -1,4 +1,4 @@
-package com.driveaze.driveaze.config;
+package com.driveaze.driveaze.security;
 
 import com.driveaze.driveaze.service.OurUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,9 +46,8 @@ public class SecurityConfig {
                         .requestMatchers("/anyuser/**").hasAnyAuthority("ADMIN", "USER", "CUSTOMER", "RECEPTIONIST", "SUPERVISOR", "MANAGER", "WAREHOUSE_KEEPER", "TECHNICIAN")
                         .anyRequest().authenticated())
                 .sessionManagement(manager-> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider()).addFilterBefore(
-                        jwtAuthFilter, UsernamePasswordAuthenticationFilter.class
-                );
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }
 

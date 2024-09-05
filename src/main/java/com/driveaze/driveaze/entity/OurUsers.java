@@ -36,12 +36,6 @@ public class OurUsers implements UserDetails {
     @Column(name = "role", length = 100)
     private String role;
 
-
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return List.of(new SimpleGrantedAuthority(role));
-//    }
-
     @Override
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -55,26 +49,22 @@ public class OurUsers implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-//        return UserDetails.super.isAccountNonExpired();
         return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-//        return UserDetails.super.isAccountNonLocked();
-                return true;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-//        return UserDetails.super.isCredentialsNonExpired();
-                return true;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-//        return UserDetails.super.isEnabled();
-                return true;
+        return true;
     }
 
 

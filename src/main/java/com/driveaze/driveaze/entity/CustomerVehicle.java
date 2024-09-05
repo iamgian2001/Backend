@@ -1,9 +1,11 @@
 package com.driveaze.driveaze.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
 @Table(name = "customer_vehicle")
+@Data
 public class CustomerVehicle {
 
     @Id
