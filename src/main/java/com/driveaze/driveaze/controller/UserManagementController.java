@@ -1,10 +1,8 @@
 package com.driveaze.driveaze.controller;
 
-import com.driveaze.driveaze.dto.ReqRes;
 import com.driveaze.driveaze.dto.ResponseDTO;
 import com.driveaze.driveaze.entity.OurUsers;
-import com.driveaze.driveaze.service.UsersManagementService;
-import com.driveaze.driveaze.service.interfac.IUserService;
+import com.driveaze.driveaze.service.interfac.IUserManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -15,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping
 public class UserManagementController {
     @Autowired
-    private IUserService userService;
+    private IUserManagementService userService;
 
 //    @PostMapping("/auth/employee-register")
 //    public ResponseEntity<ReqRes> employeeRegister(@RequestBody ReqRes req) {
@@ -39,20 +37,17 @@ public class UserManagementController {
 
     @GetMapping("/admin/get-all-employees")
     public ResponseEntity<ResponseDTO> getAllEmployees() {
-        ResponseDTO responseDTO = userService.getAllEmployees();
-        return ResponseEntity.status(responseDTO.getStatusCode()).body(responseDTO);
+        return ResponseEntity.ok(userService.getAllEmployees());
     }
 
     @GetMapping("/admin/get-all-customers")
     public ResponseEntity<ResponseDTO> getAllCustomers() {
-        ResponseDTO responseDTO = userService.getAllCustomers();
-        return ResponseEntity.status(responseDTO.getStatusCode()).body(responseDTO);
+        return ResponseEntity.ok(userService.getAllCustomers());
     }
 
     @GetMapping("/admin/get-user/{userId}")
     public ResponseEntity<ResponseDTO> getUsersById(@PathVariable Integer userId) {
-        ResponseDTO responseDTO = userService.getUsersById(userId);
-        return ResponseEntity.status(responseDTO.getStatusCode()).body(responseDTO);
+        return ResponseEntity.ok(userService.getUsersById(userId));
     }
 
     @PutMapping("/admin/update/{userId}")

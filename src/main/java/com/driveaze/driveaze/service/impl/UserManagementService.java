@@ -1,8 +1,10 @@
-package com.driveaze.driveaze.service;
+package com.driveaze.driveaze.service.impl;
 
-import com.driveaze.driveaze.dto.ReqRes;
+import com.driveaze.driveaze.dto.ResponseDTO;
+import com.driveaze.driveaze.dto.auth.LoginRequest;
 import com.driveaze.driveaze.entity.OurUsers;
 import com.driveaze.driveaze.repository.UsersRepo;
+import com.driveaze.driveaze.service.interfac.IUserManagementService;
 import com.driveaze.driveaze.util.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,13 +13,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-@Service
-public class UsersManagementService {
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
+@Service
+public class UserManagementService implements IUserManagementService {
     @Autowired
     private UsersRepo usersRepo;
     @Autowired
@@ -27,8 +29,9 @@ public class UsersManagementService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public ReqRes employeeRegister(ReqRes employeeRegistrationRequest) {
-        ReqRes resp = new ReqRes();
+    @Override
+    public ResponseDTO employeeRegister(OurUsers employeeRegistrationRequest) {
+        ResponseDTO resp = new ResponseDTO();
 
         try {
             if (employeeRegistrationRequest.getPassword() == null || employeeRegistrationRequest.getPassword().isEmpty()) {
@@ -71,17 +74,11 @@ public class UsersManagementService {
         return resp;
     }
 
-    public ReqRes customerRegister(ReqRes customerRegistrationRequest) {
-        ReqRes resp = new ReqRes();
+    @Override
+    public ResponseDTO customerRegister(OurUsers customerRegistrationRequest) {
+        ResponseDTO resp = new ResponseDTO();
 
         try {
-//            Optional<OurUsers> existingUserByName = usersRepo.findByName(customerRegistrationRequest.getName());
-//            if (existingUserByName.isPresent()) {
-//                resp.setStatusCode(400);
-//                resp.setMessage("Username is taken!");
-//                return resp;
-//            }
-
             Optional<OurUsers> existingUserByEmail = usersRepo.findByEmail(customerRegistrationRequest.getEmail());
             if (existingUserByEmail.isPresent()) {
                 resp.setStatusCode(400);
@@ -109,10 +106,10 @@ public class UsersManagementService {
         return resp;
     }
 
+    @Override
+    public ResponseDTO login(LoginRequest loginRequest) {
+        ResponseDTO response = new ResponseDTO();
 
-
-    public ReqRes login(ReqRes loginRequest) {
-        ReqRes response = new ReqRes();
         try {
             Optional<OurUsers> existingUserByEmail = usersRepo.findByEmail(loginRequest.getEmail());
             if (!existingUserByEmail.isPresent()) {
@@ -148,30 +145,9 @@ public class UsersManagementService {
         return response;
     }
 
-    public ReqRes refreshToken(ReqRes refreshTokenReqiest) {
-        ReqRes response = new ReqRes();
-        try {
-            String ourEmail = jwtUtils.extractUsername(refreshTokenReqiest.getToken());
-            OurUsers users = usersRepo.findByEmail(ourEmail).orElseThrow();
-            if (jwtUtils.isTokenValid(refreshTokenReqiest.getToken(), users)) {
-                var jwt = jwtUtils.generateToken(users);
-                response.setToken(jwt);
-                response.setRefreshToken(refreshTokenReqiest.getToken());
-                response.setExpirationTime("24Hr");
-                response.setMessage("Successfully Refreshed Token");
-            }
-            response.setStatusCode(200);
-            return response;
-
-        } catch (Exception e) {
-            response.setStatusCode(500);
-            response.setMessage(e.getMessage());
-            return response;
-        }
-    }
-
-    public ReqRes getAllEmployees() {
-        ReqRes reqRes = new ReqRes();
+    @Override
+    public ResponseDTO getAllEmployees() {
+        ResponseDTO reqRes = new ResponseDTO();
 
         try {
             List<OurUsers> result = usersRepo.findByRoleOrRoleOrRoleOrRoleOrRoleOrRole( "ADMIN", "SUPERVISOR", "RECEPTIONIST", "MANAGER", "WAREHOUSE_KEEPER", "TECHNICIAN");
@@ -191,8 +167,9 @@ public class UsersManagementService {
         }
     }
 
-    public ReqRes getAllCustomers() {
-        ReqRes reqRes = new ReqRes();
+    @Override
+    public ResponseDTO getAllCustomers() {
+        ResponseDTO reqRes = new ResponseDTO();
 
         try {
             List<OurUsers> result = usersRepo.findByRole( "CUSTOMER");
@@ -212,10 +189,12 @@ public class UsersManagementService {
         }
     }
 
-    public ReqRes getUsersById(int id) {
-        ReqRes reqRes = new ReqRes();
+    @Override
+    public ResponseDTO getUsersById(int userId) {
+        ResponseDTO reqRes = new ResponseDTO();
+
         try {
-            OurUsers usersById = usersRepo.findById(id).orElseThrow(() -> new RuntimeException("User Not Found"));
+            OurUsers usersById = usersRepo.findById(userId).orElseThrow(() -> new RuntimeException("User Not Found"));
             reqRes.setOurUsers(usersById);
             reqRes.setStatusCode(200);
             reqRes.setMessage("Users with id '" + id + "' found successfully");
@@ -226,8 +205,10 @@ public class UsersManagementService {
         return reqRes;
     }
 
-    public ReqRes deleteUser(Integer userId) {
-        ReqRes reqRes = new ReqRes();
+    @Override
+    public ResponseDTO deleteUser(int userId) {
+        ResponseDTO reqRes = new ResponseDTO();
+
         try {
             Optional<OurUsers> userOptional = usersRepo.findById(userId);
             if (userOptional.isPresent()) {
@@ -245,8 +226,10 @@ public class UsersManagementService {
         return reqRes;
     }
 
-    public ReqRes updateUser(Integer userId, OurUsers updatedUser) {
-        ReqRes reqRes = new ReqRes();
+    @Override
+    public ResponseDTO updateUser(int userId, OurUsers updatedUser) {
+        ResponseDTO reqRes = new ResponseDTO();
+
         try {
             Optional<OurUsers> userOptional = usersRepo.findById(userId);
             if (userOptional.isPresent()) {
@@ -276,8 +259,10 @@ public class UsersManagementService {
         return reqRes;
     }
 
-    public ReqRes getMyInfo(String email){
-        ReqRes reqRes = new ReqRes();
+    @Override
+    public ResponseDTO getMyInfo(String email) {
+        ResponseDTO reqRes = new ResponseDTO();
+
         try {
             Optional<OurUsers> userOptional = usersRepo.findByEmail(email);
             if (userOptional.isPresent()) {
@@ -294,8 +279,5 @@ public class UsersManagementService {
             reqRes.setMessage("Error occurred while getting user info: " + e.getMessage());
         }
         return reqRes;
-
     }
-
-
 }
