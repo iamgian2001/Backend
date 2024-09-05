@@ -3,6 +3,7 @@ package com.driveaze.driveaze.service;
 import com.driveaze.driveaze.dto.ReqRes;
 import com.driveaze.driveaze.entity.OurUsers;
 import com.driveaze.driveaze.repository.UsersRepo;
+import com.driveaze.driveaze.util.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -132,11 +133,11 @@ public class UsersManagementService {
 
             var user = usersRepo.findByEmail(loginRequest.getEmail()).orElseThrow();
             var jwt = jwtUtils.generateToken(user);
-            var refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), user);
+//            var refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), user);
             response.setStatusCode(200);
             response.setToken(jwt);
             response.setRole(user.getRole());
-            response.setRefreshToken(refreshToken);
+//            response.setRefreshToken(refreshToken);
             response.setExpirationTime("24Hrs");
             response.setMessage("Successfully logged in");
 
