@@ -10,9 +10,9 @@ import java.time.LocalDate;
 
 @Entity
 @Data
-@Table(name = "job_registry")
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "job_registry")
 public class JobRegistry {
 
     @Id

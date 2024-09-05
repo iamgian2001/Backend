@@ -3,7 +3,7 @@ package com.driveaze.driveaze.service.impl;
 import com.driveaze.driveaze.dto.CustomerVehicleDTO;
 import com.driveaze.driveaze.entity.CustomerVehicle;
 import com.driveaze.driveaze.repository.CustomerVehicleRepo;
-import com.driveaze.driveaze.service.CustomerVehicleService;
+import com.driveaze.driveaze.service.interfac.CustomerVehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

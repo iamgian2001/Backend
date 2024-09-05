@@ -1,11 +1,15 @@
 package com.driveaze.driveaze.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "customer_vehicle")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class CustomerVehicle {
 
     @Id
@@ -25,65 +29,4 @@ public class CustomerVehicle {
     @Column(name = "customer_id", length = 100)
     private int customerId;
 
-    public CustomerVehicle() {
-    }
-
-    public CustomerVehicle(int vehicleId, String vehicleNo, String brand, String model, int customerId) {
-        this.vehicleId = vehicleId;
-        this.vehicleNo = vehicleNo;
-        this.brand = brand;
-        this.model = model;
-        this.customerId = customerId;
-    }
-
-    public int getVehicleId() {
-        return vehicleId;
-    }
-
-    public void setVehicleId(int vehicleId) {
-        this.vehicleId = vehicleId;
-    }
-
-    public String getVehicleNo() {
-        return vehicleNo;
-    }
-
-    public void setVehicleNo(String vehicleNo) {
-        this.vehicleNo = vehicleNo;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public int getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
-    }
-
-    @Override
-    public String toString() {
-        return "CustomerVehicle{" +
-                "vehicleId=" + vehicleId +
-                ", vehicleNo='" + vehicleNo + '\'' +
-                ", brand='" + brand + '\'' +
-                ", model='" + model + '\'' +
-                ", customerId=" + customerId +
-                '}';
-    }
 }

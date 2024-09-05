@@ -3,7 +3,9 @@ package com.driveaze.driveaze.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +16,8 @@ import java.util.List;
 @Entity
 @Table(name = "ourusers")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class OurUsers implements UserDetails {
 
     @Id
