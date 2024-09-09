@@ -14,4 +14,5 @@ public interface CustomerVehicleRepo extends JpaRepository<CustomerVehicle, Inte
 
     boolean existsByVehicleNo(String vehicleNo);
     Optional<CustomerVehicle> findByVehicleNo(String vehicleNo);
+
 }

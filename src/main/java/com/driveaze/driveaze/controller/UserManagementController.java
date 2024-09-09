@@ -15,26 +15,6 @@ public class UserManagementController {
     @Autowired
     private IUserManagementService userService;
 
-//    @PostMapping("/auth/employee-register")
-//    public ResponseEntity<ReqRes> employeeRegister(@RequestBody ReqRes req) {
-//        return ResponseEntity.ok(userManagementService.employeeRegister(req));
-//    }
-//
-//    @PostMapping("/auth/customer-register")
-//    public ResponseEntity<ReqRes> customerRegister(@RequestBody ReqRes req) {
-//        return ResponseEntity.ok(userManagementService.customerRegister(req));
-//    }
-//
-//    @PostMapping("/auth/login")
-//    public ResponseEntity<ReqRes> login(@RequestBody ReqRes req) {
-//        return ResponseEntity.ok(userManagementService.login(req));
-//    }
-
-//    @PostMapping("/auth/refresh")
-//    public ResponseEntity<ReqRes> refreshToken(@RequestBody ReqRes req) {
-//        return ResponseEntity.ok(userService.refreshToken(req));
-//    }
-
     @GetMapping("/admin/get-all-employees")
     public ResponseEntity<ResponseDTO> getAllEmployees() {
         return ResponseEntity.ok(userService.getAllEmployees());
