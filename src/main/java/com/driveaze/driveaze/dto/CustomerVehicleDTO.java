@@ -11,8 +11,8 @@ public class CustomerVehicleDTO {
 
     private int vehicleId;
     private String vehicleNo;
-    private String brand;
-    private String model;
+    private String vehicleBrand;
+    private String vehicleModel;
     private int customerId;
 
 }

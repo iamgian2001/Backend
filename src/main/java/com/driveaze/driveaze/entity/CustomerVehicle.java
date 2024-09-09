@@ -20,11 +20,11 @@ public class CustomerVehicle {
     @Column(name = "vehicle_no", length =100, nullable = false)
     private String vehicleNo;
 
-    @Column(name = "brand", length = 100)
-    private String brand;
+    @Column(name = "vehicle_brand", length = 100)
+    private String vehicleBrand;
 
-    @Column(name = "model", length = 100)
-    private String model;
+    @Column(name = "vehicle_model", length = 100)
+    private String vehicleModel;
 
     @Column(name = "customer_id", length = 100)
     private int customerId;
