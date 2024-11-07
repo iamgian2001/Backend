@@ -3,10 +3,14 @@ package com.driveaze.driveaze.service.impl;
 import com.driveaze.driveaze.dto.CustomerVehicleDTO;
 import com.driveaze.driveaze.dto.ResponseDTO;
 import com.driveaze.driveaze.entity.CustomerVehicle;
+import com.driveaze.driveaze.entity.OurUsers;
+import com.driveaze.driveaze.exception.OurException;
 import com.driveaze.driveaze.repository.CustomerVehicleRepo;
 import com.driveaze.driveaze.service.interfac.CustomerVehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class CustomerVehicleServiceIMPL implements CustomerVehicleService {
@@ -36,7 +40,7 @@ public class CustomerVehicleServiceIMPL implements CustomerVehicleService {
                 response.setStatusCode(400);
                 response.setMessage("Customer vehicle already exists");
             }
-        } catch (Exception e) {
+        }catch (Exception e) {
             response.setStatusCode(500);
             response.setMessage("Error occured while adding vehicle: " + e.getMessage());
         }
@@ -44,7 +48,66 @@ public class CustomerVehicleServiceIMPL implements CustomerVehicleService {
     }
 
     @Override
-    public String updateCustomerVehicle(Integer vehicleId, CustomerVehicleDTO customerVehicleDTO) {
+    public ResponseDTO getAllCustomerVehicles() {
+        return null;
+    }
+
+    @Override
+    public ResponseDTO updateCustomerVehicle(Integer vehicleId, CustomerVehicleDTO customerVehicleDTO) {
+        ResponseDTO response = new ResponseDTO();
+
+        try {
+            Optional<CustomerVehicle> existingVehicleByNumber = customerVehicleRepo.findByVehicleNo(customerVehicleDTO.getVehicleNo());
+
+            if (existingVehicleByNumber.isPresent()) {
+                response.setStatusCode(400);
+                response.setMessage("Vehicle Number Already Exists!");
+                return response;
+//                throw new OurException("Vehicle Number Already Exists");
+            }
+
+            CustomerVehicle customerVehicle = customerVehicleRepo.findById(vehicleId)
+                    .orElseThrow(() -> new OurException("Customer vehicle not found"));
+
+            customerVehicle.setVehicleNo(customerVehicleDTO.getVehicleNo());
+            customerVehicle.setVehicleBrand(customerVehicleDTO.getVehicleBrand());
+            customerVehicle.setVehicleModel(customerVehicleDTO.getVehicleModel());
+            customerVehicle.setCustomerId(customerVehicleDTO.getCustomerId());
+
+            customerVehicleRepo.save(customerVehicle);
+            response.setStatusCode(200);
+            response.setMessage("Successfully updated vehicle");
+        }catch (OurException e) {
+            response.setStatusCode(404);
+            response.setMessage(e.getMessage());
+        }catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error occured while updating vehicle: " + e.getMessage());
+        }
+        return response;
+    }
+
+    @Override
+    public ResponseDTO deleteCustomerVehicle(Integer vehicleId) {
+        ResponseDTO response = new ResponseDTO();
+
+        try {
+            customerVehicleRepo.findById(vehicleId).orElseThrow(()->new OurException("Customer vehicle not found"));
+            customerVehicleRepo.deleteById(vehicleId);
+            response.setStatusCode(200);
+            response.setMessage("Successfully deleted vehicle");
+        }catch (OurException e) {
+            response.setStatusCode(404);
+            response.setMessage(e.getMessage());
+        }catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error occured while deleting vehicle: " + e.getMessage());
+        }
+        return response;
+    }
+
+    @Override
+    public ResponseDTO getCustomerVehicleById(Integer vehicleId) {
         return null;
     }
 }

@@ -14,13 +14,11 @@ public class ResponseDTO {
     private String error;
     private String message;
     private String token;
-    private String refreshToken;
     private String expirationTime;
     private String name;
     private String role;
     private String email;
     private String contactNumber;
-//    private String password;
     private OurUsers ourUsers;
     private List<OurUsers> ourUsersList;
 

@@ -20,19 +20,14 @@ public class CustomerVehicleController {
         return ResponseEntity.ok(customerVehicleService.addCustomerVehicle(customerVehicleDTO));
     }
 
-//    @PutMapping(path = "/update/{vehicleId}" )
-//    public ResponseEntity<ResponseDTO> updateCustomerVehicle(@PathVariable Integer vehicleId, @RequestBody CustomerVehicleDTO customerVehicleDTO) {
-//        return ResponseEntity.ok(customerVehicleService.updateCustomerVehicle(vehicleId, customerVehicleDTO));
-//    }
-
     @PutMapping(path = "/update/{vehicleId}")
-    public ResponseEntity<String> updateCustomerVehicle(@PathVariable Integer vehicleId, @RequestBody CustomerVehicleDTO customerVehicleDTO) {
-        String responseDTO = customerVehicleService.updateCustomerVehicle(vehicleId, customerVehicleDTO);
+    public ResponseEntity<ResponseDTO> updateCustomerVehicle(@PathVariable Integer vehicleId, @RequestBody CustomerVehicleDTO customerVehicleDTO) {
+        ResponseDTO responseDTO = customerVehicleService.updateCustomerVehicle(vehicleId, customerVehicleDTO);
         return ResponseEntity.ok(responseDTO);
     }
 
-//    @PutMapping("/admin/update/{userId}")
-//    public ResponseEntity<ResponseDTO> updateUser(@PathVariable Integer userId, @RequestBody OurUsers reqres) {
-//        return ResponseEntity.ok(userService.updateUser(userId, reqres));
-//    }
+    @DeleteMapping("/delete/{vehicleId}")
+    public ResponseEntity<ResponseDTO> deleteCustomerVehicle(@PathVariable Integer vehicleId) {
+        return ResponseEntity.ok(customerVehicleService.deleteCustomerVehicle(vehicleId));
+    }
 }

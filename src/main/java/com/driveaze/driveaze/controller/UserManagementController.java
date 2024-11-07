@@ -31,8 +31,8 @@ public class UserManagementController {
     }
 
     @PutMapping("/admin/update/{userId}")
-    public ResponseEntity<ResponseDTO> updateUser(@PathVariable Integer userId, @RequestBody OurUsers reqres) {
-        return ResponseEntity.ok(userService.updateUser(userId, reqres));
+    public ResponseEntity<ResponseDTO> updateUser(@PathVariable Integer userId, @RequestBody OurUsers request) {
+        return ResponseEntity.ok(userService.updateUser(userId, request));
     }
 
     @GetMapping("/anyuser/get-profile")
