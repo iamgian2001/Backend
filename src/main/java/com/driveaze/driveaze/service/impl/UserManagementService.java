@@ -3,6 +3,7 @@ package com.driveaze.driveaze.service.impl;
 import com.driveaze.driveaze.dto.ResponseDTO;
 import com.driveaze.driveaze.dto.auth.LoginRequest;
 import com.driveaze.driveaze.entity.OurUsers;
+import com.driveaze.driveaze.exception.OurException;
 import com.driveaze.driveaze.repository.UsersRepo;
 import com.driveaze.driveaze.service.interfac.IUserManagementService;
 import com.driveaze.driveaze.util.JWTUtils;
@@ -37,6 +38,7 @@ public class UserManagementService implements IUserManagementService {
             if (employeeRegistrationRequest.getPassword() == null || employeeRegistrationRequest.getPassword().isEmpty()) {
                 resp.setStatusCode(400);
                 resp.setMessage("Password cannot be null or empty");
+//                throw new OurException("Password cannot be null or empty");
                 return resp;
             }
 
@@ -44,6 +46,7 @@ public class UserManagementService implements IUserManagementService {
             if (existingUserByName.isPresent()) {
                 resp.setStatusCode(400);
                 resp.setMessage("Username is taken!");
+//                throw new OurException("Username is taken!");
                 return resp;
             }
 
@@ -51,6 +54,7 @@ public class UserManagementService implements IUserManagementService {
             if (existingUserByEmail.isPresent()) {
                 resp.setStatusCode(400);
                 resp.setMessage("Email is already registered!");
+//                throw new OurException("Email is already registered!");
                 return resp;
             }
 
@@ -67,7 +71,7 @@ public class UserManagementService implements IUserManagementService {
                 resp.setStatusCode(200);
             }
 
-        }catch (Exception e){
+        }catch (OurException e){
             resp.setStatusCode(500);
             resp.setError(e.getMessage());
         }
@@ -128,14 +132,14 @@ public class UserManagementService implements IUserManagementService {
                 return response;
             }
 
-            var user = usersRepo.findByEmail(loginRequest.getEmail()).orElseThrow();
+            var user = usersRepo.findByEmail(loginRequest.getEmail()).orElseThrow(() -> new OurException("user Not found"));
             var jwt = jwtUtils.generateToken(user);
 //            var refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), user);
             response.setStatusCode(200);
             response.setToken(jwt);
             response.setRole(user.getRole());
 //            response.setRefreshToken(refreshToken);
-            response.setExpirationTime("24Hrs");
+            response.setExpirationTime("7 Days");
             response.setMessage("Successfully logged in");
 
         } catch (Exception e) {
@@ -147,23 +151,23 @@ public class UserManagementService implements IUserManagementService {
 
     @Override
     public ResponseDTO getAllEmployees() {
-        ResponseDTO reqRes = new ResponseDTO();
+        ResponseDTO response = new ResponseDTO();
 
         try {
             List<OurUsers> result = usersRepo.findByRoleOrRoleOrRoleOrRoleOrRoleOrRole( "ADMIN", "SUPERVISOR", "RECEPTIONIST", "MANAGER", "WAREHOUSE_KEEPER", "TECHNICIAN");
             if (!result.isEmpty()){
-                reqRes.setOurUsersList(result);
-                reqRes.setStatusCode(200);
-                reqRes.setMessage("Successful");
+                response.setOurUsersList(result);
+                response.setStatusCode(200);
+                response.setMessage("Successful");
             } else {
-                reqRes.setStatusCode(404);
-                reqRes.setMessage("No Users Found");
+                response.setStatusCode(404);
+                response.setMessage("No Users Found");
             }
-            return reqRes;
+            return response;
         } catch (Exception e) {
-            reqRes.setStatusCode(500);
-            reqRes.setMessage("Error occured: " + e.getMessage());
-            return reqRes;
+            response.setStatusCode(500);
+            response.setMessage("Error occured: " + e.getMessage());
+            return response;
         }
     }
 
@@ -271,7 +275,7 @@ public class UserManagementService implements IUserManagementService {
                 reqRes.setMessage("successful");
             } else {
                 reqRes.setStatusCode(404);
-                reqRes.setMessage("User not found for update");
+                reqRes.setMessage("User Not Found");
             }
 
         }catch (Exception e){
