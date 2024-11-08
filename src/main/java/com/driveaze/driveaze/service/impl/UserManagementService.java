@@ -14,6 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,14 +63,17 @@ public class UserManagementService implements IUserManagementService {
             ourUser.setEmail(employeeRegistrationRequest.getEmail());
             ourUser.setRole(employeeRegistrationRequest.getRole());
             ourUser.setName(employeeRegistrationRequest.getName());
+            ourUser.setRegisteredDate(LocalDate.now());
             ourUser.setContactNumber(employeeRegistrationRequest.getContactNumber());
             ourUser.setPassword(passwordEncoder.encode(employeeRegistrationRequest.getPassword()));
+
             OurUsers ourUsersResult = usersRepo.save(ourUser);
-            if (ourUsersResult.getId()>0) {
-                resp.setOurUsers((ourUsersResult));
+            if (ourUsersResult.getId() > 0) {
+                resp.setOurUsers(ourUsersResult);
                 resp.setMessage("User registered successfully");
                 resp.setStatusCode(200);
             }
+
 
         }catch (OurException e){
             resp.setStatusCode(500);
@@ -95,6 +99,7 @@ public class UserManagementService implements IUserManagementService {
             ourUser.setRole("CUSTOMER");
             ourUser.setName(customerRegistrationRequest.getName());
             ourUser.setContactNumber(customerRegistrationRequest.getContactNumber());
+            ourUser.setRegisteredDate(LocalDate.now());
             ourUser.setPassword(passwordEncoder.encode(customerRegistrationRequest.getPassword()));
             OurUsers ourUsersResult = usersRepo.save(ourUser);
             if (ourUsersResult.getId()>0) {

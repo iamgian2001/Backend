@@ -20,5 +20,6 @@ public class JobRegistryDTO {
     private LocalDate finishedDate;
     private int customerId;
     private int supervisorId;
+    private int jobStatus;
     private String jobDescription;
 }

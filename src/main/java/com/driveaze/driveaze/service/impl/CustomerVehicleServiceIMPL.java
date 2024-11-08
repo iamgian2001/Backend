@@ -3,7 +3,6 @@ package com.driveaze.driveaze.service.impl;
 import com.driveaze.driveaze.dto.CustomerVehicleDTO;
 import com.driveaze.driveaze.dto.ResponseDTO;
 import com.driveaze.driveaze.entity.CustomerVehicle;
-import com.driveaze.driveaze.entity.OurUsers;
 import com.driveaze.driveaze.exception.OurException;
 import com.driveaze.driveaze.repository.CustomerVehicleRepo;
 import com.driveaze.driveaze.service.interfac.CustomerVehicleService;
@@ -11,11 +10,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Service
 public class CustomerVehicleServiceIMPL implements CustomerVehicleService {
@@ -85,7 +82,6 @@ public class CustomerVehicleServiceIMPL implements CustomerVehicleService {
 
         try {
             Optional<CustomerVehicle> existingVehicleByNumber = customerVehicleRepo.findByVehicleNo(customerVehicleDTO.getVehicleNo());
-
             if (existingVehicleByNumber.isPresent()) {
                 response.setStatusCode(400);
                 response.setMessage("Vehicle Number Already Exists!");

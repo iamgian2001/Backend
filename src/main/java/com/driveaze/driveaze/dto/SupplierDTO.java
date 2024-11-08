@@ -1,6 +1,5 @@
 package com.driveaze.driveaze.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,14 +10,12 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class OurUserDTO {
-
-    private Long Id;
-    private String email;
+public class SupplierDTO {
+    private Long supplierId;
+    private String supplierEmail;
     private String contactNumber;
-    private String name;
-//    private String password;
-    private String role;
+    private String supplierName;
+    private String address;
+    private String partsDescription;
     private LocalDate registeredDate;
 }

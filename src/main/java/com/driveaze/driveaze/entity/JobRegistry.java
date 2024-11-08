@@ -5,8 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Data
@@ -26,7 +26,7 @@ public class JobRegistry {
     private LocalDate startedDate;
 
     @Column(name = "start_time", length =100)
-    private Time startTime;
+    private LocalTime  startTime;
 
     @Column(name = "finished_date", length =100)
     private LocalDate finishedDate;
@@ -37,7 +37,11 @@ public class JobRegistry {
     @Column(name = "supervisor_id", length =100)
     private int supervisorId;
 
+    //0 -> incomplete
+    //1 -> complete
+    @Column(name = "job_status", length =100)
+    private int jobStatus;
+
     @Column(name = "job_description", length =255)
     private String jobDescription;
-
 }

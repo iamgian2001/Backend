@@ -3,8 +3,6 @@ package com.driveaze.driveaze.service.interfac;
 import com.driveaze.driveaze.dto.CustomerVehicleDTO;
 import com.driveaze.driveaze.dto.ResponseDTO;
 
-import java.util.List;
-
 public interface CustomerVehicleService {
 
     ResponseDTO addCustomerVehicle(CustomerVehicleDTO customerVehicleDTO);
