@@ -10,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
@@ -39,6 +40,9 @@ public class OurUsers implements UserDetails {
 
     @Column(name = "role", length = 100)
     private String role;
+
+    @Column(name = "registered_date", length =100, nullable = false)
+    private LocalDate registeredDate;
 
     @Override
     @JsonIgnore
