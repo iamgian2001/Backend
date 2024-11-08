@@ -15,4 +15,6 @@ public class CustomerVehicleDTO {
     private String vehicleModel;
     private int customerId;
 
+    public void setCustomerVehicle(CustomerVehicleDTO customerVehicleDTO) {
+    }
 }

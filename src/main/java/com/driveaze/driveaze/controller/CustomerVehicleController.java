@@ -30,4 +30,14 @@ public class CustomerVehicleController {
     public ResponseEntity<ResponseDTO> deleteCustomerVehicle(@PathVariable Integer vehicleId) {
         return ResponseEntity.ok(customerVehicleService.deleteCustomerVehicle(vehicleId));
     }
+
+    @GetMapping("/get-all-vehicles")
+    public ResponseEntity<ResponseDTO> getAllCustomerVehicles() {
+        return ResponseEntity.ok(customerVehicleService.getAllCustomerVehicles());
+    }
+
+    @GetMapping("/get-vehicle/{vehicleId}")
+    public ResponseEntity<ResponseDTO> getCustomerVehicleById(@PathVariable Integer vehicleId) {
+        return ResponseEntity.ok(customerVehicleService.getCustomerVehicleById(vehicleId));
+    }
 }
