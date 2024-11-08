@@ -7,16 +7,24 @@ import com.driveaze.driveaze.entity.OurUsers;
 import com.driveaze.driveaze.exception.OurException;
 import com.driveaze.driveaze.repository.CustomerVehicleRepo;
 import com.driveaze.driveaze.service.interfac.CustomerVehicleService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Service
 public class CustomerVehicleServiceIMPL implements CustomerVehicleService {
 
     @Autowired
     private CustomerVehicleRepo customerVehicleRepo;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     public ResponseDTO addCustomerVehicle(CustomerVehicleDTO customerVehicleDTO){
@@ -49,7 +57,26 @@ public class CustomerVehicleServiceIMPL implements CustomerVehicleService {
 
     @Override
     public ResponseDTO getAllCustomerVehicles() {
-        return null;
+        ResponseDTO response = new ResponseDTO();
+
+        try {
+            List<CustomerVehicle> customerVehicles = customerVehicleRepo.findAll();
+            if (!customerVehicles.isEmpty()){
+                response.setCustomerVehicleList(customerVehicles);
+                response.setStatusCode(200);
+                response.setMessage("Successful");
+            } else {
+                throw new OurException("No Vehicles Found");
+            }
+        } catch (OurException e) {
+            response.setStatusCode(404);
+            response.setMessage(e.getMessage());
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error occurred while retrieving vehicles: " + e.getMessage());
+        }
+
+        return response;
     }
 
     @Override
@@ -108,6 +135,22 @@ public class CustomerVehicleServiceIMPL implements CustomerVehicleService {
 
     @Override
     public ResponseDTO getCustomerVehicleById(Integer vehicleId) {
-        return null;
+        ResponseDTO response = new ResponseDTO();
+
+        try {
+            CustomerVehicle customerVehicle = customerVehicleRepo.findById(vehicleId)
+                    .orElseThrow(() -> new OurException("Customer vehicle not found"));
+
+            response.setCustomerVehicle(customerVehicle);
+            response.setStatusCode(200);
+            response.setMessage("Successfully Found customer vehicle");
+        } catch (OurException e) {
+            response.setStatusCode(404);
+            response.setMessage(e.getMessage());
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error occurred while retrieving vehicle: " + e.getMessage());
+        }
+        return response;
     }
 }

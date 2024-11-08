@@ -1,5 +1,6 @@
 package com.driveaze.driveaze.dto;
 
+import com.driveaze.driveaze.entity.CustomerVehicle;
 import com.driveaze.driveaze.entity.OurUsers;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
@@ -21,6 +22,7 @@ public class ResponseDTO {
     private String contactNumber;
     private OurUsers ourUsers;
     private List<OurUsers> ourUsersList;
-
+    private CustomerVehicle customerVehicle;
+    private List<CustomerVehicle> customerVehicleList;
 
 }
