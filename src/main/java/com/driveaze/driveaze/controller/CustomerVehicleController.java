@@ -16,7 +16,7 @@ public class CustomerVehicleController {
     private CustomerVehicleService customerVehicleService;
 
     @PostMapping(path = "/save" )
-    public ResponseEntity<ResponseDTO> saveCustomerVehicle(@RequestBody CustomerVehicleDTO customerVehicleDTO){
+    public ResponseEntity<ResponseDTO> addCustomerVehicle(@RequestBody CustomerVehicleDTO customerVehicleDTO){
         return ResponseEntity.ok(customerVehicleService.addCustomerVehicle(customerVehicleDTO));
     }
 

@@ -2,7 +2,6 @@ package com.driveaze.driveaze.service.impl;
 
 import com.driveaze.driveaze.dto.ResponseDTO;
 import com.driveaze.driveaze.dto.SupplierDTO;
-import com.driveaze.driveaze.entity.JobRegistry;
 import com.driveaze.driveaze.entity.Supplier;
 import com.driveaze.driveaze.exception.OurException;
 import com.driveaze.driveaze.repository.SupplierRepo;

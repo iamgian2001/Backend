@@ -16,8 +16,9 @@ import java.time.LocalTime;
 public class JobRegistry {
 
     @Id
+    @Column(name = "job_id", length =45)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int jobId;
 
     @Column(name = "vehicle_id", length =100, nullable = false)
     private int vehicleId;
