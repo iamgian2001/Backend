@@ -21,13 +21,9 @@ public class Bill {
     @Column(name = "bill_id", length = 45)
     private int billId;
 
-    @ManyToOne
-    @JoinColumn(name = "vehicle_id", nullable = false)
-    private CustomerVehicle customerVehicle;
-
-    @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
-    private OurUsers ourUsers;
+    @OneToOne
+    @JoinColumn(name = "job_id", nullable = false)
+    private JobRegistry jobRegistry;
 
     @Column(name = "bill_date", nullable = false)
     private LocalDate billDate;
