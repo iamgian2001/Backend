@@ -1,6 +1,7 @@
 package com.driveaze.driveaze.dto;
 
 import com.driveaze.driveaze.entity.VehicleBrand;
+import com.driveaze.driveaze.entity.VehicleModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 public class VehicleModelDTO {
     private Long modelId;
     private VehicleBrand vehicleBrand;
+    private String modelName;
     private String fuelType;
     private LocalDate registeredDate;
 }

@@ -1,9 +1,6 @@
 package com.driveaze.driveaze.dto;
 
-import com.driveaze.driveaze.entity.CustomerVehicle;
-import com.driveaze.driveaze.entity.JobRegistry;
-import com.driveaze.driveaze.entity.OurUsers;
-import com.driveaze.driveaze.entity.Supplier;
+import com.driveaze.driveaze.entity.*;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
@@ -30,5 +27,10 @@ public class ResponseDTO {
     private List<JobRegistry> jobRegistryList;
     private Supplier supplier;
     private List<Supplier> supplierList;
-
+    private VehicleModel vehicleModel;
+    private List<VehicleModel> vehicleModelList;
+    private VehicleBrand vehicleBrand;
+    private List<VehicleBrand> vehicleBrandList;
+    private TechnicianCategory technicianCategory;
+    private List<TechnicianCategory> technicianCategoryList;
 }

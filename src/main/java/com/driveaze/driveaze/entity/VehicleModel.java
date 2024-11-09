@@ -22,6 +22,9 @@ public class VehicleModel {
     @JoinColumn(name = "brand_id", nullable = false)
     private VehicleBrand vehicleBrand;
 
+    @Column(name = "model_name", length = 254, nullable = false)
+    private String modelName;
+
     @Column(name = "fuel_type", length = 254, nullable = false)
     private String fuelType;
 
