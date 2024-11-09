@@ -86,7 +86,6 @@ public class CustomerVehicleServiceIMPL implements CustomerVehicleService {
                 response.setStatusCode(400);
                 response.setMessage("Vehicle Number Already Exists!");
                 return response;
-//                throw new OurException("Vehicle Number Already Exists");
             }
 
             CustomerVehicle customerVehicle = customerVehicleRepo.findById(vehicleId)
