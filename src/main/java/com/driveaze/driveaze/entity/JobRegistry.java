@@ -20,8 +20,9 @@ public class JobRegistry {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int jobId;
 
-    @Column(name = "vehicle_id", length =100, nullable = false)
-    private int vehicleId;
+    @ManyToOne
+    @JoinColumn(name = "vehicle_id", nullable = false)
+    private CustomerVehicle customerVehicle;
 
     @Column(name = "started_date", length =100)
     private LocalDate startedDate;

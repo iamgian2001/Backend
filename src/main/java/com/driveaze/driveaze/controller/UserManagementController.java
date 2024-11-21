@@ -15,22 +15,28 @@ public class UserManagementController {
     @Autowired
     private IUserManagementService userService;
 
-    @GetMapping("/admin/get-all-employees")
+    @GetMapping("/superuser/get-all-employees")
     public ResponseEntity<ResponseDTO> getAllEmployees() {
         return ResponseEntity.ok(userService.getAllEmployees());
     }
 
-    @GetMapping("/admin/get-all-customers")
+    //without managers and admins
+    @GetMapping("/superuser/get-all-staff")
+    public ResponseEntity<ResponseDTO> getAllStaff() {
+        return ResponseEntity.ok(userService.getAllStaff());
+    }
+
+    @GetMapping("/superuser/get-all-customers")
     public ResponseEntity<ResponseDTO> getAllCustomers() {
         return ResponseEntity.ok(userService.getAllCustomers());
     }
 
-    @GetMapping("/admin/get-user/{userId}")
+    @GetMapping("/superuser/get-user/{userId}")
     public ResponseEntity<ResponseDTO> getUsersById(@PathVariable Integer userId) {
         return ResponseEntity.ok(userService.getUsersById(userId));
     }
 
-    @PutMapping("/admin/update/{userId}")
+    @PutMapping("/superuser/update/{userId}")
     public ResponseEntity<ResponseDTO> updateUser(@PathVariable Integer userId, @RequestBody OurUsers request) {
         return ResponseEntity.ok(userService.updateUser(userId, request));
     }
@@ -43,7 +49,7 @@ public class UserManagementController {
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
-    @DeleteMapping("/admin/delete/{userId}")
+    @DeleteMapping("/superuser/delete/{userId}")
     public ResponseEntity<ResponseDTO> deleteUser(@PathVariable Integer userId) {
         return ResponseEntity.ok(userService.deleteUser(userId));
     }

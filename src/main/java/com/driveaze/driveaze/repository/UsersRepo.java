@@ -18,4 +18,6 @@ public interface UsersRepo extends JpaRepository<OurUsers, Integer> {
     List<OurUsers> findByRole(String customer);
 
     List<OurUsers> findByRoleOrRoleOrRoleOrRoleOrRoleOrRole(String admin, String supervisor, String receptionist, String manager, String warehouseKeeper, String technician);
+
+    List<OurUsers> findByRoleOrRoleOrRoleOrRole(String supervisor, String receptionist, String warehouseKeeper, String technician);
 }

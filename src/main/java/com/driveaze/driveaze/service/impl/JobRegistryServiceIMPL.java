@@ -2,14 +2,17 @@ package com.driveaze.driveaze.service.impl;
 
 import com.driveaze.driveaze.dto.JobRegistryDTO;
 import com.driveaze.driveaze.dto.ResponseDTO;
+import com.driveaze.driveaze.entity.CustomerVehicle;
 import com.driveaze.driveaze.entity.JobRegistry;
 import com.driveaze.driveaze.exception.OurException;
+import com.driveaze.driveaze.repository.CustomerVehicleRepo;
 import com.driveaze.driveaze.repository.JobRegistryRepo;
 import com.driveaze.driveaze.service.interfac.JobRegistryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class JobRegistryServiceIMPL implements JobRegistryService {
@@ -17,14 +20,25 @@ public class JobRegistryServiceIMPL implements JobRegistryService {
     @Autowired
     private JobRegistryRepo jobRegistryRepo;
 
+    @Autowired
+    private CustomerVehicleRepo customerVehicleRepo;
+
     @Override
     public ResponseDTO addNewJob(JobRegistryDTO jobRegistryDTO) {
         ResponseDTO response = new ResponseDTO();
 
         try {
+            Optional<CustomerVehicle> customerVehicle = customerVehicleRepo.findById(jobRegistryDTO.getCustomerVehicle().getVehicleId());
+
+            if (!customerVehicle.isPresent()) {
+                response.setStatusCode(404);
+                response.setMessage("CustomerVehicle not found");
+                return response;
+            }
+
             JobRegistry jobRegistry = new JobRegistry(
-                    jobRegistryDTO.getId(),
-                    jobRegistryDTO.getVehicleId(),
+                    jobRegistryDTO.getJobId(),
+                    jobRegistryDTO.getCustomerVehicle(),
                     jobRegistryDTO.getStartedDate(),
                     jobRegistryDTO.getStartTime().toLocalTime(),
                     jobRegistryDTO.getFinishedDate(),
@@ -35,7 +49,7 @@ public class JobRegistryServiceIMPL implements JobRegistryService {
             );
 
             // Check if a non-completed job already exists for the vehicle
-            if (!jobRegistryRepo.existsByVehicleIdAndJobStatus(jobRegistry.getVehicleId(), 0)) {
+            if (!jobRegistryRepo.existsByCustomerVehicleAndJobStatus(jobRegistry.getCustomerVehicle(), 0)) {
                 jobRegistryRepo.save(jobRegistry);
                 response.setStatusCode(200);
                 response.setMessage("Successfully added job registry");

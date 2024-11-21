@@ -177,6 +177,28 @@ public class UserManagementService implements IUserManagementService {
     }
 
     @Override
+    public ResponseDTO getAllStaff() {
+        ResponseDTO response = new ResponseDTO();
+
+        try {
+            List<OurUsers> result = usersRepo.findByRoleOrRoleOrRoleOrRole( "SUPERVISOR", "RECEPTIONIST", "WAREHOUSE_KEEPER", "TECHNICIAN");
+            if (!result.isEmpty()){
+                response.setOurUsersList(result);
+                response.setStatusCode(200);
+                response.setMessage("Successful");
+            } else {
+                response.setStatusCode(404);
+                response.setMessage("No Staff Found");
+            }
+            return response;
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error occured: " + e.getMessage());
+            return response;
+        }
+    }
+
+    @Override
     public ResponseDTO getAllCustomers() {
         ResponseDTO reqRes = new ResponseDTO();
 

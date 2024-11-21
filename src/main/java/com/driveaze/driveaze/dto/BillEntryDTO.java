@@ -6,8 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Data
 @AllArgsConstructor
@@ -16,7 +16,7 @@ public class BillEntryDTO {
     private int billEntryId;
     private Bill bill;
     private LocalDate billEntryDate;
-    private LocalTime billEntryTime;
+    private Time billEntryTime;
     private String serviceOrProduct;
     private int quantity;
     private BigDecimal totalPrice;

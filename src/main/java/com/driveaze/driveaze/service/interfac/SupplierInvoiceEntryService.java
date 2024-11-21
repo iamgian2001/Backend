@@ -13,4 +13,6 @@ public interface SupplierInvoiceEntryService {
     ResponseDTO deleteSupplierInvoiceEntry(Integer invoiceEntryId);
 
     ResponseDTO getSupplierInvoiceEntryById(Integer invoiceEntryId);
+
+    ResponseDTO getAllSupplierInvoiceEntriesByInvoiceId(Integer invoiceId);
 }

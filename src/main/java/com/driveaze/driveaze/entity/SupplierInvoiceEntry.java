@@ -1,5 +1,6 @@
 package com.driveaze.driveaze.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,6 +23,7 @@ public class SupplierInvoiceEntry {
 
     @ManyToOne
     @JoinColumn(name = "invoice_id", nullable = false)
+    @JsonBackReference
     private SupplierInvoice supplierInvoice;
 
     @Column(name = "invoice_entry_date", nullable = false)

@@ -33,4 +33,10 @@ public class ResponseDTO {
     private List<VehicleBrand> vehicleBrandList;
     private TechnicianCategory technicianCategory;
     private List<TechnicianCategory> technicianCategoryList;
+    private SupplierInvoice supplierInvoice;
+    private List<SupplierInvoice> supplierInvoiceList;
+    private SupplierInvoiceEntry supplierInvoiceEntry;
+    private List<SupplierInvoiceEntry> supplierInvoiceEntryList;
+    private Bill bill;
+    private List<Bill> billList;
 }
