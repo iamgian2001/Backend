@@ -2,7 +2,6 @@ package com.driveaze.driveaze.service.impl;
 
 import com.driveaze.driveaze.dto.ResponseDTO;
 import com.driveaze.driveaze.dto.TechnicianCategoryDTO;
-import com.driveaze.driveaze.entity.CustomerVehicle;
 import com.driveaze.driveaze.entity.TechnicianCategory;
 import com.driveaze.driveaze.exception.OurException;
 import com.driveaze.driveaze.repository.TechnicianCategoryRepo;

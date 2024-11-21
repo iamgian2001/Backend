@@ -6,8 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 @Data
@@ -17,7 +17,7 @@ public class SupplierInvoiceDTO {
     private int invoiceId;
     private Supplier supplier;
     private LocalDate invoiceDate;
-    private LocalTime invoiceTime;
+    private Time invoiceTime;
     private int invoiceStatus;
     private List<SupplierInvoiceEntry> entries;
 }

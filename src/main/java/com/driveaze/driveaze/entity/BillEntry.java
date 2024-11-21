@@ -1,5 +1,6 @@
 package com.driveaze.driveaze.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,7 +23,8 @@ public class BillEntry {
     private int billEntryId;
 
     @ManyToOne
-    @JoinColumn(name = "bill_id", nullable = false)
+    @JoinColumn(name = "bill_id")
+    @JsonBackReference
     private Bill bill;
 
     @Column(name = "bill_entry_date", nullable = false)

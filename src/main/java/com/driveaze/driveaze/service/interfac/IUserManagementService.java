@@ -10,6 +10,7 @@ public interface IUserManagementService {
     ResponseDTO customerRegister(OurUsers customerRegistrationRequest);
     ResponseDTO login(LoginRequest loginRequest);
     ResponseDTO getAllEmployees();
+    ResponseDTO getAllStaff();
     ResponseDTO getAllCustomers();
     ResponseDTO getUsersById(int userId);
     ResponseDTO deleteUser(int userId);
