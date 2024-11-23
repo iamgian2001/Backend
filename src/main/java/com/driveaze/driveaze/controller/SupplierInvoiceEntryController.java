@@ -41,4 +41,8 @@ public class SupplierInvoiceEntryController {
     public ResponseEntity<ResponseDTO> getSupplierInvoiceEntryById(@PathVariable Integer invoiceEntryId) {
         return ResponseEntity.ok(supplierInvoiceEntryService.getSupplierInvoiceEntryById(invoiceEntryId));
     }
+    @GetMapping("/get-all-entries/{invoiceId}")
+    public ResponseEntity<ResponseDTO> getAllSupplierInvoiceEntriesByInvoiceId(@PathVariable Integer invoiceId) {
+        return ResponseEntity.ok(supplierInvoiceEntryService.getAllSupplierInvoiceEntriesByInvoiceId(invoiceId));
+    }
 }

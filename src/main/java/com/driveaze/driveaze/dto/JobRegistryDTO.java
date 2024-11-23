@@ -1,5 +1,6 @@
 package com.driveaze.driveaze.dto;
 
+import com.driveaze.driveaze.entity.CustomerVehicle;
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,8 +14,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class JobRegistryDTO {
 
-    private int id;
-    private int vehicleId;
+    private int jobId;
+    private CustomerVehicle customerVehicle;
     private LocalDate startedDate;
     private Time startTime;
     private LocalDate finishedDate;

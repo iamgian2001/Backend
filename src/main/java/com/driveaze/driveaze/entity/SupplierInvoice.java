@@ -1,12 +1,13 @@
 package com.driveaze.driveaze.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 @Entity
@@ -28,7 +29,7 @@ public class SupplierInvoice {
     private LocalDate invoiceDate;
 
     @Column(name = "invoice_time", nullable = false)
-    private LocalTime invoiceTime;
+    private Time invoiceTime;
 
     //bill Status
     //0 - > pending(Not Finalized)
@@ -37,5 +38,6 @@ public class SupplierInvoice {
     private int invoiceStatus;
 
     @OneToMany(mappedBy = "supplierInvoice", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<SupplierInvoiceEntry> entries;
 }

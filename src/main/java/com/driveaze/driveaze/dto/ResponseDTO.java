@@ -37,4 +37,12 @@ public class ResponseDTO {
     private List<Inventory> inventoryItemList;
     private Booking booking;
     private List<Booking> bookingList;
+    private SupplierInvoice supplierInvoice;
+    private List<SupplierInvoice> supplierInvoiceList;
+    private SupplierInvoiceEntry supplierInvoiceEntry;
+    private List<SupplierInvoiceEntry> supplierInvoiceEntryList;
+    private Bill bill;
+    private List<Bill> billList;
+    private ServiceTypes serviceTypes;
+    private List<ServiceTypes> serviceTypesList;
 }
