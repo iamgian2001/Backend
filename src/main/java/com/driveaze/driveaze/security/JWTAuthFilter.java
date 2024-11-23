@@ -1,6 +1,6 @@
-package com.driveaze.driveaze.config;
+package com.driveaze.driveaze.security;
 
-import com.driveaze.driveaze.service.JWTUtils;
+import com.driveaze.driveaze.util.JWTUtils;
 import com.driveaze.driveaze.service.OurUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

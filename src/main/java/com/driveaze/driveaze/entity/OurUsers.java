@@ -3,17 +3,22 @@ package com.driveaze.driveaze.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
 @Entity
 @Table(name = "ourusers")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class OurUsers implements UserDetails {
 
     @Id
@@ -36,11 +41,8 @@ public class OurUsers implements UserDetails {
     @Column(name = "role", length = 100)
     private String role;
 
-
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return List.of(new SimpleGrantedAuthority(role));
-//    }
+    @Column(name = "registered_date", length =100, nullable = false)
+    private LocalDate registeredDate;
 
     @Override
     @JsonIgnore
@@ -55,26 +57,22 @@ public class OurUsers implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-//        return UserDetails.super.isAccountNonExpired();
         return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-//        return UserDetails.super.isAccountNonLocked();
-                return true;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-//        return UserDetails.super.isCredentialsNonExpired();
-                return true;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-//        return UserDetails.super.isEnabled();
-                return true;
+        return true;
     }
 
 

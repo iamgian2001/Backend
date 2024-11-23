@@ -1,4 +1,4 @@
-package com.driveaze.driveaze.config;
+package com.driveaze.driveaze.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

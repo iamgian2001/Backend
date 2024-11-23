@@ -1,5 +1,6 @@
 package com.driveaze.driveaze.service;
 
+import com.driveaze.driveaze.exception.OurException;
 import com.driveaze.driveaze.repository.UsersRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +16,6 @@ public class OurUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return usersRepo.findByEmail(username).orElseThrow();
+        return usersRepo.findByEmail(username).orElseThrow(()->new OurException("UserName/Email not found"));
     }
 }
