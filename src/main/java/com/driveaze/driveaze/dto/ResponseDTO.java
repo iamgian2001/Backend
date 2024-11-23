@@ -39,4 +39,6 @@ public class ResponseDTO {
     private List<SupplierInvoiceEntry> supplierInvoiceEntryList;
     private Bill bill;
     private List<Bill> billList;
+    private ServiceTypes serviceTypes;
+    private List<ServiceTypes> serviceTypesList;
 }

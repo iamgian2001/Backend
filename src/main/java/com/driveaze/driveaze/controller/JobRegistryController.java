@@ -15,7 +15,7 @@ public class JobRegistryController {
     @Autowired
     private JobRegistryService jobRegistryService;
 
-    @PostMapping(path = "/save" )
+    @PostMapping(path = "/create" )
     public ResponseEntity<ResponseDTO> addNewJob(@RequestBody JobRegistryDTO jobRegistryDTO){
         return ResponseEntity.ok(jobRegistryService.addNewJob(jobRegistryDTO));
     }
