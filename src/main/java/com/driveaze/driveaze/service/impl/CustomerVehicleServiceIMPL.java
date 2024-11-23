@@ -148,4 +148,9 @@ public class CustomerVehicleServiceIMPL implements CustomerVehicleService {
         }
         return response;
     }
+
+    @Override
+    public List<CustomerVehicle> searchByVehicleNo(String query) {
+        return customerVehicleRepo.searchByVehicleNo(query);
+    }
 }

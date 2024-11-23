@@ -2,10 +2,13 @@ package com.driveaze.driveaze.controller;
 
 import com.driveaze.driveaze.dto.CustomerVehicleDTO;
 import com.driveaze.driveaze.dto.ResponseDTO;
+import com.driveaze.driveaze.entity.CustomerVehicle;
 import com.driveaze.driveaze.service.interfac.CustomerVehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/customer-vehicle")
@@ -40,4 +43,10 @@ public class CustomerVehicleController {
     public ResponseEntity<ResponseDTO> getCustomerVehicleById(@PathVariable Integer vehicleId) {
         return ResponseEntity.ok(customerVehicleService.getCustomerVehicleById(vehicleId));
     }
+
+    @GetMapping("/search")
+    public List<CustomerVehicle> searchVehicles(@RequestParam("query") String query) {
+        return customerVehicleService.searchByVehicleNo(query);
+    }
+
 }
