@@ -1,5 +1,6 @@
 package com.driveaze.driveaze.dto;
 
+import com.driveaze.driveaze.controller.ManHourPricingController;
 import com.driveaze.driveaze.entity.*;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
@@ -45,4 +46,6 @@ public class ResponseDTO {
     private List<Bill> billList;
     private ServiceTypes serviceTypes;
     private List<ServiceTypes> serviceTypesList;
+    private ManHourPricing manHourPricing;
+    private List<ManHourPricing> manHourPricingList;
 }
