@@ -35,4 +35,6 @@ public class ResponseDTO {
     private List<TechnicianCategory> technicianCategoryList;
     private Inventory inventoryItem;
     private List<Inventory> inventoryItemList;
+    private Booking booking;
+    private List<Booking> bookingList;
 }
