@@ -29,9 +29,13 @@ public class CustomerVehicleServiceIMPL implements CustomerVehicleService {
         ResponseDTO response = new ResponseDTO();
 
         try {
+
+            Integer vehicleMilage = customerVehicleDTO.getVehicleMilage() == null ? 0 : customerVehicleDTO.getVehicleMilage();
+
             CustomerVehicle customerVehicle = new CustomerVehicle(
                     customerVehicleDTO.getVehicleId(),
                     customerVehicleDTO.getVehicleNo(),
+                    vehicleMilage,
                     customerVehicleDTO.getVehicleBrand(),
                     customerVehicleDTO.getVehicleModel(),
                     customerVehicleDTO.getCustomerId()
@@ -81,24 +85,34 @@ public class CustomerVehicleServiceIMPL implements CustomerVehicleService {
         ResponseDTO response = new ResponseDTO();
 
         try {
-            Optional<CustomerVehicle> existingVehicleByNumber = customerVehicleRepo.findByVehicleNo(customerVehicleDTO.getVehicleNo());
-            if (existingVehicleByNumber.isPresent()) {
-                response.setStatusCode(400);
-                response.setMessage("Vehicle Number Already Exists!");
-                return response;
-            }
+//            Optional<CustomerVehicle> existingVehicleByNumber = customerVehicleRepo.findByVehicleNo(customerVehicleDTO.getVehicleNo());
+//            if (existingVehicleByNumber.isPresent()) {
+//                response.setStatusCode(400);
+//                response.setMessage("Vehicle Number Already Exists!");
+//                return response;
+//            }
 
             CustomerVehicle customerVehicle = customerVehicleRepo.findById(vehicleId)
                     .orElseThrow(() -> new OurException("Customer vehicle not found"));
 
-            customerVehicle.setVehicleNo(customerVehicleDTO.getVehicleNo());
-            customerVehicle.setVehicleBrand(customerVehicleDTO.getVehicleBrand());
-            customerVehicle.setVehicleModel(customerVehicleDTO.getVehicleModel());
-            customerVehicle.setCustomerId(customerVehicleDTO.getCustomerId());
+            if (customerVehicleDTO.getVehicleMilage() != null &&
+                    customerVehicleDTO.getVehicleMilage() > customerVehicle.getVehicleMilage()) {
 
-            customerVehicleRepo.save(customerVehicle);
-            response.setStatusCode(200);
-            response.setMessage("Successfully updated vehicle");
+                // Update the vehicle details
+                customerVehicle.setVehicleMilage(customerVehicleDTO.getVehicleMilage());
+                customerVehicle.setVehicleBrand(customerVehicleDTO.getVehicleBrand());
+                customerVehicle.setVehicleModel(customerVehicleDTO.getVehicleModel());
+                customerVehicle.setCustomerId(customerVehicleDTO.getCustomerId());
+
+                // Save the updated vehicle
+                customerVehicleRepo.save(customerVehicle);
+
+                response.setStatusCode(200);
+                response.setMessage("Successfully updated vehicle");
+            } else {
+                response.setStatusCode(400);
+                response.setMessage("Updated mileage must be greater than the current mileage");
+            }
         }catch (OurException e) {
             response.setStatusCode(404);
             response.setMessage(e.getMessage());
