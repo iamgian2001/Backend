@@ -28,7 +28,7 @@ public class Complaint {
     public Complaint() {
     }
 
-    public Complaint(int complaintId, String customerEmail, String description, Date date, int status) {
+    public Complaint(String customerEmail, String description, Date date, int status) {
         this.complaintId = complaintId;
         this.customerEmail = customerEmail;
         this.description = description;

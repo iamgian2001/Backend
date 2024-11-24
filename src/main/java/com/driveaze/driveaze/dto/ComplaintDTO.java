@@ -10,9 +10,6 @@ public class ComplaintDTO {
     private java.sql.Date date;
     private int status;
 
-    public ComplaintDTO() {
-    }
-
     public ComplaintDTO(int complaintId,String customerEmail, String description, Date date, int status) {
         this.complaintId = complaintId;
         this.customerEmail = customerEmail;
@@ -41,7 +38,7 @@ public class ComplaintDTO {
         this.complaintId = complaintId;
     }
 
-    public void setcustomerEmail(String customerEmail) {
+    public void setCustomerEmail(String customerEmail) {
         this.customerEmail = customerEmail;
     }
 

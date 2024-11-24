@@ -12,35 +12,35 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Service
 public class CustomerComplaintServiceIMPL implements CustomerComplaintService {
+
     @Autowired
     private ComplaintRepo complaintRepo;
 
     @Override
     public void addComplaint(ComplaintDTO complaintDTO) {
+        // Get the currently authenticated user
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String loggedInUsername = authentication.getName();
+
+        // Create a new Complaint, with the complaintId excluded
         Complaint complaint = new Complaint(
-                complaintDTO.getComplaintId(),
                 complaintDTO.getCustomerEmail(),
                 complaintDTO.getDescription(),
                 complaintDTO.getDate(),
                 complaintDTO.getStatus()
         );
 
+        // Set the logged-in user's email as the customerEmail
         complaint.setcustomerEmail(loggedInUsername);
 
-        if(!complaintRepo.existsById(complaint.getComplaintId())){
-            complaintRepo.save(complaint);
-        }else{
-            System.out.println("complaint already exists");
-        }
+        // Save the complaint to the repository (complaintId will be auto-generated)
+        complaintRepo.save(complaint);
     }
 
     @Override
-    public List<ComplaintDTO> retrieveComplaints() { // Renamed for clarity
+    public List<ComplaintDTO> retrieveComplaints() {
         List<Complaint> complaints = complaintRepo.findAll();
         List<ComplaintDTO> complaintDTOs = new ArrayList<>();
 
@@ -61,17 +61,15 @@ public class CustomerComplaintServiceIMPL implements CustomerComplaintService {
 
     @Override
     public String updateComplaint(ComplaintDTO complaintDTO) {
-        if(complaintRepo.existsById(complaintDTO.getComplaintId())){
+        if (complaintRepo.existsById(complaintDTO.getComplaintId())) {
             Complaint complaint = complaintRepo.getReferenceById(complaintDTO.getComplaintId());
             complaint.setStatus(complaintDTO.getStatus());
 
             complaintRepo.save(complaint);
 
-            return "updated sucessfully";
-        }else{
-            return "Unsucessful update";
+            return "Updated successfully";
+        } else {
+            return "Unsuccessful update";
         }
     }
-
-
 }
