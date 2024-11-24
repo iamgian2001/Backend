@@ -15,12 +15,13 @@ import java.time.LocalDate;
 public class JobRegistryDTO {
 
     private int jobId;
-    private CustomerVehicle customerVehicle;
+    private int vehicleId;
     private LocalDate startedDate;
     private Time startTime;
     private LocalDate finishedDate;
-    private int customerId;
     private int supervisorId;
+    private int serviceTypeId;
+    private Integer vehicleMilage;
     private int jobStatus;
     private String jobDescription;
 }

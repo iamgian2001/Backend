@@ -4,6 +4,8 @@ import com.driveaze.driveaze.dto.ResponseDTO;
 import com.driveaze.driveaze.dto.auth.LoginRequest;
 import com.driveaze.driveaze.entity.OurUsers;
 
+import java.util.List;
+
 public interface IUserManagementService {
 
     ResponseDTO employeeRegister(OurUsers employeeRegistrationRequest);
@@ -17,4 +19,6 @@ public interface IUserManagementService {
     ResponseDTO updateUser(int userId, OurUsers updatedUser);
     ResponseDTO getMyInfo(String email);
 
+
+    List<OurUsers> searchBySupervisorName(String query);
 }
