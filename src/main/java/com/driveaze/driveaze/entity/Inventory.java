@@ -1,5 +1,8 @@
 package com.driveaze.driveaze.entity;
 import jakarta.persistence.*;
+
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "inventory")
 public class Inventory {
@@ -13,14 +16,27 @@ public class Inventory {
     private int count;
     @Column(name = "initial_count", length = 10)
     private int initialCount;
+    @Column(name = "selling_price", nullable = false)
+    private BigDecimal sellingPrice;
     public Inventory() {
     }
-    public Inventory(int itemId, String name, int count, int initialCount) {
+
+    public BigDecimal getSellingPrice() {
+        return sellingPrice;
+    }
+
+    public void setSellingPrice(BigDecimal sellingPrice) {
+        this.sellingPrice = sellingPrice;
+    }
+
+    public Inventory(int itemId, String name, int count, int initialCount, BigDecimal sellingPrice) {
         this.itemId = itemId;
         this.name = name;
         this.count = count;
         this.initialCount = initialCount;
+        this.sellingPrice = sellingPrice;
     }
+
     public int getItemId() {
         return itemId;
     }
@@ -45,6 +61,7 @@ public class Inventory {
     public void setInitialCount(int intialCount) {
         this.initialCount = intialCount;
     }
+
     @Override
     public String toString() {
         return "Inventory{" +
@@ -52,6 +69,7 @@ public class Inventory {
                 ", name='" + name + '\'' +
                 ", count=" + count +
                 ", initialCount=" + initialCount +
+                ", sellingPrice=" + sellingPrice +
                 '}';
     }
 }
