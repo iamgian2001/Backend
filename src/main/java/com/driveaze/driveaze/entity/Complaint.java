@@ -13,6 +13,9 @@ public class Complaint {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int complaintId;
 
+    @Column(name = "customer_email",length = 500)
+    private String customerEmail;
+
     @Column(name = "description", length =500, nullable = false)
     private String description;
 
@@ -25,19 +28,24 @@ public class Complaint {
     public Complaint() {
     }
 
-    public Complaint(int complaintId, String description, Date date, int status) {
+    public Complaint(int complaintId, String customerEmail, String description, Date date, int status) {
         this.complaintId = complaintId;
+        this.customerEmail = customerEmail;
         this.description = description;
         this.date = date;
         this.status = status;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public int getComplaintId() {
         return complaintId;
     }
 
-    public String getDescription() {
-        return description;
+    public String getCustomerEmail() {
+        return customerEmail;
     }
 
     public int getStatus() {
@@ -46,6 +54,11 @@ public class Complaint {
 
     public void setComplaintId(int complaintId) {
         this.complaintId = complaintId;
+    }
+
+    
+    public void setcustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
     }
 
     public void setDescription(String description) {
@@ -68,6 +81,7 @@ public class Complaint {
     public String toString() {
         return "Complaint{" +
                 "complaintId=" + complaintId +
+                ", customerEmail='" + customerEmail + '\'' +
                 ", description='" + description + '\'' +
                 ", date=" + date +
                 ", status=" + status +

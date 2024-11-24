@@ -28,4 +28,9 @@ public class CustomerComplaintController {
         List<ComplaintDTO> complaintDTOs = customerComplaintService.retrieveComplaints();
         return ResponseEntity.ok(complaintDTOs);
     }
+
+    @PutMapping(path="/update")
+    public String updateComplaint(@RequestBody ComplaintDTO complaintDTO){
+        return customerComplaintService.updateComplaint(complaintDTO);
+    }
 }

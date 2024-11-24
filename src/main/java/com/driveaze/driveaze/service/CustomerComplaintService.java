@@ -9,4 +9,6 @@ public interface CustomerComplaintService {
     void addComplaint(ComplaintDTO complaintDTO);
 
     public List<ComplaintDTO> retrieveComplaints();
+
+    String updateComplaint(ComplaintDTO complaintDTO);
 }
