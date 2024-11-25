@@ -89,9 +89,11 @@ public class JobRegistryServiceIMPL implements JobRegistryService {
         ResponseDTO response = new ResponseDTO();
 
         try {
-            List<JobRegistry> jobRegistries = jobRegistryRepo.findAll();
-            if (!jobRegistries.isEmpty()){
-                response.setJobRegistryList(jobRegistries);
+            List<Object[]> jobDetails = jobRegistryRepo.findJobsWithDetails();
+
+//            List<JobRegistry> jobRegistries = jobRegistryRepo.findAll();
+            if (!jobDetails.isEmpty()){
+                response.setDetails(jobDetails);
                 response.setStatusCode(200);
                 response.setMessage("Successful");
             } else {

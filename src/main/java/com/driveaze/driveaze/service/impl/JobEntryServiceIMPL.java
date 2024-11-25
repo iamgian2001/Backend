@@ -68,9 +68,10 @@ public class JobEntryServiceIMPL implements JobEntryService {
         ResponseDTO response = new ResponseDTO();
 
         try {
-            List<JobEntry> jobEntries = jobEntryRepo.findByJobRegistry_JobId(jobId);;
-            if (!jobEntries.isEmpty()){
-                response.setJobEntryList(jobEntries);
+            List<Object[]> jobEntryDetails = jobEntryRepo.findEntryWithDetails(jobId);
+//            List<JobEntry> jobEntries = jobEntryRepo.findByJobRegistry_JobId(jobId);;
+            if (!jobEntryDetails.isEmpty()){
+                response.setDetails(jobEntryDetails);
                 response.setStatusCode(200);
                 response.setMessage("Successful");
             } else {
