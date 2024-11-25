@@ -48,4 +48,5 @@ public class ResponseDTO {
     private List<ServiceTypes> serviceTypesList;
     private ManHourPricing manHourPricing;
     private List<ManHourPricing> manHourPricingList;
+    private Object details;
 }
