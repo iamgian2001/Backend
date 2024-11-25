@@ -55,7 +55,7 @@ public class JobRegistryServiceIMPL implements JobRegistryService {
             );
 
             // Step 4: Update vehicle mileage if the new mileage is greater
-            if (jobRegistryDTO.getVehicleMilage() > customerVehicle.getVehicleMilage()) {
+            if (jobRegistryDTO.getVehicleMilage() >= customerVehicle.getVehicleMilage()) {
                 customerVehicle.setVehicleMilage(jobRegistryDTO.getVehicleMilage());
                 customerVehicleRepo.save(customerVehicle); // Save the updated mileage
             } else {

@@ -46,6 +46,8 @@ public class JobRegistry {
     @Column(name = "job_status", length =100)
     private int jobStatus;
 
-    @Column(name = "job_description", length =255)
+    @Column(name = "job_description", columnDefinition = "TEXT")
     private String jobDescription;
+
+
 }
