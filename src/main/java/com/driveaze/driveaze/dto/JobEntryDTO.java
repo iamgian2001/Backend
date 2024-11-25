@@ -1,6 +1,7 @@
 package com.driveaze.driveaze.dto;
 
 import com.driveaze.driveaze.entity.JobRegistry;
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,4 +21,5 @@ public class JobEntryDTO {
     private int technicianId;
     private String details;
     private BigDecimal manHours;
+    private BigDecimal price;
 }

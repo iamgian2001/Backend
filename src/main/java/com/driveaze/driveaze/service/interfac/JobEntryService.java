@@ -6,7 +6,7 @@ import com.driveaze.driveaze.dto.ResponseDTO;
 public interface JobEntryService {
     ResponseDTO addNewJobEntry(JobEntryDTO jobEntryDTO);
 
-    ResponseDTO getAllJobEntries();
+    ResponseDTO getAllEntriesOfJob(Integer jobId);
 
     ResponseDTO updateJobEntry(Integer jobEntryId, JobEntryDTO jobEntryDTO);
 

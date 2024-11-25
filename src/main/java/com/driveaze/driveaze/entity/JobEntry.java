@@ -38,4 +38,8 @@ public class JobEntry {
 
     @Column(name = "man_hours", nullable = false)
     private BigDecimal manHours;
+
+    @Column(name = "item_price", nullable = false)
+    private BigDecimal price;
+
 }
