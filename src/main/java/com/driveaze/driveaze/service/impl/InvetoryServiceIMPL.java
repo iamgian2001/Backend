@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.driveaze.driveaze.repository.InventoryRepo;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 @Service
 public class InvetoryServiceIMPL implements InventoryService {
     @Autowired
@@ -173,6 +176,46 @@ public class InvetoryServiceIMPL implements InventoryService {
             response.setStatusCode(500);
             response.setMessage("Error occurred while reducing inventory item: " + e.getMessage());
         }
+        return response;
+    }
+
+    @Override
+    public ResponseDTO getInventoryStatistics() {
+        ResponseDTO response = new ResponseDTO();
+        try {
+            List<Inventory> allItems = inventoryRepo.findAll();
+
+            int totalItems = allItems.size();
+            int overStockItems = 0;
+            int belowTenItems = 0;
+
+            for (Inventory item : allItems) {
+                // Assuming overstock is when current count exceeds initial count
+                if (item.getCount() > item.getInitialCount()) {
+                    overStockItems++;
+                }
+
+                // Items with count below 10
+                if (item.getCount() < 10) {
+                    belowTenItems++;
+                }
+            }
+
+            // Prepare response with statistics
+            Map<String, Integer> statistics = new HashMap<>();
+            statistics.put("totalItems", totalItems);
+            statistics.put("overStockItems", overStockItems);
+            statistics.put("belowTenItems", belowTenItems);
+            statistics.put("normalStock", totalItems-overStockItems-belowTenItems);
+
+            response.setDetails(statistics);
+            response.setStatusCode(200);
+            response.setMessage("Inventory statistics retrieved successfully");
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error occurred while retrieving inventory statistics: " + e.getMessage());
+        }
+
         return response;
     }
 
