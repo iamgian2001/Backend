@@ -15,6 +15,8 @@ public interface UsersRepo extends JpaRepository<OurUsers, Integer> {
 
     Optional<OurUsers> findByEmail(String email);
 
+    Optional<OurUsers> findByContactNumber(String contactNumber);
+
     Optional<OurUsers> findByName(String name);
 
     List<OurUsers> findByRole(String customer);
@@ -27,4 +29,6 @@ public interface UsersRepo extends JpaRepository<OurUsers, Integer> {
 //    List<OurUsers> searchBySupervisorName(@Param("query") String query);
 
     List<OurUsers> findByRoleAndNameContainingIgnoreCase(String role, String name);
+
+
 }

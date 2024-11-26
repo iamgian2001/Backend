@@ -10,6 +10,9 @@ import com.driveaze.driveaze.repository.JobRegistryRepo;
 import com.driveaze.driveaze.service.interfac.JobRegistryService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -111,6 +114,21 @@ public class JobRegistryServiceIMPL implements JobRegistryService {
     }
 
     @Override
+    public List<JobRegistry> findJobRegistriessWithSorting() {
+        return jobRegistryRepo.findAll(Sort.by(Sort.Order.desc("startedDate"), Sort.Order.desc("startTime")));
+    }
+
+    @Override
+    public Page<JobRegistry> findJobRegistriessWithPagination(int offset, int pageSize){
+        return jobRegistryRepo.findAll(PageRequest.of(offset, pageSize));
+    }
+
+    @Override
+    public Page<JobRegistry> findJobRegistriesWithPaginationAndSorting(int offset){
+        return jobRegistryRepo.findAll(PageRequest.of(offset, 10).withSort(Sort.by(Sort.Order.desc("startedDate"), Sort.Order.desc("startTime"))));
+    }
+
+    @Override
     public ResponseDTO updateJob(Integer jobId, JobRegistryDTO jobRegistryDTO) {
         ResponseDTO response = new ResponseDTO();
 
@@ -178,6 +196,12 @@ public class JobRegistryServiceIMPL implements JobRegistryService {
         return response;
     }
 
+
+//    @Override
+//    public List<JobRegistry> searchByVehicleNoVehicleBrandModelAndAssignedSupervisor(String query) {
+//        return jobRegistryRepo.searchByVehicleNoVehicleBrandModelAndAssignedSupervisor(query);
+//    }
+
     @Override
     public ResponseDTO getJobs() {
         ResponseDTO response = new ResponseDTO();
@@ -203,4 +227,5 @@ public class JobRegistryServiceIMPL implements JobRegistryService {
 
         return response;
     }
+
 }

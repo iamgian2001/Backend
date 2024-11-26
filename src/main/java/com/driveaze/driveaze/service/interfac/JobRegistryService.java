@@ -2,6 +2,10 @@ package com.driveaze.driveaze.service.interfac;
 
 import com.driveaze.driveaze.dto.JobRegistryDTO;
 import com.driveaze.driveaze.dto.ResponseDTO;
+import com.driveaze.driveaze.entity.JobRegistry;
+import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 public interface JobRegistryService {
 
@@ -9,6 +13,12 @@ public interface JobRegistryService {
 
     ResponseDTO getAllJobs();
     ResponseDTO getJobs();
+
+    List<JobRegistry> findJobRegistriessWithSorting();
+
+    Page<JobRegistry> findJobRegistriessWithPagination(int offset, int pageSize);
+
+    Page<JobRegistry> findJobRegistriesWithPaginationAndSorting(int offset);
 
     ResponseDTO updateJob(Integer jobId, JobRegistryDTO jobRegistryDTO);
 
