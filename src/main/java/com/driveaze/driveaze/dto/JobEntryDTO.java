@@ -21,5 +21,5 @@ public class JobEntryDTO {
     private int technicianId;
     private String details;
     private BigDecimal manHours;
-    private BigDecimal price;
+    private Object inventoryItemList;
 }

@@ -13,4 +13,6 @@ public interface JobEntryService {
     ResponseDTO deleteJobEntry(Integer jobEntryId);
 
     ResponseDTO getJobEntryById(Integer jobEntryId);
+
+    ResponseDTO getTechnicians();
 }

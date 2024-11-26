@@ -39,4 +39,9 @@ public class JobEntryController {
     public ResponseEntity<ResponseDTO> getJobEntryById(@PathVariable Integer jobEntryId) {
         return ResponseEntity.ok(jobEntryService.getJobEntryById(jobEntryId));
     }
+
+    @GetMapping("/get-technicians")
+    public ResponseEntity<ResponseDTO> getTechnicians() {
+        return ResponseEntity.ok(jobEntryService.getTechnicians());
+    }
 }
