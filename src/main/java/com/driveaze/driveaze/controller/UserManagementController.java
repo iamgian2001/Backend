@@ -1,5 +1,7 @@
 package com.driveaze.driveaze.controller;
 
+import com.driveaze.driveaze.dto.CustomerVehicleDTO;
+import com.driveaze.driveaze.dto.OurUserDTO;
 import com.driveaze.driveaze.dto.ResponseDTO;
 import com.driveaze.driveaze.entity.CustomerVehicle;
 import com.driveaze.driveaze.entity.OurUsers;
@@ -58,6 +60,16 @@ public class UserManagementController {
     @DeleteMapping("/superuser/delete/{userId}")
     public ResponseEntity<ResponseDTO> deleteUser(@PathVariable Integer userId) {
         return ResponseEntity.ok(userService.deleteUser(userId));
+    }
+
+    @DeleteMapping("/customer/delete-account/{userId}")
+    public ResponseEntity<ResponseDTO> deleteCustomer(@PathVariable Integer userId) {
+        return ResponseEntity.ok(userService.deleteCustomer(userId));
+    }
+
+    @PutMapping("/customer/update-account/{userId}")
+    public ResponseEntity<ResponseDTO> updateCustomer(@PathVariable Integer userId, @RequestBody OurUserDTO ourUserDTO) {
+        return ResponseEntity.ok(userService.updateCustomer(userId, ourUserDTO));
     }
 
     @GetMapping("/superuser/search-supervisors")
