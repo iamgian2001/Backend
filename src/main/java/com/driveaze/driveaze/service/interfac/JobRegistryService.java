@@ -8,6 +8,7 @@ public interface JobRegistryService {
     ResponseDTO addNewJob(JobRegistryDTO jobRegistryDTO);
 
     ResponseDTO getAllJobs();
+    ResponseDTO getJobs();
 
     ResponseDTO updateJob(Integer jobId, JobRegistryDTO jobRegistryDTO);
 
