@@ -38,4 +38,9 @@ public class InventoryController {
     public ResponseEntity<ResponseDTO> reduceItem(@RequestParam int itemId, @RequestParam int quantity) {
         return ResponseEntity.ok(inventoryService.reduceItem(itemId, quantity));
     }
+
+    @GetMapping(path = "/statistic")
+    public ResponseEntity<ResponseDTO> getStatistic(){
+        return ResponseEntity.ok(inventoryService.getInventoryStatistics());
+    }
 }

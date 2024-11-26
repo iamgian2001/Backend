@@ -311,4 +311,8 @@ public class UserManagementService implements IUserManagementService {
         }
         return reqRes;
     }
+
+    public List<OurUsers> searchBySupervisorName(String query) {
+        return usersRepo.findByRoleAndNameContainingIgnoreCase("SUPERVISOR", query);
+    }
 }

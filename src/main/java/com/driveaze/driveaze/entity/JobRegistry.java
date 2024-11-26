@@ -20,9 +20,8 @@ public class JobRegistry {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int jobId;
 
-    @ManyToOne
-    @JoinColumn(name = "vehicle_id", nullable = false)
-    private CustomerVehicle customerVehicle;
+    @Column(name = "vehicle_id", length =100)
+    private int vehicleId;
 
     @Column(name = "started_date", length =100)
     private LocalDate startedDate;
@@ -33,17 +32,22 @@ public class JobRegistry {
     @Column(name = "finished_date", length =100)
     private LocalDate finishedDate;
 
-    @Column(name = "customer_id", length =100)
-    private int customerId;
-
     @Column(name = "supervisor_id", length =100)
     private int supervisorId;
+
+    @Column(name = "service_type_id", length =100)
+    private int serviceTypeId;
+
+    @Column(name = "vehicleMilage", length = 100)
+    private Integer vehicleMilage;
 
     //0 -> incomplete
     //1 -> complete
     @Column(name = "job_status", length =100)
     private int jobStatus;
 
-    @Column(name = "job_description", length =255)
+    @Column(name = "job_description", columnDefinition = "TEXT")
     private String jobDescription;
+
+
 }

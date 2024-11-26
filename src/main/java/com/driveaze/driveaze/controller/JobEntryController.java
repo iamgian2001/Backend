@@ -30,13 +30,18 @@ public class JobEntryController {
         return ResponseEntity.ok(jobEntryService.deleteJobEntry(jobEntryId));
     }
 
-    @GetMapping("/get-all-job-entries")
-    public ResponseEntity<ResponseDTO> getAllJobEntries() {
-        return ResponseEntity.ok(jobEntryService.getAllJobEntries());
+    @GetMapping("/get-all-entries-of-job/{jobId}")
+    public ResponseEntity<ResponseDTO> getAllEntriesOfJob(@PathVariable Integer jobId) {
+        return ResponseEntity.ok(jobEntryService.getAllEntriesOfJob(jobId));
     }
 
     @GetMapping("/get-job-entry/{jobEntryId}")
     public ResponseEntity<ResponseDTO> getJobEntryById(@PathVariable Integer jobEntryId) {
         return ResponseEntity.ok(jobEntryService.getJobEntryById(jobEntryId));
+    }
+
+    @GetMapping("/get-technicians")
+    public ResponseEntity<ResponseDTO> getTechnicians() {
+        return ResponseEntity.ok(jobEntryService.getTechnicians());
     }
 }
