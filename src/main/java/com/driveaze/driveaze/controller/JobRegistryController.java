@@ -36,6 +36,11 @@ public class JobRegistryController {
         return ResponseEntity.ok(jobRegistryService.getAllJobs());
     }
 
+    @GetMapping("/get-jobs")
+    public ResponseEntity<ResponseDTO> getJobs() {
+        return ResponseEntity.ok(jobRegistryService.getJobs());
+    }
+
     @GetMapping("/get-job/{jobId}")
     public ResponseEntity<ResponseDTO> getJobById(@PathVariable Integer jobId) {
         return ResponseEntity.ok(jobRegistryService.getJobById(jobId));

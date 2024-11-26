@@ -89,11 +89,11 @@ public class JobRegistryServiceIMPL implements JobRegistryService {
         ResponseDTO response = new ResponseDTO();
 
         try {
-            List<Object[]> jobDetails = jobRegistryRepo.findJobsWithDetails();
+//            List<Object[]> jobDetails = jobRegistryRepo.findJobsWithDetails();
 
-//            List<JobRegistry> jobRegistries = jobRegistryRepo.findAll();
-            if (!jobDetails.isEmpty()){
-                response.setDetails(jobDetails);
+            List<JobRegistry> jobRegistries = jobRegistryRepo.findAll();
+            if (!jobRegistries.isEmpty()){
+                response.setJobRegistryList(jobRegistries);
                 response.setStatusCode(200);
                 response.setMessage("Successful");
             } else {
@@ -175,6 +175,32 @@ public class JobRegistryServiceIMPL implements JobRegistryService {
             response.setStatusCode(500);
             response.setMessage("Error occurred while retrieving Job: " + e.getMessage());
         }
+        return response;
+    }
+
+    @Override
+    public ResponseDTO getJobs() {
+        ResponseDTO response = new ResponseDTO();
+
+        try {
+            List<Object[]> jobDetails = jobRegistryRepo.findJobsWithDetails();
+
+//            List<JobRegistry> jobRegistries = jobRegistryRepo.findAll();
+            if (!jobDetails.isEmpty()){
+                response.setDetails(jobDetails);
+                response.setStatusCode(200);
+                response.setMessage("Successful");
+            } else {
+                throw new OurException("No Jobs Found");
+            }
+        } catch (OurException e) {
+            response.setStatusCode(404);
+            response.setMessage(e.getMessage());
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error occurred while retrieving jobs: " + e.getMessage());
+        }
+
         return response;
     }
 }
