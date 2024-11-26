@@ -4,7 +4,9 @@ import com.driveaze.driveaze.entity.CustomerVehicle;
 import com.driveaze.driveaze.entity.JobRegistry;
 import org.hibernate.query.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.awt.print.Pageable;
@@ -14,4 +16,13 @@ import java.util.List;
 @Repository
 public interface JobRegistryRepo extends JpaRepository<JobRegistry, Integer> {
     boolean existsByVehicleIdAndJobStatus(int vehicleId, int i);
+
+//    @Query("SELECT jr FROM JobRegistry jr " +
+//            "JOIN jr.customerVehicle v " +
+//            "JOIN jr.ourusers s " +
+//            "WHERE LOWER(v.vehicleNo) LIKE LOWER(CONCAT('%', :query, '%')) " +
+//            "   OR LOWER(v.brand) LIKE LOWER(CONCAT('%', :query, '%')) " +
+//            "   OR LOWER(v.model) LIKE LOWER(CONCAT('%', :query, '%')) " +
+//            "   OR LOWER(s.name) LIKE LOWER(CONCAT('%', :query, '%'))")
+//    List<JobRegistry> searchByVehicleNoVehicleBrandModelAndAssignedSupervisor(@Param("query") String query);
 }

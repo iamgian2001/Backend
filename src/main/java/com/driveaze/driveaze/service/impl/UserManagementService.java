@@ -1,5 +1,6 @@
 package com.driveaze.driveaze.service.impl;
 
+import com.driveaze.driveaze.dto.OurUserDTO;
 import com.driveaze.driveaze.dto.ResponseDTO;
 import com.driveaze.driveaze.dto.auth.LoginRequest;
 import com.driveaze.driveaze.entity.OurUsers;
@@ -91,6 +92,13 @@ public class UserManagementService implements IUserManagementService {
             if (existingUserByEmail.isPresent()) {
                 resp.setStatusCode(400);
                 resp.setMessage("Email is already registered!");
+                return resp;
+            }
+
+            Optional<OurUsers> existingUserByContactNumber = usersRepo.findByContactNumber(customerRegistrationRequest.getContactNumber());
+            if (existingUserByContactNumber.isPresent()) {
+                resp.setStatusCode(400);
+                resp.setMessage("Contact number is already registered!");
                 return resp;
             }
 
@@ -312,7 +320,96 @@ public class UserManagementService implements IUserManagementService {
         return reqRes;
     }
 
+    @Override
     public List<OurUsers> searchBySupervisorName(String query) {
         return usersRepo.findByRoleAndNameContainingIgnoreCase("SUPERVISOR", query);
     }
+
+    @Override
+    public ResponseDTO deleteCustomer(Integer userId) {
+        ResponseDTO reqRes = new ResponseDTO();
+
+        try {
+            Optional<OurUsers> userOptional = usersRepo.findById(userId);
+
+            if (userOptional.isPresent()) {
+                OurUsers user = userOptional.get();
+                if ("CUSTOMER".equals(user.getRole())) { // Use equals() for string comparison
+                    usersRepo.deleteById(userId);
+                    reqRes.setStatusCode(200);
+                    reqRes.setMessage("Customer Account deleted successfully");
+                } else {
+                    reqRes.setStatusCode(400); // Bad Request instead of 404 (User not found is better suited for 404)
+                    reqRes.setMessage("User is not a customer, cannot delete");
+                }
+            } else {
+                reqRes.setStatusCode(404);
+                reqRes.setMessage("User not found for deletion");
+            }
+        } catch (Exception e) {
+            reqRes.setStatusCode(500);
+            reqRes.setMessage("Error occurred while deleting user: " + e.getMessage());
+        }
+        return reqRes;
+    }
+
+    @Override
+    public ResponseDTO updateCustomer(Integer userId, OurUserDTO ourUserDTO) {
+        ResponseDTO reqRes = new ResponseDTO();
+
+        try {
+            // Fetch the user by ID
+            Optional<OurUsers> userOptional = usersRepo.findById(userId);
+
+            if (userOptional.isPresent()) {
+                OurUsers existingUser = userOptional.get();
+
+                // Check if the role is CUSTOMER
+                if ("CUSTOMER".equals(existingUser.getRole())) { // Use equals() for string comparison
+
+                    // Check for duplicate contact number, excluding the current user
+                    Optional<OurUsers> existingCustomerByContactNumber = usersRepo.findByContactNumber(ourUserDTO.getContactNumber());
+                    if (existingCustomerByContactNumber.isPresent() &&
+                            !existingCustomerByContactNumber.get().getId().equals(existingUser.getId())) {
+
+                        reqRes.setStatusCode(400);
+                        reqRes.setMessage("Contact Number Already Exists!");
+                        return reqRes;
+                    }
+
+                    // Update the user's details
+                    existingUser.setEmail(ourUserDTO.getEmail());
+                    existingUser.setName(ourUserDTO.getName());
+                    existingUser.setContactNumber(ourUserDTO.getContactNumber());
+                    existingUser.setRole(ourUserDTO.getRole());
+
+                    // Check if password is provided in the request
+                    if (ourUserDTO.getPassword() != null && !ourUserDTO.getPassword().isEmpty()) {
+                        existingUser.setPassword(passwordEncoder.encode(ourUserDTO.getPassword()));
+                    }
+
+                    // Save the updated user
+                    OurUsers savedUser = usersRepo.save(existingUser);
+                    reqRes.setOurUsers(savedUser);
+                    reqRes.setStatusCode(200);
+                    reqRes.setMessage("Customer updated successfully");
+                } else {
+                    reqRes.setStatusCode(400);
+                    reqRes.setMessage("User is not a customer, cannot update");
+                }
+            } else {
+                reqRes.setStatusCode(404);
+                reqRes.setMessage("User not found for update");
+            }
+        } catch (Exception e) {
+            reqRes.setStatusCode(500);
+            reqRes.setMessage("Error occurred while updating user: " + e.getMessage());
+        }
+
+        return reqRes;
+    }
+
+
 }
+
+
