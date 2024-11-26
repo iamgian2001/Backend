@@ -92,6 +92,8 @@ public class JobRegistryServiceIMPL implements JobRegistryService {
         ResponseDTO response = new ResponseDTO();
 
         try {
+//            List<Object[]> jobDetails = jobRegistryRepo.findJobsWithDetails();
+
             List<JobRegistry> jobRegistries = jobRegistryRepo.findAll();
             if (!jobRegistries.isEmpty()){
                 response.setJobRegistryList(jobRegistries);
@@ -194,8 +196,36 @@ public class JobRegistryServiceIMPL implements JobRegistryService {
         return response;
     }
 
+
 //    @Override
 //    public List<JobRegistry> searchByVehicleNoVehicleBrandModelAndAssignedSupervisor(String query) {
 //        return jobRegistryRepo.searchByVehicleNoVehicleBrandModelAndAssignedSupervisor(query);
 //    }
+
+    @Override
+    public ResponseDTO getJobs() {
+        ResponseDTO response = new ResponseDTO();
+
+        try {
+            List<Object[]> jobDetails = jobRegistryRepo.findJobsWithDetails();
+
+//            List<JobRegistry> jobRegistries = jobRegistryRepo.findAll();
+            if (!jobDetails.isEmpty()){
+                response.setDetails(jobDetails);
+                response.setStatusCode(200);
+                response.setMessage("Successful");
+            } else {
+                throw new OurException("No Jobs Found");
+            }
+        } catch (OurException e) {
+            response.setStatusCode(404);
+            response.setMessage(e.getMessage());
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error occurred while retrieving jobs: " + e.getMessage());
+        }
+
+        return response;
+    }
+
 }

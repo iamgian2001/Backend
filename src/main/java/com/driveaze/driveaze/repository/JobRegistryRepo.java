@@ -17,6 +17,7 @@ import java.util.List;
 public interface JobRegistryRepo extends JpaRepository<JobRegistry, Integer> {
     boolean existsByVehicleIdAndJobStatus(int vehicleId, int i);
 
+
 //    @Query("SELECT jr FROM JobRegistry jr " +
 //            "JOIN jr.customerVehicle v " +
 //            "JOIN jr.ourusers s " +
@@ -25,4 +26,10 @@ public interface JobRegistryRepo extends JpaRepository<JobRegistry, Integer> {
 //            "   OR LOWER(v.model) LIKE LOWER(CONCAT('%', :query, '%')) " +
 //            "   OR LOWER(s.name) LIKE LOWER(CONCAT('%', :query, '%'))")
 //    List<JobRegistry> searchByVehicleNoVehicleBrandModelAndAssignedSupervisor(@Param("query") String query);
+
+    @Query("SELECT jr, cv, st FROM JobRegistry jr " +
+            "JOIN CustomerVehicle cv ON jr.vehicleId = cv.vehicleId " +
+            "JOIN ServiceTypes st ON jr.serviceTypeId = st.serviceId")
+    List<Object[]> findJobsWithDetails();
+
 }

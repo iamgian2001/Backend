@@ -12,6 +12,7 @@ public interface JobRegistryService {
     ResponseDTO addNewJob(JobRegistryDTO jobRegistryDTO);
 
     ResponseDTO getAllJobs();
+    ResponseDTO getJobs();
 
     List<JobRegistry> findJobRegistriessWithSorting();
 
