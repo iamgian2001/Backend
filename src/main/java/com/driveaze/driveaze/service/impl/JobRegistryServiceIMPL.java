@@ -138,6 +138,7 @@ public class JobRegistryServiceIMPL implements JobRegistryService {
 
             jobRegistry.setVehicleId(jobRegistryDTO.getVehicleId());
             jobRegistry.setJobStatus(jobRegistryDTO.getJobStatus());
+            jobRegistry.setFinishedDate(jobRegistryDTO.getFinishedDate());
             jobRegistry.setSupervisorId(jobRegistryDTO.getSupervisorId());
             jobRegistry.setServiceTypeId(jobRegistryDTO.getServiceTypeId());
             jobRegistry.setVehicleMilage(jobRegistryDTO.getVehicleMilage());
