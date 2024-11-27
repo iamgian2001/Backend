@@ -1,6 +1,7 @@
 package com.driveaze.driveaze.service.impl;
 
 import com.driveaze.driveaze.dto.OurUserDTO;
+import com.driveaze.driveaze.dto.PasswordUpdateDTO;
 import com.driveaze.driveaze.dto.ResponseDTO;
 import com.driveaze.driveaze.dto.auth.LoginRequest;
 import com.driveaze.driveaze.entity.OurUsers;
@@ -236,7 +237,7 @@ public class UserManagementService implements IUserManagementService {
             OurUsers usersById = usersRepo.findById(userId).orElseThrow(() -> new RuntimeException("User Not Found"));
             reqRes.setOurUsers(usersById);
             reqRes.setStatusCode(200);
-            reqRes.setMessage("Users with id '" + id + "' found successfully");
+            reqRes.setMessage("Users with id '" + userId + "' found successfully");
         } catch (Exception e) {
             reqRes.setStatusCode(500);
             reqRes.setMessage("Error occured: " + e.getMessage());
@@ -408,6 +409,50 @@ public class UserManagementService implements IUserManagementService {
 
         return reqRes;
     }
+
+    @Override
+    public ResponseDTO updatePassword(Integer userId, PasswordUpdateDTO passwordUpdateDTO) {
+        ResponseDTO reqRes = new ResponseDTO();
+
+        try {
+            // Fetch the user by ID
+            Optional<OurUsers> userOptional = usersRepo.findById(userId);
+            if (userOptional.isPresent()) {
+                OurUsers existingUser = userOptional.get();
+
+                // Verify the current password
+                if (passwordUpdateDTO.getCurrentPassword() == null ||
+                        !passwordEncoder.matches(passwordUpdateDTO.getCurrentPassword(), existingUser.getPassword())) {
+                    reqRes.setStatusCode(400);
+                    reqRes.setMessage("Current password is incorrect");
+                    return reqRes;
+                }
+
+                // Check if the new password is valid
+                if (passwordUpdateDTO.getNewPassword() == null || passwordUpdateDTO.getNewPassword().isEmpty()) {
+                    reqRes.setStatusCode(400);
+                    reqRes.setMessage("New password cannot be empty");
+                    return reqRes;
+                }
+
+                // Update the password
+                existingUser.setPassword(passwordEncoder.encode(passwordUpdateDTO.getNewPassword()));
+                usersRepo.save(existingUser);
+
+                reqRes.setStatusCode(200);
+                reqRes.setMessage("Password updated successfully");
+            } else {
+                reqRes.setStatusCode(404);
+                reqRes.setMessage("User not found for update");
+            }
+        } catch (Exception e) {
+            reqRes.setStatusCode(500);
+            reqRes.setMessage("Error occurred while updating password: " + e.getMessage());
+        }
+
+        return reqRes;
+    }
+
 
 
 }

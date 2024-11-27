@@ -1,6 +1,7 @@
 package com.driveaze.driveaze.service.interfac;
 
 import com.driveaze.driveaze.dto.OurUserDTO;
+import com.driveaze.driveaze.dto.PasswordUpdateDTO;
 import com.driveaze.driveaze.dto.ResponseDTO;
 import com.driveaze.driveaze.dto.auth.LoginRequest;
 import com.driveaze.driveaze.entity.OurUsers;
@@ -26,4 +27,6 @@ public interface IUserManagementService {
     ResponseDTO deleteCustomer(Integer userId);
 
     ResponseDTO updateCustomer(Integer userId, OurUserDTO ourUserDTO);
+
+    ResponseDTO updatePassword(Integer userId, PasswordUpdateDTO passwordUpdateDTO);
 }
