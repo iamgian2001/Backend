@@ -59,13 +59,15 @@ public class CustomerComplaintController {
      */
     @PutMapping(path = "/update")
     public ResponseEntity<?> updateComplaint(@RequestBody ComplaintDTO complaintDTO) {
+        logger.info("Incoming request to update complaint: {}", complaintDTO);
         try {
-            logger.info("Updating complaint: {}", complaintDTO);
             String result = customerComplaintService.updateComplaint(complaintDTO);
-            return ResponseEntity.ok(result); // Assuming the service returns a success message
+            logger.info("Complaint updated successfully: {}", result);
+            return ResponseEntity.ok(result);
         } catch (Exception e) {
             logger.error("Error updating complaint: ", e);
             return ResponseEntity.status(500).body("Failed to update complaint: " + e.getMessage());
         }
+    }
     }
 }
