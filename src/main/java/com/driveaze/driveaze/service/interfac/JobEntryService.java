@@ -2,6 +2,8 @@ package com.driveaze.driveaze.service.interfac;
 
 import com.driveaze.driveaze.dto.JobEntryDTO;
 import com.driveaze.driveaze.dto.ResponseDTO;
+import com.driveaze.driveaze.entity.JobEntry;
+import org.springframework.data.domain.Page;
 
 public interface JobEntryService {
     ResponseDTO addNewJobEntry(JobEntryDTO jobEntryDTO);
@@ -15,4 +17,6 @@ public interface JobEntryService {
     ResponseDTO getJobEntryById(Integer jobEntryId);
 
     ResponseDTO getTechnicians();
+
+    Page<JobEntry> findJobEntriesWithPaginationAndSorting(int jobId,int offset);
 }
