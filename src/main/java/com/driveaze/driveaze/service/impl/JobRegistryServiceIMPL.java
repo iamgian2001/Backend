@@ -133,8 +133,22 @@ public class JobRegistryServiceIMPL implements JobRegistryService {
         ResponseDTO response = new ResponseDTO();
 
         try {
+
             JobRegistry jobRegistry = jobRegistryRepo.findById(jobId)
                     .orElseThrow(() -> new OurException("Job not found"));
+
+
+            CustomerVehicle customerVehicle = customerVehicleRepo.findById(jobRegistryDTO.getVehicleId())
+                    .orElseThrow(() -> new OurException("CustomerVehicle not found"));
+
+            if (jobRegistryRepo.existsByVehicleIdAndJobStatusAndJobIdNot(
+                    customerVehicle.getVehicleId(),
+                    0,
+                    jobId)) {
+                response.setStatusCode(400);
+                response.setMessage("A non-completed job already exists for this vehicle");
+                return response;
+            }
 
             jobRegistry.setVehicleId(jobRegistryDTO.getVehicleId());
             jobRegistry.setJobStatus(jobRegistryDTO.getJobStatus());
@@ -143,6 +157,16 @@ public class JobRegistryServiceIMPL implements JobRegistryService {
             jobRegistry.setServiceTypeId(jobRegistryDTO.getServiceTypeId());
             jobRegistry.setVehicleMilage(jobRegistryDTO.getVehicleMilage());
             jobRegistry.setJobDescription(jobRegistryDTO.getJobDescription());
+
+            // Step 4: Update vehicle mileage if the new mileage is greater
+            if (jobRegistryDTO.getVehicleMilage() >= customerVehicle.getVehicleMilage()) {
+                customerVehicle.setVehicleMilage(jobRegistryDTO.getVehicleMilage());
+                customerVehicleRepo.save(customerVehicle); // Save the updated mileage
+            } else {
+                response.setStatusCode(400);
+                response.setMessage("New mileage must be greater than the current mileage");
+                return response;
+            }
 
             jobRegistryRepo.save(jobRegistry);
             response.setStatusCode(200);

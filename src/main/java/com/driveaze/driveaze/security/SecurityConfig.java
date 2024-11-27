@@ -45,6 +45,7 @@ public class SecurityConfig {
                         .requestMatchers("/customer/**").hasAnyAuthority("CUSTOMER")
                         .requestMatchers("/anyuser/**").hasAnyAuthority("ADMIN", "USER", "CUSTOMER", "RECEPTIONIST", "SUPERVISOR", "MANAGER", "WAREHOUSE_KEEPER", "TECHNICIAN")
                         .requestMatchers("/superuser/**").hasAnyAuthority("ADMIN", "MANAGER", "RECEPTIONIST")
+                        .requestMatchers("/employees/**").hasAnyAuthority("ADMIN", "MANAGER", "RECEPTIONIST", "SUPERVISOR", "WAREHOUSE_KEEPER", "TECHNICIAN")
                         .anyRequest().authenticated())
                 .sessionManagement(manager-> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())

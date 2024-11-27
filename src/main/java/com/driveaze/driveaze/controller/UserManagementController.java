@@ -2,6 +2,7 @@ package com.driveaze.driveaze.controller;
 
 import com.driveaze.driveaze.dto.CustomerVehicleDTO;
 import com.driveaze.driveaze.dto.OurUserDTO;
+import com.driveaze.driveaze.dto.PasswordUpdateDTO;
 import com.driveaze.driveaze.dto.ResponseDTO;
 import com.driveaze.driveaze.entity.CustomerVehicle;
 import com.driveaze.driveaze.entity.OurUsers;
@@ -44,7 +45,7 @@ public class UserManagementController {
         return ResponseEntity.ok(userService.getUsersById(userId));
     }
 
-    @PutMapping("/superuser/update/{userId}")
+    @PutMapping("/employees/update/{userId}")
     public ResponseEntity<ResponseDTO> updateUser(@PathVariable Integer userId, @RequestBody OurUsers request) {
         return ResponseEntity.ok(userService.updateUser(userId, request));
     }
@@ -70,6 +71,11 @@ public class UserManagementController {
     @PutMapping("/customer/update-account/{userId}")
     public ResponseEntity<ResponseDTO> updateCustomer(@PathVariable Integer userId, @RequestBody OurUserDTO ourUserDTO) {
         return ResponseEntity.ok(userService.updateCustomer(userId, ourUserDTO));
+    }
+
+    @PutMapping("/anyuser/update-password/{userId}")
+    public ResponseEntity<ResponseDTO> updatePassword(@PathVariable Integer userId, @RequestBody PasswordUpdateDTO passwordUpdateDTO) {
+        return ResponseEntity.ok(userService.updatePassword(userId, passwordUpdateDTO));
     }
 
     @GetMapping("/superuser/search-supervisors")
