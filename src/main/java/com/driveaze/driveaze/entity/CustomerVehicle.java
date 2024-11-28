@@ -24,6 +24,15 @@ public class CustomerVehicle {
     @Column(name = "vehicle_no", length =100, nullable = false)
     private String vehicleNo;
 
+    @Column(name = "owner_name", length = 100)
+    private String ownerName;
+
+    @Column(name = "owner_email", length = 100)
+    private String ownerEmail;
+
+    @Column(name = "owner_phone", length = 100)
+    private String ownerPhone;
+
     @Column(name = "vehicleMilage", length = 100)
     private Integer vehicleMilage;
 
