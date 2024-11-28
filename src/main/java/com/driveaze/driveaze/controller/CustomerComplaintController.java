@@ -1,7 +1,7 @@
 package com.driveaze.driveaze.controller;
 
 import com.driveaze.driveaze.dto.ComplaintDTO;
-import com.driveaze.driveaze.service.CustomerComplaintService;
+import com.driveaze.driveaze.service.interfac.CustomerComplaintService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,5 +63,6 @@ public class CustomerComplaintController {
             return ResponseEntity.status(500).body("Failed to update complaint: " + e.getMessage());
         }
     }
+
 
 }

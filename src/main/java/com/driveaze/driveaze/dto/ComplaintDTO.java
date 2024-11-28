@@ -10,14 +10,17 @@ public class ComplaintDTO {
     private String reply;
     private java.sql.Date date;
     private int status;
+    private String complaintHolder;
 
-    public ComplaintDTO(int complaintId,String customerEmail, String description, String reply, Date date, int status) {
+    public ComplaintDTO(int complaintId, String customerEmail, String complaintHolder, String description, String reply, Date date, int status) {
         this.complaintId = complaintId;
         this.customerEmail = customerEmail;
+        this.complaintHolder = complaintHolder;
         this.description = description;
         this.reply = reply;
         this.date = date;
         this.status = status;
+
     }
 
     public String getReply() {
@@ -30,6 +33,10 @@ public class ComplaintDTO {
 
     public String getCustomerEmail() {
         return customerEmail;
+    }
+
+    public String getComplaintHolder() {
+        return complaintHolder;
     }
 
     public String getDescription() {
@@ -68,6 +75,10 @@ public class ComplaintDTO {
         this.date = date;
     }
 
+    public void setComplaintHolder(String complaintHolder) {
+        this.complaintHolder = complaintHolder;
+    }
+
     @Override
     public String toString() {
         return "ComplaintDTO{" +
@@ -77,6 +88,7 @@ public class ComplaintDTO {
                 ", reply='" + reply + '\'' +
                 ", date=" + date +
                 ", status=" + status +
+                ", complaintHolder='" + complaintHolder + '\'' +
                 '}';
     }
 
