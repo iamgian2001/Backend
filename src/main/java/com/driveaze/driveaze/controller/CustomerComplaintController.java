@@ -20,9 +20,7 @@ public class CustomerComplaintController {
     @Autowired
     private CustomerComplaintService customerComplaintService;
 
-    /**
-     * Save a complaint.
-     */
+    /** Save a complaint.*/
     @PostMapping(path = "/save")
     public ResponseEntity<?> saveComplaint(@RequestBody ComplaintDTO complaintDTO) {
         try {
@@ -35,9 +33,7 @@ public class CustomerComplaintController {
         }
     }
 
-    /**
-     * Retrieve all complaints.
-     */
+    /** Retrieve all complaints.*/
     @GetMapping(path = "/retrieve")
     public ResponseEntity<?> retrieveComplaints() {
         try {
@@ -54,9 +50,7 @@ public class CustomerComplaintController {
         }
     }
 
-    /**
-     * Update a complaint.
-     */
+    /** Update a complaint.*/
     @PutMapping(path = "/update")
     public ResponseEntity<?> updateComplaint(@RequestBody ComplaintDTO complaintDTO) {
         logger.info("Incoming request to update complaint: {}", complaintDTO);
@@ -69,5 +63,5 @@ public class CustomerComplaintController {
             return ResponseEntity.status(500).body("Failed to update complaint: " + e.getMessage());
         }
     }
-    }
+
 }

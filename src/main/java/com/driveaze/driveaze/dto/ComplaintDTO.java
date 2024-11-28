@@ -7,15 +7,21 @@ public class ComplaintDTO {
     private int complaintId;
     private String customerEmail;
     private String description;
+    private String reply;
     private java.sql.Date date;
     private int status;
 
-    public ComplaintDTO(int complaintId,String customerEmail, String description, Date date, int status) {
+    public ComplaintDTO(int complaintId,String customerEmail, String description, String reply, Date date, int status) {
         this.complaintId = complaintId;
         this.customerEmail = customerEmail;
         this.description = description;
+        this.reply = reply;
         this.date = date;
         this.status = status;
+    }
+
+    public String getReply() {
+        return reply;
     }
 
     public int getComplaintId() {
@@ -36,6 +42,10 @@ public class ComplaintDTO {
 
     public void setComplaintId(int complaintId) {
         this.complaintId = complaintId;
+    }
+
+    public void setReply(String reply) {
+        this.reply = reply;
     }
 
     public void setCustomerEmail(String customerEmail) {
@@ -62,8 +72,9 @@ public class ComplaintDTO {
     public String toString() {
         return "ComplaintDTO{" +
                 "complaintId=" + complaintId +
-                ", customerEmail=" + customerEmail +
+                ", customerEmail='" + customerEmail + '\'' +
                 ", description='" + description + '\'' +
+                ", reply='" + reply + '\'' +
                 ", date=" + date +
                 ", status=" + status +
                 '}';

@@ -33,7 +33,7 @@ public class CustomerComplaintServiceIMPL implements CustomerComplaintService {
         );
 
         // Set the logged-in user's email as the customerEmail
-        complaint.setcustomerEmail(loggedInUsername);
+        complaint.setCustomerEmail(loggedInUsername);
 
         // Save the complaint to the repository (complaintId will be auto-generated)
         complaintRepo.save(complaint);
@@ -50,6 +50,7 @@ public class CustomerComplaintServiceIMPL implements CustomerComplaintService {
                     complaint.getComplaintId(),
                     complaint.getCustomerEmail(),
                     complaint.getDescription(),
+                    complaint.getReply(),
                     complaint.getDate(),
                     complaint.getStatus()
             );
@@ -63,6 +64,7 @@ public class CustomerComplaintServiceIMPL implements CustomerComplaintService {
     public String updateComplaint(ComplaintDTO complaintDTO) {
         if (complaintRepo.existsById(complaintDTO.getComplaintId())) {
             Complaint complaint = complaintRepo.getReferenceById(complaintDTO.getComplaintId());
+            complaint.setReply(complaintDTO.getReply());
             complaint.setStatus(complaintDTO.getStatus());
 
             complaintRepo.save(complaint);

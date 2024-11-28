@@ -16,8 +16,11 @@ public class Complaint {
     @Column(name = "customer_email",length = 500)
     private String customerEmail;
 
-    @Column(name = "description", length =500, nullable = false)
+    @Column(name = "description", length =1000, nullable = false)
     private String description;
+
+    @Column(name = "reply", length = 1000)
+    private String reply;
 
     @Column(name = "date")
     private java.sql.Date date;
@@ -36,9 +39,13 @@ public class Complaint {
         this.status = status;
     }
 
+
+
     public String getDescription() {
         return description;
     }
+
+    public String getReply() {return reply;}
 
     public int getComplaintId() {
         return complaintId;
@@ -56,8 +63,9 @@ public class Complaint {
         this.complaintId = complaintId;
     }
 
-    
-    public void setcustomerEmail(String customerEmail) {
+    public void setReply(String reply) {this.reply = reply;}
+
+    public void setCustomerEmail(String customerEmail) {
         this.customerEmail = customerEmail;
     }
 
@@ -83,6 +91,7 @@ public class Complaint {
                 "complaintId=" + complaintId +
                 ", customerEmail='" + customerEmail + '\'' +
                 ", description='" + description + '\'' +
+                ", reply='" + reply + '\'' +
                 ", date=" + date +
                 ", status=" + status +
                 '}';
