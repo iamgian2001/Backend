@@ -129,7 +129,7 @@ public class JobRegistryServiceIMPL implements JobRegistryService {
 
     @Override
     public Page<JobRegistry> findJobRegistriesWithPaginationAndSorting(int offset){
-        return jobRegistryRepo.findAll(PageRequest.of(offset, 10).withSort(Sort.by(Sort.Order.desc("startedDate"), Sort.Order.desc("startTime"))));
+        return jobRegistryRepo.findAll(PageRequest.of(offset, 9).withSort(Sort.by(Sort.Order.desc("startedDate"), Sort.Order.desc("startTime"))));
     }
 
     @Override

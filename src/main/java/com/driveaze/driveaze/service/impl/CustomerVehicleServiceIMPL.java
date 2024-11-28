@@ -38,6 +38,9 @@ public class CustomerVehicleServiceIMPL implements CustomerVehicleService {
             CustomerVehicle customerVehicle = new CustomerVehicle(
                     customerVehicleDTO.getVehicleId(),
                     customerVehicleDTO.getVehicleNo(),
+                    customerVehicleDTO.getOwnerName(),
+                    customerVehicleDTO.getOwnerEmail(),
+                    customerVehicleDTO.getOwnerPhone(),
                     vehicleMilage,
                     customerVehicleDTO.getVehicleBrandId(),
                     customerVehicleDTO.getVehicleModelId(),
@@ -104,6 +107,9 @@ public class CustomerVehicleServiceIMPL implements CustomerVehicleService {
                     customerVehicleDTO.getVehicleMilage() > customerVehicle.getVehicleMilage()) {
 
                 // Update the vehicle details
+                customerVehicle.setOwnerName(customerVehicleDTO.getOwnerName());
+                customerVehicle.setOwnerEmail(customerVehicleDTO.getOwnerEmail());
+                customerVehicle.setOwnerPhone(customerVehicleDTO.getOwnerPhone());
                 customerVehicle.setVehicleMilage(customerVehicleDTO.getVehicleMilage());
                 customerVehicle.setVehicleBrandId(customerVehicleDTO.getVehicleBrandId());
                 customerVehicle.setVehicleModelId(customerVehicleDTO.getVehicleModelId());
@@ -175,6 +181,6 @@ public class CustomerVehicleServiceIMPL implements CustomerVehicleService {
 
     @Override
     public Page<CustomerVehicle> findVehiclesWithPaginationAndSorting(int offset) {
-        return customerVehicleRepo.findAll(PageRequest.of(offset, 10).withSort(Sort.by(Sort.Order.desc("registeredDate"), Sort.Order.desc("registeredTime"))));
+        return customerVehicleRepo.findAll(PageRequest.of(offset, 9).withSort(Sort.by(Sort.Order.desc("registeredDate"), Sort.Order.desc("registeredTime"))));
     }
 }
