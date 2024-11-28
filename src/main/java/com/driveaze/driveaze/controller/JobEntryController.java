@@ -2,8 +2,10 @@ package com.driveaze.driveaze.controller;
 
 import com.driveaze.driveaze.dto.JobEntryDTO;
 import com.driveaze.driveaze.dto.ResponseDTO;
+import com.driveaze.driveaze.entity.JobEntry;
 import com.driveaze.driveaze.service.interfac.JobEntryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,5 +45,10 @@ public class JobEntryController {
     @GetMapping("/get-technicians")
     public ResponseEntity<ResponseDTO> getTechnicians() {
         return ResponseEntity.ok(jobEntryService.getTechnicians());
+    }
+
+    @GetMapping("/paginationAndSort/{jobId}/{offset}")
+    public Page<JobEntry> findJobEntriesWithPaginationAndSorting(@PathVariable Integer jobId, @PathVariable int offset) {
+        return jobEntryService.findJobEntriesWithPaginationAndSorting(jobId, offset);
     }
 }

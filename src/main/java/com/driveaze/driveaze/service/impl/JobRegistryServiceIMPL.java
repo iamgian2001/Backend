@@ -3,9 +3,11 @@ package com.driveaze.driveaze.service.impl;
 import com.driveaze.driveaze.dto.JobRegistryDTO;
 import com.driveaze.driveaze.dto.ResponseDTO;
 import com.driveaze.driveaze.entity.CustomerVehicle;
+import com.driveaze.driveaze.entity.JobEntry;
 import com.driveaze.driveaze.entity.JobRegistry;
 import com.driveaze.driveaze.exception.OurException;
 import com.driveaze.driveaze.repository.CustomerVehicleRepo;
+import com.driveaze.driveaze.repository.JobEntryRepo;
 import com.driveaze.driveaze.repository.JobRegistryRepo;
 import com.driveaze.driveaze.service.interfac.JobRegistryService;
 import jakarta.transaction.Transactional;
@@ -26,6 +28,9 @@ public class JobRegistryServiceIMPL implements JobRegistryService {
 
     @Autowired
     private CustomerVehicleRepo customerVehicleRepo;
+
+    @Autowired
+    private JobEntryRepo jobEntryRepo;
 
     @Override
     public ResponseDTO addNewJob(JobRegistryDTO jobRegistryDTO) {
@@ -133,15 +138,40 @@ public class JobRegistryServiceIMPL implements JobRegistryService {
         ResponseDTO response = new ResponseDTO();
 
         try {
+
             JobRegistry jobRegistry = jobRegistryRepo.findById(jobId)
                     .orElseThrow(() -> new OurException("Job not found"));
 
+
+            CustomerVehicle customerVehicle = customerVehicleRepo.findById(jobRegistryDTO.getVehicleId())
+                    .orElseThrow(() -> new OurException("CustomerVehicle not found"));
+
+            if (jobRegistryRepo.existsByVehicleIdAndJobStatusAndJobIdNot(
+                    customerVehicle.getVehicleId(),
+                    0,
+                    jobId)) {
+                response.setStatusCode(400);
+                response.setMessage("A non-completed job already exists for this vehicle");
+                return response;
+            }
+
             jobRegistry.setVehicleId(jobRegistryDTO.getVehicleId());
             jobRegistry.setJobStatus(jobRegistryDTO.getJobStatus());
+            jobRegistry.setFinishedDate(jobRegistryDTO.getFinishedDate());
             jobRegistry.setSupervisorId(jobRegistryDTO.getSupervisorId());
             jobRegistry.setServiceTypeId(jobRegistryDTO.getServiceTypeId());
             jobRegistry.setVehicleMilage(jobRegistryDTO.getVehicleMilage());
             jobRegistry.setJobDescription(jobRegistryDTO.getJobDescription());
+
+            // Step 4: Update vehicle mileage if the new mileage is greater
+            if (jobRegistryDTO.getVehicleMilage() >= customerVehicle.getVehicleMilage()) {
+                customerVehicle.setVehicleMilage(jobRegistryDTO.getVehicleMilage());
+                customerVehicleRepo.save(customerVehicle); // Save the updated mileage
+            } else {
+                response.setStatusCode(400);
+                response.setMessage("New mileage must be greater than the current mileage");
+                return response;
+            }
 
             jobRegistryRepo.save(jobRegistry);
             response.setStatusCode(200);
@@ -161,17 +191,30 @@ public class JobRegistryServiceIMPL implements JobRegistryService {
         ResponseDTO response = new ResponseDTO();
 
         try {
-            jobRegistryRepo.findById(jobId).orElseThrow(()->new OurException("Job registry not found"));
+            // Check if there are any job entries related to the given jobId by checking jobRegistry
+            boolean jobEntriesExist = jobEntryRepo.existsByJobRegistry_JobId(jobId); // Adjust the method to check job entries for the jobId
+
+            if (jobEntriesExist) {
+                response.setStatusCode(400); // Bad Request
+                response.setMessage("Cannot Delete job related job entries exist.");
+                return response;
+            }
+
+            // Proceed with job registry deletion if no job entries exist
+            jobRegistryRepo.findById(jobId).orElseThrow(() -> new OurException("Job registry not found"));
             jobRegistryRepo.deleteById(jobId);
+
             response.setStatusCode(200);
             response.setMessage("Successfully deleted Job Registry");
-        }catch (OurException e) {
+
+        } catch (OurException e) {
             response.setStatusCode(404);
             response.setMessage(e.getMessage());
-        }catch (Exception e) {
+        } catch (Exception e) {
             response.setStatusCode(500);
-            response.setMessage("Error occured while deleting Job: " + e.getMessage());
+            response.setMessage("Error occurred while deleting Job: " + e.getMessage());
         }
+
         return response;
     }
 
