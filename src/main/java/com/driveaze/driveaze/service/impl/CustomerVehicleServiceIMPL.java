@@ -8,6 +8,9 @@ import com.driveaze.driveaze.repository.CustomerVehicleRepo;
 import com.driveaze.driveaze.service.interfac.CustomerVehicleService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,9 +39,11 @@ public class CustomerVehicleServiceIMPL implements CustomerVehicleService {
                     customerVehicleDTO.getVehicleId(),
                     customerVehicleDTO.getVehicleNo(),
                     vehicleMilage,
-                    customerVehicleDTO.getVehicleBrand(),
-                    customerVehicleDTO.getVehicleModel(),
-                    customerVehicleDTO.getCustomerId()
+                    customerVehicleDTO.getVehicleBrandId(),
+                    customerVehicleDTO.getVehicleModelId(),
+                    customerVehicleDTO.getCustomerId(),
+                    customerVehicleDTO.getRegisteredDate(),
+                    customerVehicleDTO.getRegisteredTime().toLocalTime()
             );
 
             if(!customerVehicleRepo.existsByVehicleNo(customerVehicle.getVehicleNo())){
@@ -100,8 +105,8 @@ public class CustomerVehicleServiceIMPL implements CustomerVehicleService {
 
                 // Update the vehicle details
                 customerVehicle.setVehicleMilage(customerVehicleDTO.getVehicleMilage());
-                customerVehicle.setVehicleBrand(customerVehicleDTO.getVehicleBrand());
-                customerVehicle.setVehicleModel(customerVehicleDTO.getVehicleModel());
+                customerVehicle.setVehicleBrandId(customerVehicleDTO.getVehicleBrandId());
+                customerVehicle.setVehicleModelId(customerVehicleDTO.getVehicleModelId());
                 customerVehicle.setCustomerId(customerVehicleDTO.getCustomerId());
 
                 // Save the updated vehicle
@@ -166,5 +171,10 @@ public class CustomerVehicleServiceIMPL implements CustomerVehicleService {
     @Override
     public List<CustomerVehicle> searchByVehicleNo(String query) {
         return customerVehicleRepo.searchByVehicleNo(query);
+    }
+
+    @Override
+    public Page<CustomerVehicle> findVehiclesWithPaginationAndSorting(int offset) {
+        return customerVehicleRepo.findAll(PageRequest.of(offset, 10).withSort(Sort.by(Sort.Order.desc("registeredDate"), Sort.Order.desc("registeredTime"))));
     }
 }
