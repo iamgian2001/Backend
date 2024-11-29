@@ -92,6 +92,38 @@ public class CustomerComplaintServiceIMPL implements CustomerComplaintService {
         }
     }
 
+    @Override
+    public List<ComplaintDTO> retrieveUserComplaints() {
+        List<Complaint> complaints = complaintRepo.findAll();
+        Map<String, String> emailToNameMap = new HashMap<>();
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String loggedInUsername = authentication.getName();
+
+
+        List<ComplaintDTO> complaintDTOs = new ArrayList<>();
+
+        // Convert Complaint entities to ComplaintDTOs
+        for (Complaint complaint : complaints) {
+            if(Objects.equals(complaint.getCustomerEmail(), loggedInUsername)) {
+                ComplaintDTO complaintDTO = new ComplaintDTO(
+                        complaint.getComplaintId(),
+                        complaint.getCustomerEmail(),
+                        "",
+                        complaint.getDescription(),
+                        complaint.getReply(),
+                        complaint.getDate(),
+                        complaint.getStatus()// Add username
+                );
+
+                complaintDTOs.add(complaintDTO);
+
+            }
+
+        }
+
+        return complaintDTOs;
+    }
 
 
 }

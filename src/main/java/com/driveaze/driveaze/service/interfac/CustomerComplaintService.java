@@ -12,4 +12,6 @@ public interface CustomerComplaintService {
 
     String updateComplaint(ComplaintDTO complaintDTO);
 
+    List<ComplaintDTO> retrieveUserComplaints();
+
 }
