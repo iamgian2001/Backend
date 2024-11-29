@@ -42,9 +42,6 @@ public class CustomerVehicle {
     @Column(name = "vehicle_model_id", length = 100)
     private int vehicleModelId;
 
-    @Column(name = "customer_id", length = 100)
-    private int customerId;
-
     @Column(name = "registered_date", length =100)
     private LocalDate registeredDate;
 

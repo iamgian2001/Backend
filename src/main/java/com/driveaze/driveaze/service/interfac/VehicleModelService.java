@@ -13,4 +13,6 @@ public interface VehicleModelService {
     ResponseDTO deleteVehicleModel(Integer modelId);
 
     ResponseDTO getVehicleModelById(Integer modelId);
+
+    ResponseDTO getAllVehicleModelsWithBrandId(Long brandId);
 }

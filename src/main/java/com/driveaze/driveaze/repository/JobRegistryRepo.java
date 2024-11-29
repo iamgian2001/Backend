@@ -33,4 +33,6 @@ public interface JobRegistryRepo extends JpaRepository<JobRegistry, Integer> {
     List<Object[]> findJobsWithDetails();
 
     boolean existsByVehicleIdAndJobStatusAndJobIdNot(int vehicleId, int i, Integer jobId);
+
+    boolean existsByVehicleId(Integer vehicleId);
 }

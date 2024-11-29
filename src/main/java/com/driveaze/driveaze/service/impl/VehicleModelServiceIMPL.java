@@ -26,7 +26,7 @@ public class VehicleModelServiceIMPL implements VehicleModelService {
         try {
             VehicleModel vehicleModel = new VehicleModel(
                     vehicleModelDTO.getModelId(),
-                    vehicleModelDTO.getVehicleBrand(),
+                    vehicleModelDTO.getBrandId(),
                     vehicleModelDTO.getModelName(),
                     vehicleModelDTO.getFuelType(),
                     vehicleModelDTO.getRegisteredDate()
@@ -86,7 +86,7 @@ public class VehicleModelServiceIMPL implements VehicleModelService {
             VehicleModel vehicleModel = vehicleModelRepo.findById(modelId)
                     .orElseThrow(() -> new OurException("Vehicle model not found"));
 
-            vehicleModel.setVehicleBrand(vehicleModelDTO.getVehicleBrand());
+            vehicleModel.setBrandId(vehicleModelDTO.getBrandId());
             vehicleModel.setModelName(vehicleModelDTO.getModelName());
             vehicleModel.setFuelType(vehicleModelDTO.getFuelType());
             vehicleModel.setRegisteredDate(vehicleModelDTO.getRegisteredDate());
@@ -143,4 +143,33 @@ public class VehicleModelServiceIMPL implements VehicleModelService {
         }
         return response;
     }
+
+    @Override
+    public ResponseDTO getAllVehicleModelsWithBrandId(Long brandId) {
+        ResponseDTO response = new ResponseDTO();
+
+        try {
+            // Fetch vehicle models associated with the given brand ID
+            List<VehicleModel> vehicleModels = vehicleModelRepo.findByBrandId(brandId);
+
+            if (!vehicleModels.isEmpty()) {
+                response.setVehicleModelList(vehicleModels);
+                response.setStatusCode(200);
+                response.setMessage("Successful");
+            } else {
+                throw new OurException("No Vehicle Models Found for the specified Brand ID");
+            }
+        } catch (OurException e) {
+            response.setStatusCode(404);
+            response.setMessage(e.getMessage());
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error occurred while retrieving vehicle models: " + e.getMessage());
+        }
+
+        return response;
+    }
+
+
+
 }

@@ -5,6 +5,7 @@ import com.driveaze.driveaze.dto.ResponseDTO;
 import com.driveaze.driveaze.entity.CustomerVehicle;
 import com.driveaze.driveaze.exception.OurException;
 import com.driveaze.driveaze.repository.CustomerVehicleRepo;
+import com.driveaze.driveaze.repository.JobRegistryRepo;
 import com.driveaze.driveaze.service.interfac.CustomerVehicleService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -25,6 +27,8 @@ public class CustomerVehicleServiceIMPL implements CustomerVehicleService {
 
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private JobRegistryRepo jobRegistryRepo;
 
     @Override
     public ResponseDTO addCustomerVehicle(CustomerVehicleDTO customerVehicleDTO){
@@ -44,7 +48,6 @@ public class CustomerVehicleServiceIMPL implements CustomerVehicleService {
                     vehicleMilage,
                     customerVehicleDTO.getVehicleBrandId(),
                     customerVehicleDTO.getVehicleModelId(),
-                    customerVehicleDTO.getCustomerId(),
                     customerVehicleDTO.getRegisteredDate(),
                     customerVehicleDTO.getRegisteredTime().toLocalTime()
             );
@@ -93,27 +96,40 @@ public class CustomerVehicleServiceIMPL implements CustomerVehicleService {
         ResponseDTO response = new ResponseDTO();
 
         try {
-//            Optional<CustomerVehicle> existingVehicleByNumber = customerVehicleRepo.findByVehicleNo(customerVehicleDTO.getVehicleNo());
-//            if (existingVehicleByNumber.isPresent()) {
-//                response.setStatusCode(400);
-//                response.setMessage("Vehicle Number Already Exists!");
-//                return response;
-//            }
+            Optional<CustomerVehicle> existingVehicleByNumber = customerVehicleRepo.findByVehicleNo(customerVehicleDTO.getVehicleNo());
 
             CustomerVehicle customerVehicle = customerVehicleRepo.findById(vehicleId)
                     .orElseThrow(() -> new OurException("Customer vehicle not found"));
 
+            // Check if the phone number already exists for another vehicle, excluding the current vehicle
+            Optional<CustomerVehicle> existingCustomerVehicleByOwnerPhone = customerVehicleRepo
+                    .findByOwnerPhone(customerVehicleDTO.getOwnerPhone());
+
+            if (existingCustomerVehicleByOwnerPhone.isPresent() &&
+                    !Objects.equals(existingCustomerVehicleByOwnerPhone.get().getVehicleId(), vehicleId)) {
+                response.setStatusCode(400);
+                response.setMessage("Contact Number Already Exists for another vehicle!");
+                return response;
+            }
+
+            if (existingVehicleByNumber.isPresent() &&
+                    !Objects.equals(existingVehicleByNumber.get().getVehicleId(), vehicleId)) {
+                response.setStatusCode(400);
+                response.setMessage("Vehicle Number Already Exists for another vehicle!");
+                return response;
+            }
+
             if (customerVehicleDTO.getVehicleMilage() != null &&
-                    customerVehicleDTO.getVehicleMilage() > customerVehicle.getVehicleMilage()) {
+                    customerVehicleDTO.getVehicleMilage() >= customerVehicle.getVehicleMilage()) {
 
                 // Update the vehicle details
+                customerVehicle.setVehicleNo(customerVehicleDTO.getVehicleNo());
                 customerVehicle.setOwnerName(customerVehicleDTO.getOwnerName());
                 customerVehicle.setOwnerEmail(customerVehicleDTO.getOwnerEmail());
                 customerVehicle.setOwnerPhone(customerVehicleDTO.getOwnerPhone());
                 customerVehicle.setVehicleMilage(customerVehicleDTO.getVehicleMilage());
                 customerVehicle.setVehicleBrandId(customerVehicleDTO.getVehicleBrandId());
                 customerVehicle.setVehicleModelId(customerVehicleDTO.getVehicleModelId());
-                customerVehicle.setCustomerId(customerVehicleDTO.getCustomerId());
 
                 // Save the updated vehicle
                 customerVehicleRepo.save(customerVehicle);
@@ -139,6 +155,14 @@ public class CustomerVehicleServiceIMPL implements CustomerVehicleService {
         ResponseDTO response = new ResponseDTO();
 
         try {
+            boolean jobsExist = jobRegistryRepo.existsByVehicleId(vehicleId);
+
+            if (jobsExist) {
+                response.setStatusCode(400); // Bad Request
+                response.setMessage("Cannot Delete vehicle related job registries exist.");
+                return response;
+            }
+
             customerVehicleRepo.findById(vehicleId).orElseThrow(()->new OurException("Customer vehicle not found"));
             customerVehicleRepo.deleteById(vehicleId);
             response.setStatusCode(200);
