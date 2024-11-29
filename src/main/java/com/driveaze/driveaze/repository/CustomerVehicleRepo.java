@@ -20,4 +20,6 @@ public interface CustomerVehicleRepo extends JpaRepository<CustomerVehicle, Inte
 
     @Query("SELECT c FROM CustomerVehicle c WHERE LOWER(c.vehicleNo) LIKE LOWER(CONCAT('%', :vehicleNo, '%'))")
     List<CustomerVehicle> searchByVehicleNo(@Param("vehicleNo") String vehicleNo);
+
+    Optional<CustomerVehicle> findByOwnerPhone(String ownerPhone);
 }

@@ -36,6 +36,11 @@ public class VehicleModelController {
         return ResponseEntity.ok(vehicleModelService.getAllVehicleModels());
     }
 
+    @GetMapping("/get-all-vehicle-models-with-brand-id/{brandId}")
+    public ResponseEntity<ResponseDTO> getAllVehicleModelsWithBrandId(@PathVariable Long brandId) {
+        return ResponseEntity.ok(vehicleModelService.getAllVehicleModelsWithBrandId(brandId));
+    }
+
     @GetMapping("/get-vehicle-model/{modelId}")
     public ResponseEntity<ResponseDTO> getVehicleModelById(@PathVariable Integer modelId) {
         return ResponseEntity.ok(vehicleModelService.getVehicleModelById(modelId));

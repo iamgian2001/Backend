@@ -18,9 +18,8 @@ public class VehicleModel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long modelId;
 
-    @ManyToOne
-    @JoinColumn(name = "brand_id", nullable = false)
-    private VehicleBrand vehicleBrand;
+    @Column(name = "brand_id", nullable = false)
+    private Long brandId;
 
     @Column(name = "model_name", length = 254, nullable = false)
     private String modelName;

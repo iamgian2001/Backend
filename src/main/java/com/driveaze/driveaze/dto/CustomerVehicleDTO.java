@@ -20,7 +20,6 @@ public class CustomerVehicleDTO {
     private Integer vehicleMilage;
     private int vehicleBrandId;
     private int vehicleModelId;
-    private int customerId;
     private LocalDate registeredDate;
     private Time registeredTime;
 
