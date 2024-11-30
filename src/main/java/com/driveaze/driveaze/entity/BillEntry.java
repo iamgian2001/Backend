@@ -41,4 +41,7 @@ public class BillEntry {
 
     @Column(name = "total_price", nullable = false)
     private BigDecimal totalPrice;
+
+    @Column(name = "unit_price")
+    private BigDecimal unitPrice;
 }
