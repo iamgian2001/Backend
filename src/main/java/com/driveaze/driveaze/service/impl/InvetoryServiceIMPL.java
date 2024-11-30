@@ -21,7 +21,8 @@ public class InvetoryServiceIMPL implements InventoryService {
                     inventoryDTO.getItemId(),
                     inventoryDTO.getName(),
                     inventoryDTO.getCount(),
-                    inventoryDTO.getInitialCount()
+                    inventoryDTO.getInitialCount(),
+                    inventoryDTO.getSellingPrice()
             );
             if(!inventoryRepo.existsByName(inventory.getName())){
                 inventoryRepo.save(inventory);
@@ -50,9 +51,10 @@ public class InvetoryServiceIMPL implements InventoryService {
                     inventory.setName(inventoryDTO.getName());
                     inventory.setCount(inventoryDTO.getCount());
                     inventory.setInitialCount(inventoryDTO.getInitialCount());
+                    inventory.setSellingPrice(inventoryDTO.getSellingPrice());
                     inventoryRepo.save(inventory);
                     response.setStatusCode(200);
-                    response.setMessage("Successfully updated vehicle");
+                    response.setMessage("Successfully updated inventory item");
                 }else{
                     System.out.println("item name already exists");
                     throw new OurException("item name already exists");
@@ -80,7 +82,8 @@ public class InvetoryServiceIMPL implements InventoryService {
 //                        inventory.getItemId(),
 //                        inventory.getName(),
 //                        inventory.getCount(),
-//                        inventory.getInitialCount()
+//                        inventory.getInitialCount(),
+//                        inventory.getSellingPrice()
 //                );
 //                inventoryDTOList.add(inventoryDTO);
 //            }
