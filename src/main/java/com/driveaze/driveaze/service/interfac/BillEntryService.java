@@ -13,4 +13,6 @@ public interface BillEntryService {
     ResponseDTO deleteBillEntry(Integer billEntryId);
 
     ResponseDTO getBillEntryById(Integer billEntryId);
+
+    ResponseDTO getAllBillEntriesByBillId(Integer billId);
 }
