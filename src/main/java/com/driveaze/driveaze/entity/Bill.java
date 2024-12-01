@@ -22,8 +22,9 @@ public class Bill {
     @Column(name = "bill_id", length = 45)
     private int billId;
 
-    @Column(name = "job_id", nullable = false)
-    private int jobId;
+    @OneToOne
+    @JoinColumn(name = "job_id", nullable = false)
+    private JobRegistry jobRegistry;
 
     @Column(name = "bill_date", nullable = false)
     private LocalDate billDate;

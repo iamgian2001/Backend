@@ -3,8 +3,10 @@ package com.driveaze.driveaze.service.impl;
 import com.driveaze.driveaze.dto.JobRegistryDTO;
 import com.driveaze.driveaze.dto.ResponseDTO;
 import com.driveaze.driveaze.entity.CustomerVehicle;
+import com.driveaze.driveaze.entity.Bill;
 import com.driveaze.driveaze.entity.JobRegistry;
 import com.driveaze.driveaze.exception.OurException;
+import com.driveaze.driveaze.repository.BillRepo;
 import com.driveaze.driveaze.repository.CustomerVehicleRepo;
 import com.driveaze.driveaze.repository.JobEntryRepo;
 import com.driveaze.driveaze.repository.JobRegistryRepo;
@@ -16,7 +18,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -30,6 +34,9 @@ public class JobRegistryServiceIMPL implements JobRegistryService {
 
     @Autowired
     private JobEntryRepo jobEntryRepo;
+
+    @Autowired
+    private BillRepo billRepo;
 
     @Override
     public ResponseDTO addNewJob(JobRegistryDTO jobRegistryDTO) {
@@ -74,9 +81,18 @@ public class JobRegistryServiceIMPL implements JobRegistryService {
             // Step 5: Save the JobRegistry entity
             jobRegistryRepo.save(jobRegistry);
 
-            // Step 6: Prepare a success response
+            // Step 6: Create and save the Bill entity
+            Bill bill = new Bill();
+            bill.setJobRegistry(jobRegistry); // Link Bill to the JobRegistry
+            bill.setBillDate(LocalDate.now());
+            bill.setBillTime(java.sql.Time.valueOf(java.time.LocalTime.now()));
+            bill.setBillStatus(0); // Assuming 0 means 'unpaid' or 'open'
+
+            billRepo.save(bill); // Save the Bill entity
+
+            // Step 7: Prepare a success response
             response.setStatusCode(200);
-            response.setMessage("Successfully added job registry and updated vehicle mileage");
+            response.setMessage("Successfully added job registry, updated vehicle mileage, and created a bill");
 
         } catch (OurException e) {
             response.setStatusCode(404);
@@ -190,21 +206,31 @@ public class JobRegistryServiceIMPL implements JobRegistryService {
         ResponseDTO response = new ResponseDTO();
 
         try {
-            // Check if there are any job entries related to the given jobId by checking jobRegistry
+            // Step 1: Check if there are any job entries related to the given jobId
             boolean jobEntriesExist = jobEntryRepo.existsByJobRegistry_JobId(jobId); // Adjust the method to check job entries for the jobId
 
             if (jobEntriesExist) {
                 response.setStatusCode(400); // Bad Request
-                response.setMessage("Cannot Delete job related job entries exist.");
+                response.setMessage("Cannot delete job as related job entries exist.");
                 return response;
             }
 
-            // Proceed with job registry deletion if no job entries exist
-            jobRegistryRepo.findById(jobId).orElseThrow(() -> new OurException("Job registry not found"));
-            jobRegistryRepo.deleteById(jobId);
+            // Step 2: Fetch the JobRegistry
+            JobRegistry jobRegistry = jobRegistryRepo.findById(jobId)
+                    .orElseThrow(() -> new OurException("Job registry not found"));
 
+            // Step 3: Delete the related Bill if it exists
+            Optional<Bill> optionalBill = billRepo.findByJobRegistry_JobId(jobId); // Assuming a method to find Bill by jobId
+            if (optionalBill.isPresent()) {
+                billRepo.delete(optionalBill.get()); // Delete the related Bill
+            }
+
+            // Step 4: Delete the JobRegistry
+            jobRegistryRepo.delete(jobRegistry);
+
+            // Step 5: Prepare a success response
             response.setStatusCode(200);
-            response.setMessage("Successfully deleted Job Registry");
+            response.setMessage("Successfully deleted Job Registry and its related Bill");
 
         } catch (OurException e) {
             response.setStatusCode(404);
@@ -216,6 +242,7 @@ public class JobRegistryServiceIMPL implements JobRegistryService {
 
         return response;
     }
+
 
     @Override
     public ResponseDTO getJobById(Integer jobId) {
