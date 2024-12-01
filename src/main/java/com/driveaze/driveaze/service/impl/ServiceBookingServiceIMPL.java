@@ -38,15 +38,15 @@ public class ServiceBookingServiceIMPL implements ServiceBookingService {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String loggedInUsername = authentication.getName();
-        List<OurUsers> users = new usersRepo.findAll();
+        List<OurUsers> users = usersRepo.findAll();
         for (OurUsers user : users) {
             if(user.getUsername().equals(loggedInUsername)){
                 user_phone = user.getContactNumber();
                 break;
             }
         }
-        List<ServiceBooking> serviceBookings = new serviceBookingRepo.findAll();
-        List<CustomerVehicle> customerVehicles = new customerVehicleRepo.findAll();
+        List<ServiceBooking> serviceBookings = serviceBookingRepo.findAll();
+        List<CustomerVehicle> customerVehicles = customerVehicleRepo.findAll();
         for (CustomerVehicle customerVehicle : customerVehicles) {
             if(customerVehicle.getOwnerPhone()==user_phone){
                 vehicleList.add(customerVehicle.getVehicleNo());
