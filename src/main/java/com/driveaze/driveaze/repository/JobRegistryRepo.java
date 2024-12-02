@@ -27,9 +27,11 @@ public interface JobRegistryRepo extends JpaRepository<JobRegistry, Integer> {
 //            "   OR LOWER(s.name) LIKE LOWER(CONCAT('%', :query, '%'))")
 //    List<JobRegistry> searchByVehicleNoVehicleBrandModelAndAssignedSupervisor(@Param("query") String query);
 
-    @Query("SELECT jr, cv, st FROM JobRegistry jr " +
+    @Query("SELECT jr, cv, st, vm, vb FROM JobRegistry jr " +
             "JOIN CustomerVehicle cv ON jr.vehicleId = cv.vehicleId " +
-            "JOIN ServiceTypes st ON jr.serviceTypeId = st.serviceId")
+            "JOIN ServiceTypes st ON jr.serviceTypeId = st.serviceId " +
+            "JOIN VehicleModel vm ON cv.vehicleModelId = vm.modelId "+
+            "JOIN VehicleBrand vb ON cv.vehicleBrandId = vb.brandId ")
     List<Object[]> findJobsWithDetails();
 
     boolean existsByVehicleIdAndJobStatusAndJobIdNot(int vehicleId, int i, Integer jobId);
