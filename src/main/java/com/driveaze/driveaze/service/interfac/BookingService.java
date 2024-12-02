@@ -13,4 +13,6 @@ public interface BookingService {
     ResponseDTO getCustomerBookings(ResponseDTO userDetails);
 
     ResponseDTO updateWaitingBooking(BookingDTO bookingDTO);
+
+    ResponseDTO deleteWaitingBooking(BookingDTO bookingDTO);
 }

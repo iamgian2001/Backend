@@ -183,5 +183,30 @@ public class BookingServiceIMPL implements BookingService {
         return response;
     }
 
+    @Override
+    public ResponseDTO deleteWaitingBooking(BookingDTO bookingDTO) {
+        ResponseDTO response = new ResponseDTO();
+        try {
+            if (bookingRepo.existsById(bookingDTO.getBookingId())) {
+                bookingRepo.deleteById(bookingDTO.getBookingId());
+
+                response.setStatusCode(200);
+                response.setMessage("Successfully deleted booking");
+            } else {
+                throw new OurException("No booking found to delete");
+            }
+
+        } catch (OurException e) {
+            response.setStatusCode(404);
+            response.setMessage(e.getMessage());
+
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error occurred while deleting booking: " + e.getMessage());
+        }
+
+        return response;
+    }
+
 
 }

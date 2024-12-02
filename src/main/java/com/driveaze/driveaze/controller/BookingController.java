@@ -52,4 +52,10 @@ public class BookingController {
         ResponseDTO responseDTO = bookingService.updateWaitingBooking(bookingDTO);
         return ResponseEntity.ok(responseDTO);
     }
+
+    @PostMapping(path="/deleteWaitingBooking")
+    public ResponseEntity<ResponseDTO> deleteWaitingBooking(@RequestBody BookingDTO bookingDTO){
+        ResponseDTO responseDTO = bookingService.deleteWaitingBooking(bookingDTO);
+        return ResponseEntity.ok(responseDTO);
+    }
 }
