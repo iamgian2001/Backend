@@ -29,7 +29,7 @@ public class BookingController {
     }
     @PutMapping(path = "/update")
     public  ResponseEntity<ResponseDTO> updateItem(@RequestBody BookingDTO bookingDTO) {
-        ResponseDTO responseDTO = bookingService.updateBookiing(bookingDTO);
+        ResponseDTO responseDTO = bookingService.updateBooking(bookingDTO);
         return ResponseEntity.ok(responseDTO);
     }
     @GetMapping(path = "/getAll")
@@ -44,6 +44,12 @@ public class BookingController {
         String email = authentication.getName();
         ResponseDTO userDetails = userManagementService.getMyInfo(email);
         ResponseDTO responseDTO = bookingService.getCustomerBookings(userDetails);
+        return ResponseEntity.ok(responseDTO);
+    }
+
+    @PutMapping(path="/updateWaitingBooking")
+    public ResponseEntity<ResponseDTO> updateWaitingBooking(@RequestBody BookingDTO bookingDTO){
+        ResponseDTO responseDTO = bookingService.updateWaitingBooking(bookingDTO);
         return ResponseEntity.ok(responseDTO);
     }
 }

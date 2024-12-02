@@ -56,28 +56,32 @@ public class BookingServiceIMPL implements BookingService {
     }
 
     @Override
-    public ResponseDTO updateBookiing(BookingDTO bookingDTO){
+    public ResponseDTO updateBooking(BookingDTO bookingDTO){
         ResponseDTO response = new ResponseDTO();
 
         try {
-            if(bookingRepo.existsById(bookingDTO.getBookingId())){
-                Booking booking = bookingRepo.getById(bookingDTO.getBookingId());
-                booking.setStatus(bookingDTO.getStatus());
-                bookingRepo.save(booking);
-                response.setStatusCode(200);
-                response.setMessage("Successfully updated booking");
-            }else{
-                throw new OurException("No booking Found");
-            }
-        }catch (OurException e) {
+            // Attempt to find the booking by ID
+            Booking booking = bookingRepo.findById(bookingDTO.getBookingId())
+                    .orElseThrow(() -> new OurException("No booking found"));
+
+            booking.setStatus(bookingDTO.getStatus());
+            bookingRepo.save(booking);
+            response.setStatusCode(200);
+            response.setMessage("Successfully updated booking");
+
+        } catch (OurException e) {
             response.setStatusCode(404);
             response.setMessage(e.getMessage());
-        }catch (Exception e) {
+
+        } catch (Exception e) {
+            // Handle other unexpected exceptions
             response.setStatusCode(500);
-            response.setMessage("Error occured while updating booking: " + e.getMessage());
+            response.setMessage("Error occurred while updating booking: " + e.getMessage());
         }
+
         return response;
     }
+
     @Override
     public ResponseDTO getAllBooking(){
         ResponseDTO response = new ResponseDTO();
@@ -150,6 +154,34 @@ public class BookingServiceIMPL implements BookingService {
         return response;
     }
 
+    @Override
+    public ResponseDTO updateWaitingBooking(BookingDTO bookingDTO) {
+        ResponseDTO response = new ResponseDTO();
+        try {
+            Booking booking = bookingRepo.findById(bookingDTO.getBookingId())
+                    .orElseThrow(() -> new OurException("No booking found"));
+
+            booking.setStatus(bookingDTO.getStatus());
+            booking.setBrand(bookingDTO.getBrand());
+            booking.setModel(bookingDTO.getModel());
+            booking.setPreferredDate(bookingDTO.getPreferredDate());
+            booking.setPreferredTime(bookingDTO.getPreferredTime());
+
+            bookingRepo.save(booking);
+            response.setStatusCode(200);
+            response.setMessage("Successfully updated booking");
+
+        } catch (OurException e) {
+            response.setStatusCode(404);
+            response.setMessage(e.getMessage());
+
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error occurred while updating booking: " + e.getMessage());
+        }
+
+        return response;
+    }
 
 
 }
