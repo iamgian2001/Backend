@@ -1,6 +1,7 @@
 package com.driveaze.driveaze.repository;
 
 import com.driveaze.driveaze.entity.Announcement;
+import com.driveaze.driveaze.entity.OurUsers;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -16,6 +17,8 @@ public interface AnnouncementRepo extends JpaRepository<Announcement, Integer> {
 //            " WHERE a.recivers = 'ALL' " +
 //            " OR :role")
 //    List<Announcement> findAnnouncementsForRole(String role);
+
+    List<Announcement> findByReciversOrRecivers(String all,String role);
 
     @Query("SELECT a FROM Announcement a " +
             "WHERE a.recivers = 'ALL' " +

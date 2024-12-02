@@ -2,8 +2,11 @@ package com.driveaze.driveaze.controller;
 
 import com.driveaze.driveaze.dto.AnnouncementDTO;
 import com.driveaze.driveaze.dto.ResponseDTO;
+import com.driveaze.driveaze.entity.Announcement;
+import com.driveaze.driveaze.entity.JobRegistry;
 import com.driveaze.driveaze.service.interfac.AnnouncementService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,9 +43,26 @@ public class AnnouncementController {
         return ResponseEntity.ok(responseDTO);
     }
 
+    @GetMapping(path = "get-staff-announcements")
+    public ResponseEntity<ResponseDTO> getStaffAnnouncements(){
+        ResponseDTO responseDTO = announcementService.getStaffAnnouncements();
+        return ResponseEntity.ok(responseDTO);
+    }
+
+    @GetMapping(path = "get-customer-announcements")
+    public ResponseEntity<ResponseDTO> getCustomerAnnouncements(){
+        ResponseDTO responseDTO = announcementService.getCustomerAnnouncements();
+        return ResponseEntity.ok(responseDTO);
+    }
+
     @DeleteMapping("/delete/{announcementId}")
     public ResponseEntity<ResponseDTO> deleteAnnouncement(@PathVariable Integer announcementId) {
         return ResponseEntity.ok(announcementService.deleteAnnouncement(announcementId));
+    }
+
+    @GetMapping("/paginationAndSort/{offset}")
+    public Page<Announcement> findAnnsWithPaginationAndSorting(@PathVariable int offset) {
+        return announcementService.findAnnsWithPaginationAndSorting(offset);
     }
 }
 
