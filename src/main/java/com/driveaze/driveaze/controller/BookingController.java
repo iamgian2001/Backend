@@ -21,11 +21,9 @@ public class BookingController {
 
     @PostMapping(path = "/add" )
     public ResponseEntity<ResponseDTO> addItem(@RequestBody BookingDTO bookingDTO){
-        System.out.println("received connection");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         ResponseDTO userDetails = userManagementService.getMyInfo(email);
-        System.out.println("user"+userDetails);
         ResponseDTO responseDTO = bookingService.addBooking(bookingDTO,userDetails);
         return ResponseEntity.ok(responseDTO);
     }

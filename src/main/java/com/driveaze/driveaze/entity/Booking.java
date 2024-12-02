@@ -1,6 +1,8 @@
 package com.driveaze.driveaze.entity;
 import jakarta.persistence.*;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 @Entity
 @Table(name = "booking")
@@ -23,10 +25,10 @@ public class Booking {
     private String status = "waiting";
 
     @Column(name = "preferred_date")
-    private Date preferredDate;
+    private LocalDate preferredDate;
 
     @Column(name = "preferred_time")
-    private Time preferredTime;
+    private LocalTime preferredTime;
 
     @Column(name = "customer_id",length = 45)
     private Long customerId;
@@ -34,7 +36,7 @@ public class Booking {
     public Booking() {
     }
 
-    public Booking(int bookingId, String vehicleNo, String brand, String model, String status, Date preferredDate, Time preferredTime, Long customerId) {
+    public Booking(int bookingId, String vehicleNo, String brand, String model, String status, LocalDate preferredDate, LocalTime preferredTime, Long customerId) {
         this.bookingId = bookingId;
         this.vehicleNo = vehicleNo;
         this.brand = brand;
@@ -65,11 +67,11 @@ public class Booking {
         return status;
     }
 
-    public Date getPreferredDate() {
+    public LocalDate getPreferredDate() {
         return preferredDate;
     }
 
-    public Time getPreferredTime() {
+    public LocalTime getPreferredTime() {
         return preferredTime;
     }
 
@@ -97,11 +99,11 @@ public class Booking {
         this.status = status;
     }
 
-    public void setPreferredDate(Date preferredDate) {
+    public void setPreferredDate(LocalDate preferredDate) {
         this.preferredDate = preferredDate;
     }
 
-    public void setPreferredTime(Time preferredTime) {
+    public void setPreferredTime(LocalTime preferredTime) {
         this.preferredTime = preferredTime;
     }
 
