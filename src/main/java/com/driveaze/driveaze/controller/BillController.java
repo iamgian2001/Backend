@@ -4,10 +4,12 @@ import com.driveaze.driveaze.dto.BillDTO;
 import com.driveaze.driveaze.dto.ResponseDTO;
 import com.driveaze.driveaze.entity.Bill;
 import com.driveaze.driveaze.entity.CustomerVehicle;
+import com.driveaze.driveaze.repository.BillRepo;
+import com.driveaze.driveaze.service.interfac.BillPdfService;
 import com.driveaze.driveaze.service.interfac.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +21,10 @@ public class BillController {
 
     @Autowired
     private BillService billService;
+    @Autowired
+    private BillRepo billRepo;
+    @Autowired
+    private BillPdfService billPdfService;
 
     @PostMapping(path = "/save" )
     public ResponseEntity<ResponseDTO> addNewBill(@RequestBody BillDTO billDTO){
@@ -58,10 +64,31 @@ public class BillController {
         return billService.findBillsWithPaginationAndSortingAndStatus(statuses, offset);
     }
 
+    @GetMapping("/paginationAndSortAndGetWithCustomerPhone/{offset}")
+    public Page<Bill> getAllBillsWithPaginationAndStatusesByCustomerPhoneNo(
+            @RequestParam List<Integer> statuses,
+            @RequestParam String phoneNo,
+            @PathVariable int offset) {
+        return billService.getAllBillsWithPaginationAndStatusesByCustomerPhoneNo(phoneNo, statuses, offset);
+    }
+
     @PutMapping(path ="/updatebillstatus/{billId}")
     public ResponseEntity<ResponseDTO> updateBillStatus(@PathVariable Integer billId, @RequestBody int status) {
         ResponseDTO responseDTO = billService.updateBillStatus(billId, status);
         return ResponseEntity.ok(responseDTO);
+    }
+
+    @GetMapping("/{billId}/download")
+    public ResponseEntity<byte[]> downloadBill(@PathVariable Integer billId) {
+        Bill bill = billRepo.getBillByBillId(billId);
+
+        byte[] pdfBytes = billPdfService.generateBillPdf(bill);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDisposition(ContentDisposition.attachment().filename("bill-" + billId + ".pdf").build());
+
+        return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
     }
 
 }
