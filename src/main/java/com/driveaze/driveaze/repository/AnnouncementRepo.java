@@ -8,4 +8,9 @@ import org.springframework.stereotype.Repository;
 @EnableJpaRepositories
 @Repository
 public interface AnnouncementRepo extends JpaRepository<Announcement, Integer> {
+    @Query("SELECT a FROM Announcement a " +
+            "WHERE a.receiverType = 'all' " +
+            "OR (a.receiverType = 'employee' AND :role MEMBER OF a.roles)")
+    List<Announcement> findAnnouncementsForRole(@Param("role") String role);
+
 }

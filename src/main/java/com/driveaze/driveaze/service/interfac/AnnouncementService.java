@@ -1,4 +1,4 @@
-package com.driveaze.driveaze.service;
+package com.driveaze.driveaze.service.interfac;
 
 import com.driveaze.driveaze.dto.AnnouncementDTO;
 import com.driveaze.driveaze.dto.ResponseDTO;
@@ -13,4 +13,6 @@ public interface  AnnouncementService {
     ResponseDTO getAnnouncementById(int announcementId);
 
     ResponseDTO getAllAnnouncements();
+
+    ResponseDTO deleteAnnouncement(Integer announcementId);
 }
