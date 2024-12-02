@@ -22,4 +22,6 @@ public interface CustomerVehicleRepo extends JpaRepository<CustomerVehicle, Inte
     List<CustomerVehicle> searchByVehicleNo(@Param("vehicleNo") String vehicleNo);
 
     Optional<CustomerVehicle> findByOwnerPhone(String ownerPhone);
+
+    CustomerVehicle findCustomerVehicleByVehicleId(Integer vehicleId);
 }

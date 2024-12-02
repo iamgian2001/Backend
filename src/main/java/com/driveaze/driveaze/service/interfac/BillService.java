@@ -23,4 +23,6 @@ public interface BillService {
     Page<Bill> findBillsWithPaginationAndSortingAndStatus(List<Integer> statuses, int offset);
 
     ResponseDTO updateBillStatus(Integer billId, int status);
+
+    Page<Bill> getAllBillsWithPaginationAndStatusesByCustomerPhoneNo(String phoneNo, List<Integer> statuses, int offset);
 }

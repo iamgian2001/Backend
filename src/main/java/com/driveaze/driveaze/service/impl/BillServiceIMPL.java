@@ -219,4 +219,13 @@ public class BillServiceIMPL implements BillService {
         }
         return response;
     }
+
+    @Override
+    public Page<Bill> getAllBillsWithPaginationAndStatusesByCustomerPhoneNo(String phoneNo, List<Integer> statuses, int offset) {
+        return billRepo.findBillsByCustomerPhoneAndStatuses(
+                phoneNo,
+                statuses,
+                PageRequest.of(offset, 6).withSort(Sort.by(Sort.Order.desc("billDate"), Sort.Order.desc("billTime")))
+        );
+    }
 }
