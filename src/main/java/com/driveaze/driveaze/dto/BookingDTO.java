@@ -6,7 +6,7 @@ public class BookingDTO {
     private String vehicleNo;
     private String brand;
     private String model;
-    private String status = "waiting";;
+    private String status = "waiting";
     private Date preferredDate;
     private Time preferredTime;
     public BookingDTO() {

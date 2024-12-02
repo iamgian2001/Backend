@@ -53,4 +53,6 @@ public class ResponseDTO {
     private List<JobEntry> jobEntryList;
     private Announcement announcement;
     private List<Announcement> announcementList;
+    private BillEntry billEntry;
+    private List<BillEntry> billEntryList;
 }

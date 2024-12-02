@@ -1,6 +1,7 @@
 package com.driveaze.driveaze.dto;
 
 import com.driveaze.driveaze.entity.BillEntry;
+import com.driveaze.driveaze.entity.JobRegistry;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 public class BillDTO {
     private int billId;
-    private int jobId;
+    private JobRegistry jobRegistry;
     private LocalDate billDate;
     private Time billTime;
     private int billStatus;
