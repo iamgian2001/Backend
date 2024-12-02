@@ -1,11 +1,13 @@
 package com.driveaze.driveaze.controller;
 import com.driveaze.driveaze.dto.BookingDTO;
+import com.driveaze.driveaze.dto.OurUserDTO;
 import com.driveaze.driveaze.dto.ResponseDTO;
-import com.driveaze.driveaze.dto.ServiceBookingDTO;
+import com.driveaze.driveaze.service.impl.UserManagementService;
 import com.driveaze.driveaze.service.interfac.BookingService;
-import com.driveaze.driveaze.service.interfac.ServiceBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @RestController
@@ -15,10 +17,16 @@ public class BookingController {
     @Autowired
     private BookingService bookingService;
     @Autowired
-    private ServiceBookingService serviceBookingService;
+    private UserManagementService userManagementService;
+
     @PostMapping(path = "/add" )
     public ResponseEntity<ResponseDTO> addItem(@RequestBody BookingDTO bookingDTO){
-        ResponseDTO responseDTO = bookingService.addBooking(bookingDTO);
+        System.out.println("received connection");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        ResponseDTO userDetails = userManagementService.getMyInfo(email);
+        System.out.println("user"+userDetails);
+        ResponseDTO responseDTO = bookingService.addBooking(bookingDTO,userDetails);
         return ResponseEntity.ok(responseDTO);
     }
     @PutMapping(path = "/update")
@@ -33,8 +41,11 @@ public class BookingController {
     }
 
     @GetMapping(path="/getCustomerBookings")
-    public ResponseEntity<?> getCustomerBookings(){
-        List<ServiceBookingDTO> serviceBookingDTO = serviceBookingService.getCustomerBookings();
-        return ResponseEntity.ok(serviceBookingDTO);
+    public ResponseEntity<ResponseDTO> getCustomerBookings(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        ResponseDTO userDetails = userManagementService.getMyInfo(email);
+        ResponseDTO responseDTO = bookingService.getCustomerBookings(userDetails);
+        return ResponseEntity.ok(responseDTO);
     }
 }
