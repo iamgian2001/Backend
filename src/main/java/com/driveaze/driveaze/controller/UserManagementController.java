@@ -1,9 +1,6 @@
 package com.driveaze.driveaze.controller;
 
-import com.driveaze.driveaze.dto.CustomerVehicleDTO;
-import com.driveaze.driveaze.dto.OurUserDTO;
-import com.driveaze.driveaze.dto.PasswordUpdateDTO;
-import com.driveaze.driveaze.dto.ResponseDTO;
+import com.driveaze.driveaze.dto.*;
 import com.driveaze.driveaze.entity.CustomerVehicle;
 import com.driveaze.driveaze.entity.OurUsers;
 import com.driveaze.driveaze.service.impl.UserManagementService;
@@ -82,4 +79,5 @@ public class UserManagementController {
     public List<OurUsers> serachSupervisors(@RequestParam("query") String query) {
         return userManagementService.searchBySupervisorName(query);
     }
+
 }

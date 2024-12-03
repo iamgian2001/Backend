@@ -2,6 +2,7 @@ package com.driveaze.driveaze.service.interfac;
 
 import com.driveaze.driveaze.dto.CustomerVehicleDTO;
 import com.driveaze.driveaze.dto.ResponseDTO;
+import com.driveaze.driveaze.entity.Bill;
 import com.driveaze.driveaze.entity.CustomerVehicle;
 import org.springframework.data.domain.Page;
 
@@ -22,4 +23,6 @@ public interface CustomerVehicleService {
     List<CustomerVehicle> searchByVehicleNo(String query);
 
     Page<CustomerVehicle> findVehiclesWithPaginationAndSorting(int offset);
+
+    Page<CustomerVehicle> getAllVehiclesWithPaginationByCustomerPhoneNo(String phoneNo, int offset);
 }

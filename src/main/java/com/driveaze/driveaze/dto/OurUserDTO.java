@@ -21,4 +21,5 @@ public class OurUserDTO {
     private String password;
     private String role;
     private LocalDate registeredDate;
+    private boolean isVerifiedPhone;
 }
