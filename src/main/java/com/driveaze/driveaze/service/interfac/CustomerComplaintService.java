@@ -1,4 +1,4 @@
-package com.driveaze.driveaze.service;
+package com.driveaze.driveaze.service.interfac;
 
 import com.driveaze.driveaze.dto.ComplaintDTO;
 
@@ -11,4 +11,7 @@ public interface CustomerComplaintService {
     public List<ComplaintDTO> retrieveComplaints();
 
     String updateComplaint(ComplaintDTO complaintDTO);
+
+    List<ComplaintDTO> retrieveUserComplaints();
+
 }

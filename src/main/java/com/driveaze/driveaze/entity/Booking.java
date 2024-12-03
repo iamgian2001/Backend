@@ -1,6 +1,8 @@
 package com.driveaze.driveaze.entity;
 import jakarta.persistence.*;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 @Entity
 @Table(name = "booking")
@@ -9,21 +11,32 @@ public class Booking {
     @Column(name = "booking_id", length = 45)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int bookingId;
-    @Column(name = "vehicle_no", length =100, nullable = false)
+
+    @Column(name = "vehicle_no", length = 100, nullable = false)
     private String vehicleNo;
+
     @Column(name = "brand", length = 100)
     private String brand;
+
     @Column(name = "model", length = 100)
     private String model;
+
     @Column(name = "status", length = 100)
-    private String status = "waiting";;
+    private String status = "waiting";
+
     @Column(name = "preferred_date")
-    private Date preferredDate;
+    private LocalDate preferredDate;
+
     @Column(name = "preferred_time")
-    private Time preferredTime;
+    private LocalTime preferredTime;
+
+    @Column(name = "customer_id",length = 45)
+    private Long customerId;
+
     public Booking() {
     }
-    public Booking(int bookingId, String vehicleNo, String brand, String model, String status, Date preferredDate, Time preferredTime) {
+
+    public Booking(int bookingId, String vehicleNo, String brand, String model, String status, LocalDate preferredDate, LocalTime preferredTime, Long customerId) {
         this.bookingId = bookingId;
         this.vehicleNo = vehicleNo;
         this.brand = brand;
@@ -31,49 +44,73 @@ public class Booking {
         this.status = status;
         this.preferredDate = preferredDate;
         this.preferredTime = preferredTime;
+        this.customerId = customerId;
     }
+
     public int getBookingId() {
         return bookingId;
     }
-    public void setBookingId(int bookingId) {
-        this.bookingId = bookingId;
-    }
+
     public String getVehicleNo() {
         return vehicleNo;
     }
-    public void setVehicleNo(String vehicleNo) {
-        this.vehicleNo = vehicleNo;
-    }
+
     public String getBrand() {
         return brand;
     }
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
+
     public String getModel() {
         return model;
     }
-    public void setModel(String model) {
-        this.model = model;
-    }
+
     public String getStatus() {
         return status;
     }
+
+    public LocalDate getPreferredDate() {
+        return preferredDate;
+    }
+
+    public LocalTime getPreferredTime() {
+        return preferredTime;
+    }
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public void setBookingId(int bookingId) {
+        this.bookingId = bookingId;
+    }
+
+    public void setVehicleNo(String vehicleNo) {
+        this.vehicleNo = vehicleNo;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
     public void setStatus(String status) {
         this.status = status;
     }
-    public Date getPreferredDate() {
-        return preferredDate;
-    }
-    public void setPreferredDate(Date preferredDate) {
+
+    public void setPreferredDate(LocalDate preferredDate) {
         this.preferredDate = preferredDate;
     }
-    public Time getPreferredTime() {
-        return preferredTime;
-    }
-    public void setPreferredTime(Time preferredTime) {
+
+    public void setPreferredTime(LocalTime preferredTime) {
         this.preferredTime = preferredTime;
     }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
+    }
+
     @Override
     public String toString() {
         return "Booking{" +
@@ -84,6 +121,7 @@ public class Booking {
                 ", status='" + status + '\'' +
                 ", preferredDate=" + preferredDate +
                 ", preferredTime=" + preferredTime +
+                ", customerId=" + customerId +
                 '}';
     }
 }

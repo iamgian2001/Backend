@@ -1,7 +1,7 @@
 package com.driveaze.driveaze.controller;
 
 import com.driveaze.driveaze.dto.ComplaintDTO;
-import com.driveaze.driveaze.service.CustomerComplaintService;
+import com.driveaze.driveaze.service.interfac.CustomerComplaintService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +50,23 @@ public class CustomerComplaintController {
         }
     }
 
+    /** Retrieve all complaints for the customer.*/
+    @GetMapping(path = "/retrieveUserComplaints")
+    public ResponseEntity<?> retrieveUserComplaints() {
+        try {
+            logger.info("Retrieving all complaints for the user...");
+            List<ComplaintDTO> complaintDTOs = customerComplaintService.retrieveUserComplaints();
+            if (complaintDTOs.isEmpty()) {
+                logger.info("No complaints for the user found.");
+                return ResponseEntity.status(204).body("No complaints found.");
+            }
+            return ResponseEntity.ok(complaintDTOs);
+        } catch (Exception e) {
+            logger.error("Error retrieving complaints: ", e);
+            return ResponseEntity.status(500).body("Error retrieving complaints: " + e.getMessage());
+        }
+    }
+
     /** Update a complaint.*/
     @PutMapping(path = "/update")
     public ResponseEntity<?> updateComplaint(@RequestBody ComplaintDTO complaintDTO) {
@@ -63,5 +80,6 @@ public class CustomerComplaintController {
             return ResponseEntity.status(500).body("Failed to update complaint: " + e.getMessage());
         }
     }
+
 
 }
