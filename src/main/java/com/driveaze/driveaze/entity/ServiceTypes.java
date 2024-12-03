@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 @Entity
 @Table(name = "service_types")
 @Data
@@ -16,6 +20,12 @@ public class ServiceTypes {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int serviceId;
 
-    @Column(name = "service_name", length =100, nullable = false)
+    @Column(name = "service_name", length =100,  nullable = false)
     private String serviceName;
+
+    @Column(name = "registered_date", length =100)
+    private LocalDate registeredDate;
+
+    @Column(name = "registered_time", length =100)
+    private LocalTime registeredTime;
 }

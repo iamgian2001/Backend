@@ -51,10 +51,13 @@ public class JobRegistryController {
         return ResponseEntity.ok(jobRegistryService.getJobById(jobId));
     }
 
-//    @GetMapping("/get-sorted-job/{field}")
-//    public List<JobRegistry> findJobRegistriessWithSorting(@PathVariable String field) {
-//        return jobRegistryService.findJobRegistriessWithSorting(field);
-//    }
+    @GetMapping("/pagination-and-sort-and-get-with-vehicle-id/{offset}")
+    public Page<JobRegistry> getAllJobsWithPaginationByVehicleId(
+            @RequestParam int vehicleId,
+            @PathVariable int offset) {
+        return jobRegistryService.getAllJobsWithPaginationByVehicleId(vehicleId, offset);
+    }
+
 
     @GetMapping("/get-sorted-job")
     public List<JobRegistry> findJobRegistriessWithSorting() {

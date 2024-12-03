@@ -55,4 +55,7 @@ public class ResponseDTO {
     private List<Announcement> announcementList;
     private BillEntry billEntry;
     private List<BillEntry> billEntryList;
+    private Long userId;
+    private boolean requiresOTP;
+    private String phoneNumber;
 }

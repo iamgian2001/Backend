@@ -2,13 +2,19 @@ package com.driveaze.driveaze.service.impl;
 
 import com.driveaze.driveaze.dto.ResponseDTO;
 import com.driveaze.driveaze.dto.ServiceTypeDTO;
+import com.driveaze.driveaze.entity.CustomerVehicle;
 import com.driveaze.driveaze.entity.ServiceTypes;
 import com.driveaze.driveaze.exception.OurException;
 import com.driveaze.driveaze.repository.ServiceTypeRepo;
 import com.driveaze.driveaze.service.interfac.ServiceTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -19,29 +25,48 @@ public class ServiceTypeServiceIMPL implements ServiceTypeService {
 
     @Override
     public ResponseDTO addNewServiceType(ServiceTypeDTO serviceTypeDTO) {
-
         ResponseDTO response = new ResponseDTO();
 
         try {
-            ServiceTypes serviceTypes = new ServiceTypes(
-                    serviceTypeDTO.getServiceId(),
-                    serviceTypeDTO.getServiceName()
-            );
+            // Validate serviceName to ensure it's not null or empty
+            if (serviceTypeDTO.getServiceName() == null || serviceTypeDTO.getServiceName().trim().isEmpty()) {
+                response.setStatusCode(400);
+                response.setMessage("Service Name cannot be null or empty");
+                return response;
+            }
 
-            if(!serviceTypeRepo.existsByServiceName(serviceTypes.getServiceName())){
+            // Map DTO to Entity
+            ServiceTypes serviceTypes = new ServiceTypes();
+            serviceTypes.setServiceId(serviceTypeDTO.getServiceId());
+            serviceTypes.setServiceName(serviceTypeDTO.getServiceName().trim());
+            serviceTypes.setRegisteredDate(serviceTypeDTO.getRegisteredDate() != null
+                    ? serviceTypeDTO.getRegisteredDate()
+                    : LocalDate.now());
+            serviceTypes.setRegisteredTime(serviceTypeDTO.getRegisteredTime() != null
+                    ? serviceTypeDTO.getRegisteredTime()
+                    : LocalTime.now());
+
+            // Check if Service Name already exists
+            if (!serviceTypeRepo.existsByServiceName(serviceTypes.getServiceName())) {
+                // Save the Service Type
                 serviceTypeRepo.save(serviceTypes);
                 response.setStatusCode(200);
                 response.setMessage("Successfully added service type");
-            }else{
+            } else {
                 response.setStatusCode(400);
                 response.setMessage("Service Type already exists");
             }
-        }catch (Exception e) {
+
+        } catch (Exception e) {
+            // Log the exception for debugging
+            e.printStackTrace();
             response.setStatusCode(500);
-            response.setMessage("Error occured while adding Service Type: " + e.getMessage());
+            response.setMessage("Error occurred while adding Service Type: " + e.getMessage());
         }
+
         return response;
     }
+
 
     @Override
     public ResponseDTO getAllServiceTypes() {
@@ -74,7 +99,9 @@ public class ServiceTypeServiceIMPL implements ServiceTypeService {
         try {
             ServiceTypes serviceTypes = new ServiceTypes(
                     serviceTypeDTO.getServiceId(),
-                    serviceTypeDTO.getServiceName()
+                    serviceTypeDTO.getServiceName(),
+                    serviceTypeDTO.getRegisteredDate(),
+                    serviceTypeDTO.getRegisteredTime()
             );
 
             if (serviceTypeRepo.existsByServiceName(serviceTypes.getServiceName())) {
@@ -84,7 +111,7 @@ public class ServiceTypeServiceIMPL implements ServiceTypeService {
             }
 
             ServiceTypes serviceTypes1 = serviceTypeRepo.findById(serviceId)
-                    .orElseThrow(() -> new OurException("Customer vehicle not found"));
+                    .orElseThrow(() -> new OurException("Service type not found"));
 
             serviceTypes1.setServiceName(serviceTypeDTO.getServiceName());
 
@@ -139,5 +166,10 @@ public class ServiceTypeServiceIMPL implements ServiceTypeService {
             response.setMessage("Error occurred while retrieving Service Type: " + e.getMessage());
         }
         return response;
+    }
+
+    @Override
+    public Page<ServiceTypes> findServiceTypesWithPaginationAndSorting(int offset) {
+        return serviceTypeRepo.findAll(PageRequest.of(offset, 10).withSort(Sort.by(Sort.Order.desc("registeredDate"), Sort.Order.desc("registeredTime"))));
     }
 }

@@ -13,10 +13,13 @@ import com.driveaze.driveaze.repository.JobRegistryRepo;
 import com.driveaze.driveaze.service.interfac.JobRegistryService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
+
 
 import java.time.LocalDate;
 import java.util.List;
@@ -264,6 +267,36 @@ public class JobRegistryServiceIMPL implements JobRegistryService {
         }
         return response;
     }
+
+//    @Override
+//    public Page<JobRegistry> getAllJobsWithPaginationByVehicleId(int vehicleId, int offset) {
+//        return jobRegistryRepo.findJobsByVehicleId(
+//                String.valueOf(vehicleId),
+//                PageRequest.of(offset, 6).withSort(Sort.by(Sort.Order.desc("startedDate"), Sort.Order.desc("startTime")))
+//        );
+//    }
+
+//    @Override
+//    public Page<JobRegistry> getAllJobsWithPaginationByVehicleId(int vehicleId, int offset) {
+//        Pageable pageable = PageRequest.of(
+//                offset,
+//                6,
+//                Sort.by(
+//                        Sort.Order.desc("startedDate"),
+//                        Sort.Order.desc("startTime")
+//                )
+//        );
+//        return jobRegistryRepo.findAllByVehicleId(vehicleId, pageable);
+//    }
+
+    @Override
+    public Page<JobRegistry> getAllJobsWithPaginationByVehicleId(int vehicleId, int offset) {
+        return jobRegistryRepo.findAllJobsByVehicleId(
+                vehicleId,
+                PageRequest.of(offset, 6).withSort(Sort.by(Sort.Order.desc("startedDate"), Sort.Order.desc("startTime")))
+        );
+    }
+
 
 
 //    @Override
