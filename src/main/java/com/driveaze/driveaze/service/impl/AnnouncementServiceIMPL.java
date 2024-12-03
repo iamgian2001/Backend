@@ -195,4 +195,49 @@ public class AnnouncementServiceIMPL implements AnnouncementService {
         return announcementRepo.findAll(PageRequest.of(offset, 9).withSort(Sort.by(Sort.Order.desc("date"), Sort.Order.desc("time"))));
     }
 
+    @Override
+    public ResponseDTO getDashCustomerAnnouncements() {
+        ResponseDTO response = new ResponseDTO();
+
+        try {
+            List<Announcement> announcements = announcementRepo.findCustomerDashAnnouncements();
+            if (!announcements.isEmpty()) {
+                response.setAnnouncementList(announcements);
+                response.setStatusCode(200);
+                response.setMessage("Successfully retrieved the last announcements.");
+            } else {
+                throw new OurException("No announcements found.");
+            }
+        } catch (OurException e) {
+            response.setStatusCode(404);
+            response.setMessage(e.getMessage());
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error occurred while retrieving announcements: " + e.getMessage());
+        }
+        return response;
+    }
+
+    @Override
+    public ResponseDTO getDashStaffAnnouncements() {
+        ResponseDTO response = new ResponseDTO();
+
+        try {
+            List<Announcement> announcements = announcementRepo.findStaffAnnouncements();
+            if (!announcements.isEmpty()) {
+                response.setAnnouncementList(announcements);
+                response.setStatusCode(200);
+                response.setMessage("Successfully retrieved the three announcements.");
+            } else {
+                throw new OurException("No announcements found.");
+            }
+        } catch (OurException e) {
+            response.setStatusCode(404);
+            response.setMessage(e.getMessage());
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error occurred while retrieving announcements: " + e.getMessage());
+        }
+        return response;
+    }
 }

@@ -64,5 +64,17 @@ public class AnnouncementController {
     public Page<Announcement> findAnnsWithPaginationAndSorting(@PathVariable int offset) {
         return announcementService.findAnnsWithPaginationAndSorting(offset);
     }
+
+    @GetMapping(path = "get-dash-customer-announcements")
+    public ResponseEntity<ResponseDTO> getDashCustomerAnnouncements(){
+        ResponseDTO responseDTO = announcementService.getDashCustomerAnnouncements();
+        return ResponseEntity.ok(responseDTO);
+    }
+
+    @GetMapping(path = "get-dash-staff-announcements")
+    public ResponseEntity<ResponseDTO> getDashStaffAnnouncements(){
+        ResponseDTO responseDTO = announcementService.getDashStaffAnnouncements();
+        return ResponseEntity.ok(responseDTO);
+    }
 }
 
