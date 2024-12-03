@@ -49,5 +49,4 @@ public class JobRegistry {
     @Column(name = "job_description", columnDefinition = "TEXT")
     private String jobDescription;
 
-
 }
