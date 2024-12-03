@@ -10,5 +10,6 @@ public interface InventoryService {
     ResponseDTO deleteInventoryItem(int itemId);
     ResponseDTO refillItem(int itemId, int quantity);
     ResponseDTO reduceItem(int itemId, int quantity);
+    ResponseDTO getInventoryStatistics();
 
 }

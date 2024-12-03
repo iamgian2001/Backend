@@ -2,8 +2,11 @@ package com.driveaze.driveaze.controller;
 
 import com.driveaze.driveaze.dto.ResponseDTO;
 import com.driveaze.driveaze.dto.ServiceTypeDTO;
+import com.driveaze.driveaze.entity.CustomerVehicle;
+import com.driveaze.driveaze.entity.ServiceTypes;
 import com.driveaze.driveaze.service.interfac.ServiceTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,5 +41,10 @@ public class ServiceTypeController {
     @GetMapping("/get-service-type/{serviceId}")
     public ResponseEntity<ResponseDTO> getServiceTypeById(@PathVariable Integer serviceId) {
         return ResponseEntity.ok(serviceTypeService.getServiceTypeById(serviceId));
+    }
+
+    @GetMapping("/paginationAndSort/{offset}")
+    public Page<ServiceTypes> findServiceTypesWithPaginationAndSorting(@PathVariable int offset) {
+        return serviceTypeService.findServiceTypesWithPaginationAndSorting(offset);
     }
 }

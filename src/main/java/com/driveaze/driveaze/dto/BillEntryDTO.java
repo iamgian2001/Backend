@@ -20,4 +20,5 @@ public class BillEntryDTO {
     private String serviceOrProduct;
     private int quantity;
     private BigDecimal totalPrice;
+    private BigDecimal unitPrice;
 }

@@ -1,8 +1,9 @@
 package com.driveaze.driveaze.controller;
 
 import com.driveaze.driveaze.dto.ComplaintDTO;
-import com.driveaze.driveaze.dto.CustomerVehicleDTO;
-import com.driveaze.driveaze.service.CustomerComplaintService;
+import com.driveaze.driveaze.service.interfac.CustomerComplaintService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,23 +15,71 @@ import java.util.List;
 @CrossOrigin
 public class CustomerComplaintController {
 
+    private static final Logger logger = LoggerFactory.getLogger(CustomerComplaintController.class);
+
     @Autowired
     private CustomerComplaintService customerComplaintService;
 
+    /** Save a complaint.*/
     @PostMapping(path = "/save")
-    public String saveComplaint(@RequestBody ComplaintDTO complaintDTO){
-        customerComplaintService.addComplaint(complaintDTO);
-        return "saved";
+    public ResponseEntity<?> saveComplaint(@RequestBody ComplaintDTO complaintDTO) {
+        try {
+            logger.info("Saving complaint: {}", complaintDTO);
+            customerComplaintService.addComplaint(complaintDTO);
+            return ResponseEntity.status(201).body("Complaint successfully saved!");
+        } catch (Exception e) {
+            logger.error("Error saving complaint: ", e);
+            return ResponseEntity.status(500).body("Failed to save complaint: " + e.getMessage());
+        }
     }
 
+    /** Retrieve all complaints.*/
     @GetMapping(path = "/retrieve")
-    public ResponseEntity<List<ComplaintDTO>> retrieveComplaints() {
-        List<ComplaintDTO> complaintDTOs = customerComplaintService.retrieveComplaints();
-        return ResponseEntity.ok(complaintDTOs);
+    public ResponseEntity<?> retrieveComplaints() {
+        try {
+            logger.info("Retrieving all complaints...");
+            List<ComplaintDTO> complaintDTOs = customerComplaintService.retrieveComplaints();
+            if (complaintDTOs.isEmpty()) {
+                logger.info("No complaints found.");
+                return ResponseEntity.status(204).body("No complaints found.");
+            }
+            return ResponseEntity.ok(complaintDTOs);
+        } catch (Exception e) {
+            logger.error("Error retrieving complaints: ", e);
+            return ResponseEntity.status(500).body("Error retrieving complaints: " + e.getMessage());
+        }
     }
 
-    @PutMapping(path="/update")
-    public String updateComplaint(@RequestBody ComplaintDTO complaintDTO){
-        return customerComplaintService.updateComplaint(complaintDTO);
+    /** Retrieve all complaints for the customer.*/
+    @GetMapping(path = "/retrieveUserComplaints")
+    public ResponseEntity<?> retrieveUserComplaints() {
+        try {
+            logger.info("Retrieving all complaints for the user...");
+            List<ComplaintDTO> complaintDTOs = customerComplaintService.retrieveUserComplaints();
+            if (complaintDTOs.isEmpty()) {
+                logger.info("No complaints for the user found.");
+                return ResponseEntity.status(204).body("No complaints found.");
+            }
+            return ResponseEntity.ok(complaintDTOs);
+        } catch (Exception e) {
+            logger.error("Error retrieving complaints: ", e);
+            return ResponseEntity.status(500).body("Error retrieving complaints: " + e.getMessage());
+        }
     }
+
+    /** Update a complaint.*/
+    @PutMapping(path = "/update")
+    public ResponseEntity<?> updateComplaint(@RequestBody ComplaintDTO complaintDTO) {
+        logger.info("Incoming request to update complaint: {}", complaintDTO);
+        try {
+            String result = customerComplaintService.updateComplaint(complaintDTO);
+            logger.info("Complaint updated successfully: {}", result);
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            logger.error("Error updating complaint: ", e);
+            return ResponseEntity.status(500).body("Failed to update complaint: " + e.getMessage());
+        }
+    }
+
+
 }

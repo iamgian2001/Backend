@@ -38,4 +38,6 @@ public class JobEntry {
 
     @Column(name = "man_hours", nullable = false)
     private BigDecimal manHours;
+
+
 }

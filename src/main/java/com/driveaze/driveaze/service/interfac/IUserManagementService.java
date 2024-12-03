@@ -1,8 +1,12 @@
 package com.driveaze.driveaze.service.interfac;
 
+import com.driveaze.driveaze.dto.OurUserDTO;
+import com.driveaze.driveaze.dto.PasswordUpdateDTO;
 import com.driveaze.driveaze.dto.ResponseDTO;
 import com.driveaze.driveaze.dto.auth.LoginRequest;
 import com.driveaze.driveaze.entity.OurUsers;
+
+import java.util.List;
 
 public interface IUserManagementService {
 
@@ -17,4 +21,12 @@ public interface IUserManagementService {
     ResponseDTO updateUser(int userId, OurUsers updatedUser);
     ResponseDTO getMyInfo(String email);
 
+
+    List<OurUsers> searchBySupervisorName(String query);
+
+    ResponseDTO deleteCustomer(Integer userId);
+
+    ResponseDTO updateCustomer(Integer userId, OurUserDTO ourUserDTO);
+
+    ResponseDTO updatePassword(Integer userId, PasswordUpdateDTO passwordUpdateDTO);
 }

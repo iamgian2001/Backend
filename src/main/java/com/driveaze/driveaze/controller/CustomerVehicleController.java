@@ -2,9 +2,12 @@ package com.driveaze.driveaze.controller;
 
 import com.driveaze.driveaze.dto.CustomerVehicleDTO;
 import com.driveaze.driveaze.dto.ResponseDTO;
+import com.driveaze.driveaze.entity.Bill;
 import com.driveaze.driveaze.entity.CustomerVehicle;
+import com.driveaze.driveaze.entity.JobRegistry;
 import com.driveaze.driveaze.service.interfac.CustomerVehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,4 +52,15 @@ public class CustomerVehicleController {
         return customerVehicleService.searchByVehicleNo(query);
     }
 
+    @GetMapping("/paginationAndSort/{offset}")
+    public Page<CustomerVehicle> findVehiclesWithPaginationAndSorting(@PathVariable int offset) {
+        return customerVehicleService.findVehiclesWithPaginationAndSorting(offset);
+    }
+
+    @GetMapping("/paginationAndSortAndGetWithCustomerPhone/{offset}")
+    public Page<CustomerVehicle> getAllVehiclesWithPaginationByCustomerPhoneNo(
+            @RequestParam String phoneNo,
+            @PathVariable int offset) {
+        return customerVehicleService.getAllVehiclesWithPaginationByCustomerPhoneNo(phoneNo, offset);
+    }
 }

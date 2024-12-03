@@ -44,6 +44,9 @@ public class OurUsers implements UserDetails {
     @Column(name = "registered_date", length =100, nullable = false)
     private LocalDate registeredDate;
 
+    @Column(name = "is_verified_phone")
+    private boolean isVerifiedPhone = false;
+
     @Override
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {

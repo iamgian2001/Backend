@@ -2,11 +2,15 @@ package com.driveaze.driveaze.service.impl;
 
 import com.driveaze.driveaze.dto.ResponseDTO;
 import com.driveaze.driveaze.dto.SupplierDTO;
+import com.driveaze.driveaze.entity.CustomerVehicle;
 import com.driveaze.driveaze.entity.Supplier;
 import com.driveaze.driveaze.exception.OurException;
 import com.driveaze.driveaze.repository.SupplierRepo;
 import com.driveaze.driveaze.service.interfac.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -138,5 +142,10 @@ public class SupplierServiceIMPL implements SupplierService {
             response.setMessage("Error occurred while retrieving Supplier: " + e.getMessage());
         }
         return response;
+    }
+
+    @Override
+    public Page<Supplier> findSuppliersWithPaginationAndSorting(int offset) {
+        return supplierRepo.findAll(PageRequest.of(offset, 9).withSort(Sort.by(Sort.Order.desc("registeredDate"))));
     }
 }

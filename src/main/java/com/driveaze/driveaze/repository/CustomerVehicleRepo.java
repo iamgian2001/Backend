@@ -2,6 +2,9 @@ package com.driveaze.driveaze.repository;
 
 import com.driveaze.driveaze.entity.CustomerVehicle;
 import com.driveaze.driveaze.entity.OurUsers;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -20,4 +23,12 @@ public interface CustomerVehicleRepo extends JpaRepository<CustomerVehicle, Inte
 
     @Query("SELECT c FROM CustomerVehicle c WHERE LOWER(c.vehicleNo) LIKE LOWER(CONCAT('%', :vehicleNo, '%'))")
     List<CustomerVehicle> searchByVehicleNo(@Param("vehicleNo") String vehicleNo);
+
+    Optional<CustomerVehicle> findByOwnerPhone(String ownerPhone);
+
+    CustomerVehicle findCustomerVehicleByVehicleId(Integer vehicleId);
+
+    @Query("SELECT cv FROM CustomerVehicle cv WHERE cv.ownerPhone = :phoneNo")
+    Page<CustomerVehicle> findVehiclesByCustomerPhone(@Param("phoneNo") String phoneNo, Pageable pageable);
+
 }

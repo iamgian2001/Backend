@@ -36,6 +36,11 @@ public class BillEntryController {
         return ResponseEntity.ok(billEntryService.getAllBillEntries());
     }
 
+    @GetMapping("/get-all-bill-entries-by-bill-id/{billId}")
+    public ResponseEntity<ResponseDTO> getAllBillEntriesByBillId(@PathVariable Integer billId) {
+        return ResponseEntity.ok(billEntryService.getAllBillEntriesByBillId(billId));
+    }
+
     @GetMapping("/get-bill-entry/{billEntryId}")
     public ResponseEntity<ResponseDTO> getBillEntryById(@PathVariable Integer billEntryId) {
         return ResponseEntity.ok(billEntryService.getBillEntryById(billEntryId));

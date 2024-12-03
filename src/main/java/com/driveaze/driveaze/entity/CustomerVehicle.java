@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 @Entity
 @Table(name = "customer_vehicle")
 @Data
@@ -20,13 +24,28 @@ public class CustomerVehicle {
     @Column(name = "vehicle_no", length =100, nullable = false)
     private String vehicleNo;
 
-    @Column(name = "vehicle_brand", length = 100)
-    private String vehicleBrand;
+    @Column(name = "owner_name", length = 100)
+    private String ownerName;
 
-    @Column(name = "vehicle_model", length = 100)
-    private String vehicleModel;
+    @Column(name = "owner_email", length = 100)
+    private String ownerEmail;
 
-    @Column(name = "customer_id", length = 100)
-    private int customerId;
+    @Column(name = "owner_phone", length = 100)
+    private String ownerPhone;
+
+    @Column(name = "vehicleMilage", length = 100)
+    private Integer vehicleMilage;
+
+    @Column(name = "vehicle_brand_id", length = 100)
+    private int vehicleBrandId;
+
+    @Column(name = "vehicle_model_id", length = 100)
+    private int vehicleModelId;
+
+    @Column(name = "registered_date", length =100)
+    private LocalDate registeredDate;
+
+    @Column(name = "registered_time", length =100)
+    private LocalTime registeredTime;
 
 }

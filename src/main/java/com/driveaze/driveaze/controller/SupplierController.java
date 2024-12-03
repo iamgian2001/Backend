@@ -2,8 +2,11 @@ package com.driveaze.driveaze.controller;
 
 import com.driveaze.driveaze.dto.ResponseDTO;
 import com.driveaze.driveaze.dto.SupplierDTO;
+import com.driveaze.driveaze.entity.CustomerVehicle;
+import com.driveaze.driveaze.entity.Supplier;
 import com.driveaze.driveaze.service.interfac.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,5 +41,10 @@ public class SupplierController {
     @GetMapping("/get-supplier/{supplierId}")
     public ResponseEntity<ResponseDTO> getSupplierById(@PathVariable Integer supplierId) {
         return ResponseEntity.ok(supplierService.getSupplierById(supplierId));
+    }
+
+    @GetMapping("/paginationAndSort/{offset}")
+    public Page<Supplier> findSuppliersWithPaginationAndSorting(@PathVariable int offset) {
+        return supplierService.findSuppliersWithPaginationAndSorting(offset);
     }
 }

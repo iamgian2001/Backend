@@ -1,7 +1,9 @@
 package com.driveaze.driveaze.controller;
 
-import com.driveaze.driveaze.dto.ResponseDTO;
+import com.driveaze.driveaze.dto.*;
+import com.driveaze.driveaze.entity.CustomerVehicle;
 import com.driveaze.driveaze.entity.OurUsers;
+import com.driveaze.driveaze.service.impl.UserManagementService;
 import com.driveaze.driveaze.service.interfac.IUserManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,11 +11,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping
 public class UserManagementController {
     @Autowired
     private IUserManagementService userService;
+    @Autowired
+    private UserManagementService userManagementService;
 
     @GetMapping("/superuser/get-all-employees")
     public ResponseEntity<ResponseDTO> getAllEmployees() {
@@ -36,7 +42,7 @@ public class UserManagementController {
         return ResponseEntity.ok(userService.getUsersById(userId));
     }
 
-    @PutMapping("/superuser/update/{userId}")
+    @PutMapping("/employees/update/{userId}")
     public ResponseEntity<ResponseDTO> updateUser(@PathVariable Integer userId, @RequestBody OurUsers request) {
         return ResponseEntity.ok(userService.updateUser(userId, request));
     }
@@ -53,4 +59,25 @@ public class UserManagementController {
     public ResponseEntity<ResponseDTO> deleteUser(@PathVariable Integer userId) {
         return ResponseEntity.ok(userService.deleteUser(userId));
     }
+
+    @DeleteMapping("/customer/delete-account/{userId}")
+    public ResponseEntity<ResponseDTO> deleteCustomer(@PathVariable Integer userId) {
+        return ResponseEntity.ok(userService.deleteCustomer(userId));
+    }
+
+    @PutMapping("/customer/update-account/{userId}")
+    public ResponseEntity<ResponseDTO> updateCustomer(@PathVariable Integer userId, @RequestBody OurUserDTO ourUserDTO) {
+        return ResponseEntity.ok(userService.updateCustomer(userId, ourUserDTO));
+    }
+
+    @PutMapping("/anyuser/update-password/{userId}")
+    public ResponseEntity<ResponseDTO> updatePassword(@PathVariable Integer userId, @RequestBody PasswordUpdateDTO passwordUpdateDTO) {
+        return ResponseEntity.ok(userService.updatePassword(userId, passwordUpdateDTO));
+    }
+
+    @GetMapping("/superuser/search-supervisors")
+    public List<OurUsers> serachSupervisors(@RequestParam("query") String query) {
+        return userManagementService.searchBySupervisorName(query);
+    }
+
 }

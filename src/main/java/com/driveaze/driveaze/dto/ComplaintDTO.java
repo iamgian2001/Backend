@@ -1,24 +1,31 @@
 package com.driveaze.driveaze.dto;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class ComplaintDTO {
 
     private int complaintId;
     private String customerEmail;
     private String description;
-    private java.sql.Date date;
+    private String reply;
+    private LocalDate date;
     private int status;
+    private String complaintHolder;
 
-    public ComplaintDTO() {
-    }
-
-    public ComplaintDTO(int complaintId,String customerEmail, String description, Date date, int status) {
+    public ComplaintDTO(int complaintId, String customerEmail, String complaintHolder, String description, String reply, LocalDate date, int status) {
         this.complaintId = complaintId;
         this.customerEmail = customerEmail;
+        this.complaintHolder = complaintHolder;
         this.description = description;
+        this.reply = reply;
         this.date = date;
         this.status = status;
+
+    }
+
+    public String getReply() {
+        return reply;
     }
 
     public int getComplaintId() {
@@ -27,6 +34,10 @@ public class ComplaintDTO {
 
     public String getCustomerEmail() {
         return customerEmail;
+    }
+
+    public String getComplaintHolder() {
+        return complaintHolder;
     }
 
     public String getDescription() {
@@ -41,7 +52,11 @@ public class ComplaintDTO {
         this.complaintId = complaintId;
     }
 
-    public void setcustomerEmail(String customerEmail) {
+    public void setReply(String reply) {
+        this.reply = reply;
+    }
+
+    public void setCustomerEmail(String customerEmail) {
         this.customerEmail = customerEmail;
     }
 
@@ -53,22 +68,28 @@ public class ComplaintDTO {
         this.status = status;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public void setComplaintHolder(String complaintHolder) {
+        this.complaintHolder = complaintHolder;
     }
 
     @Override
     public String toString() {
         return "ComplaintDTO{" +
                 "complaintId=" + complaintId +
-                ", customerEmail=" + customerEmail +
+                ", customerEmail='" + customerEmail + '\'' +
                 ", description='" + description + '\'' +
+                ", reply='" + reply + '\'' +
                 ", date=" + date +
                 ", status=" + status +
+                ", complaintHolder='" + complaintHolder + '\'' +
                 '}';
     }
 

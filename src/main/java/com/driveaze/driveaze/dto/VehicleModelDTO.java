@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class VehicleModelDTO {
     private Long modelId;
-    private VehicleBrand vehicleBrand;
+    private Long brandId;
     private String modelName;
     private String fuelType;
     private LocalDate registeredDate;
