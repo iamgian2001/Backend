@@ -20,6 +20,14 @@ public interface AnnouncementRepo extends JpaRepository<Announcement, Integer> {
 
     List<Announcement> findByReciversOrRecivers(String all,String role);
 
+//    List<Announcement> findTop3ByOrderByAnnouncementIdDesc();
+
+    @Query("SELECT a FROM Announcement a WHERE a.recivers IN ('ALL', 'CUSTOMER') ORDER BY a.announcementId DESC")
+    List<Announcement> findCustomerDashAnnouncements();
+
+    @Query("SELECT a FROM Announcement a WHERE a.recivers IN ('ALL', 'STAFF') ORDER BY a.announcementId DESC")
+    List<Announcement> findStaffAnnouncements();
+
     @Query("SELECT a FROM Announcement a " +
             "WHERE a.recivers = 'ALL' " +
             "OR a.recivers = :role")

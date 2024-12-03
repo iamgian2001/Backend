@@ -24,4 +24,8 @@ public interface  AnnouncementService {
     ResponseDTO getStaffAnnouncements();
 
     ResponseDTO getCustomerAnnouncements();
+
+    ResponseDTO getDashCustomerAnnouncements();
+
+    ResponseDTO getDashStaffAnnouncements();
 }
