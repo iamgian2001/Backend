@@ -2,8 +2,11 @@ package com.driveaze.driveaze.controller;
 
 import com.driveaze.driveaze.dto.ResponseDTO;
 import com.driveaze.driveaze.dto.TechnicianCategoryDTO;
+import com.driveaze.driveaze.entity.Supplier;
+import com.driveaze.driveaze.entity.TechnicianCategory;
 import com.driveaze.driveaze.service.interfac.TechnicianCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,5 +42,10 @@ public class TechnicianCategoryController {
     @GetMapping("/get-technician-category/{technicianCategoryId}")
     public ResponseEntity<ResponseDTO> getTechnicianCategoryById(@PathVariable Integer technicianCategoryId) {
         return ResponseEntity.ok(technicianCategoryService.getTechnicianCategoryById(technicianCategoryId));
+    }
+
+    @GetMapping("/paginationAndSort/{offset}")
+    public Page<TechnicianCategory> findTechnicianCategoriesWithPaginationAndSorting(@PathVariable int offset) {
+        return (Page<TechnicianCategory>) technicianCategoryService.findTechnicianCategoriesWithPaginationAndSorting(offset);
     }
 }
