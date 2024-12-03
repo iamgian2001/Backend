@@ -51,4 +51,10 @@ public class JobEntryController {
     public Page<JobEntry> findJobEntriesWithPaginationAndSorting(@PathVariable Integer jobId, @PathVariable int offset) {
         return jobEntryService.findJobEntriesWithPaginationAndSorting(jobId, offset);
     }
+
+    @GetMapping("/get-all-job-entries-by-job-id/{jobId}")
+    public ResponseEntity<ResponseDTO> getAllJobEntriesbyJobId(@PathVariable Integer jobId) {
+        return ResponseEntity.ok(jobEntryService.getAllJobEntriesByJobId(jobId));
+    }
+
 }

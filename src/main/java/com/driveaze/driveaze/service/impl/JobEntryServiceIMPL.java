@@ -371,6 +371,50 @@ public class JobEntryServiceIMPL implements JobEntryService {
         return jobEntryRepo.findByJobRegistry_JobId(jobId, pageable);
     }
 
+    @Override
+    public ResponseDTO getAllJobEntriesByJobId(Integer jobId) {
+        ResponseDTO response = new ResponseDTO();
+        try {
+            // Retrieve JobEntry entities by jobId
+            List<JobEntry> jobEntries = jobEntryRepo.findByJobRegistry_JobId(jobId);
+
+            if (!jobEntries.isEmpty()) {
+                // Map JobEntry entities to JobEntryDTOs
+                List<JobEntryDTO> jobEntryDTOs = jobEntries.stream()
+                        .map(this::mapToJobEntryDTO)
+                        .toList();
+
+                response.setDetails(jobEntryDTOs);
+                response.setStatusCode(200);
+                response.setMessage("Successfully retrieved job entries.");
+            } else {
+                throw new OurException("No job entries found for job ID: " + jobId);
+            }
+        } catch (OurException e) {
+            response.setStatusCode(404);
+            response.setMessage(e.getMessage());
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error occurred while retrieving job entries: " + e.getMessage());
+        }
+
+        return response;
+    }
+
+    private JobEntryDTO mapToJobEntryDTO(JobEntry jobEntry) {
+        JobEntryDTO jobEntryDTO = new JobEntryDTO();
+        jobEntryDTO.setJobEntryId(jobEntry.getJobEntryId());
+        jobEntryDTO.setJobRegistry(jobEntry.getJobRegistry()); // Map or use ModelMapper if needed
+        jobEntryDTO.setEntryDate(jobEntry.getEntryDate());
+        jobEntryDTO.setTime(jobEntry.getTime());
+        jobEntryDTO.setTechnicianId(jobEntry.getTechnicianId());
+        jobEntryDTO.setDetails(jobEntry.getDetails());
+        jobEntryDTO.setManHours(jobEntry.getManHours());
+        return jobEntryDTO;
+    }
+
+
+
     public ResponseDTO reduceItem(int itemId, int quantity) {
 
         ResponseDTO response = new ResponseDTO();
