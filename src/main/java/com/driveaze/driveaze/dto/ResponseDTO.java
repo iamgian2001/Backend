@@ -5,6 +5,7 @@ import com.driveaze.driveaze.entity.*;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -37,7 +38,7 @@ public class ResponseDTO {
     private Inventory inventoryItem;
     private List<Inventory> inventoryItemList;
     private Booking booking;
-    private List<Booking> bookingList;
+    private List<Booking> bookingList;  // Initialize as empty list
     private SupplierInvoice supplierInvoice;
     private List<SupplierInvoice> supplierInvoiceList;
     private SupplierInvoiceEntry supplierInvoiceEntry;

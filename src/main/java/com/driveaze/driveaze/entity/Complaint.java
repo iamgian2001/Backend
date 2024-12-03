@@ -3,6 +3,7 @@ package com.driveaze.driveaze.entity;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "complaint")
@@ -23,7 +24,7 @@ public class Complaint {
     private String reply;
 
     @Column(name = "date")
-    private java.sql.Date date;
+    private LocalDate date;
 
     @Column(name = "status", length = 1)
     private int status;
@@ -31,7 +32,7 @@ public class Complaint {
     public Complaint() {
     }
 
-    public Complaint(String customerEmail, String description, Date date, int status) {
+    public Complaint(String customerEmail, String description, LocalDate date, int status) {
         this.complaintId = complaintId;
         this.customerEmail = customerEmail;
         this.description = description;
@@ -77,11 +78,11 @@ public class Complaint {
         this.status = status;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
