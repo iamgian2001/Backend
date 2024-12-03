@@ -53,4 +53,7 @@ public class ResponseDTO {
     private List<JobEntry> jobEntryList;
     private BillEntry billEntry;
     private List<BillEntry> billEntryList;
+    private Long userId;
+    private boolean requiresOTP;
+    private String phoneNumber;
 }

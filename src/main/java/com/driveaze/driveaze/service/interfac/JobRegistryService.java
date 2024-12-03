@@ -2,6 +2,7 @@ package com.driveaze.driveaze.service.interfac;
 
 import com.driveaze.driveaze.dto.JobRegistryDTO;
 import com.driveaze.driveaze.dto.ResponseDTO;
+import com.driveaze.driveaze.entity.CustomerVehicle;
 import com.driveaze.driveaze.entity.JobRegistry;
 import org.springframework.data.domain.Page;
 
@@ -25,4 +26,6 @@ public interface JobRegistryService {
     ResponseDTO deleteJob(Integer jobId);
 
     ResponseDTO getJobById(Integer jobId);
+
+    Page<JobRegistry> getAllJobsWithPaginationByVehicleId(int vehicleId, int offset);
 }

@@ -8,6 +8,7 @@ import com.driveaze.driveaze.entity.OurUsers;
 import com.driveaze.driveaze.exception.OurException;
 import com.driveaze.driveaze.repository.UsersRepo;
 import com.driveaze.driveaze.service.interfac.IUserManagementService;
+import com.driveaze.driveaze.service.interfac.NotifyService;
 import com.driveaze.driveaze.util.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,6 +33,9 @@ public class UserManagementService implements IUserManagementService {
     private AuthenticationManager authenticationManager;
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private NotifyService notifyService;
 
     @Override
     public ResponseDTO employeeRegister(OurUsers employeeRegistrationRequest) {
@@ -146,13 +150,38 @@ public class UserManagementService implements IUserManagementService {
                 return response;
             }
 
-            var user = usersRepo.findByEmail(loginRequest.getEmail()).orElseThrow(() -> new OurException("user Not found"));
+            var user = usersRepo.findByEmail(loginRequest.getEmail())
+                    .orElseThrow(() -> new OurException("user Not found"));
+
+            // Check if user is CUSTOMER and phone is not verified
+            if ("CUSTOMER".equals(user.getRole()) && !user.isVerifiedPhone()) {
+                try {
+                    // Send OTP
+                    notifyService.sendOtp(user.getContactNumber());
+
+                    var jwt = jwtUtils.generateToken(user);
+
+                    response.setStatusCode(202); // 202 Accepted - needs further action
+                    response.setToken(jwt);
+                    response.setRole(user.getRole());
+                    response.setMessage("OTP sent to your phone number");
+                    response.setUserId(user.getId());
+                    response.setRequiresOTP(true); // Add this field to ResponseDTO
+                    response.setPhoneNumber(user.getContactNumber());
+
+                    return response;
+                } catch (Exception e) {
+                    response.setStatusCode(500);
+                    response.setMessage("Failed to send OTP: " + e.getMessage());
+                    return response;
+                }
+            }
+
+            // Normal login flow for verified users or non-CUSTOMER users
             var jwt = jwtUtils.generateToken(user);
-//            var refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), user);
             response.setStatusCode(200);
             response.setToken(jwt);
             response.setRole(user.getRole());
-//            response.setRefreshToken(refreshToken);
             response.setExpirationTime("7 Days");
             response.setMessage("Successfully logged in");
 
@@ -160,6 +189,45 @@ public class UserManagementService implements IUserManagementService {
             response.setStatusCode(500);
             response.setMessage(e.getMessage());
         }
+        return response;
+    }
+
+    // Add new method for OTP verification
+    public ResponseDTO verifyOTP(String phoneNumber, String otp, Long userId) {
+        ResponseDTO response = new ResponseDTO();
+
+        try {
+            if (otp == null || otp.isEmpty()) {
+                response.setStatusCode(400);
+                response.setMessage("OTP cannot be empty");
+                return response;
+            }
+
+            // Verify OTP
+            if (notifyService.verifyOtp(phoneNumber, otp)) {
+                // Get user and update verification status
+                OurUsers user = usersRepo.findById(Math.toIntExact(userId))
+                        .orElseThrow(() -> new OurException("User not found"));
+
+                user.setVerifiedPhone(true);
+                usersRepo.save(user);
+
+                // Generate JWT token and complete login
+                var jwt = jwtUtils.generateToken(user);
+                response.setStatusCode(200);
+                response.setToken(jwt);
+                response.setRole(user.getRole());
+                response.setExpirationTime("7 Days");
+                response.setMessage("Phone verified and logged in successfully");
+            } else {
+                response.setStatusCode(400);
+                response.setMessage("Invalid OTP");
+            }
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage(e.getMessage());
+        }
+
         return response;
     }
 

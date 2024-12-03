@@ -2,7 +2,8 @@ package com.driveaze.driveaze.repository;
 
 import com.driveaze.driveaze.entity.CustomerVehicle;
 import com.driveaze.driveaze.entity.JobRegistry;
-import org.hibernate.query.Page;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.awt.print.Pageable;
 import java.util.List;
+import java.util.Optional;
 
 @EnableJpaRepositories
 @Repository
@@ -35,4 +37,6 @@ public interface JobRegistryRepo extends JpaRepository<JobRegistry, Integer> {
     boolean existsByVehicleIdAndJobStatusAndJobIdNot(int vehicleId, int i, Integer jobId);
 
     boolean existsByVehicleId(Integer vehicleId);
+
+    Page<JobRegistry> findAllJobsByVehicleId(int vehicleId, PageRequest pageRequest);
 }

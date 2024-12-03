@@ -152,10 +152,14 @@ public class BillPdfServiceIMPL implements BillPdfService {
             document.open();
 
             // Add title
-            Font titleFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD, BaseColor.BLUE);
-            Paragraph title = new Paragraph("Vehicle Service Station Invoice", titleFont);
+            Font titleFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD, BaseColor.RED);
+            Font titleFont1 = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD, BaseColor.BLACK);
+            Paragraph title = new Paragraph("Samarasinghe Motors (PVT) LTD - Mathara", titleFont);
+            Paragraph title1 = new Paragraph("INVOICE", titleFont1);
             title.setAlignment(Element.ALIGN_CENTER);
+            title1.setAlignment(Element.ALIGN_CENTER);
             document.add(title);
+            document.add(title1);
 
             // Add customer details
             document.add(Chunk.NEWLINE);
@@ -167,9 +171,13 @@ public class BillPdfServiceIMPL implements BillPdfService {
             CustomerVehicle customerVehicle = customerVehicleRepo.findCustomerVehicleByVehicleId(vehicleId);
             String customerName = (customerVehicle != null) ? customerVehicle.getOwnerName() : "Unknown Customer";
             String vehicleNo = (customerVehicle != null) ? customerVehicle.getVehicleNo() : "Unknown Vehicle";
+            String startedDate = (bill != null) ? String.valueOf(bill.getBillDate()) : "";
+            String vehicleMilage = (customerVehicle != null) ? String.valueOf(customerVehicle.getVehicleMilage())+"KM" : "0";
 
             document.add(new Paragraph("Customer Name: " + customerName, detailFont));
-            document.add(new Paragraph("Vehicle No: " + vehicleNo, detailFont));
+            document.add(new Paragraph("Vehicle Number: " + vehicleNo, detailFont));
+            document.add(new Paragraph("Vehicle Milage: " + vehicleMilage, detailFont));
+            document.add(new Paragraph("Started Date: " + startedDate, detailFont));
             document.add(Chunk.NEWLINE);
 
             // Add table for bill entries
@@ -192,11 +200,11 @@ public class BillPdfServiceIMPL implements BillPdfService {
             PdfPCell header4 = new PdfPCell(new Phrase("Unit Cost(LKR)", headerFont));
             PdfPCell header5 = new PdfPCell(new Phrase("Total Cost(LKR)", headerFont));
 
-            header1.setBackgroundColor(BaseColor.GRAY);
-            header2.setBackgroundColor(BaseColor.GRAY);
-            header3.setBackgroundColor(BaseColor.GRAY);
-            header4.setBackgroundColor(BaseColor.GRAY);
-            header5.setBackgroundColor(BaseColor.GRAY);
+            header1.setBackgroundColor(BaseColor.DARK_GRAY);
+            header2.setBackgroundColor(BaseColor.DARK_GRAY);
+            header3.setBackgroundColor(BaseColor.DARK_GRAY);
+            header4.setBackgroundColor(BaseColor.DARK_GRAY);
+            header5.setBackgroundColor(BaseColor.DARK_GRAY);
 
             table.addCell(header1);
             table.addCell(header2);
@@ -236,12 +244,22 @@ public class BillPdfServiceIMPL implements BillPdfService {
             totalParagraph.setAlignment(Element.ALIGN_RIGHT);
             document.add(totalParagraph);
 
+            document.add(Chunk.NEWLINE);
+            Font detailFont1 = new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK);
+            Paragraph details = new Paragraph("Contact Us: +94412222768", detailFont1);
+            Paragraph details2 = new Paragraph("Email: samarasinghemotors@gmail.com", detailFont1);
+            details.setAlignment(Element.ALIGN_LEFT);
+            details2.setAlignment(Element.ALIGN_LEFT);
+            document.add(details);
+            document.add(details2);
+
             // Footer
             document.add(Chunk.NEWLINE);
-            Font footerFont = new Font(Font.FontFamily.HELVETICA, 10, Font.ITALIC, BaseColor.GRAY);
-            Paragraph footer = new Paragraph("Thank you for choosing our services!", footerFont);
+            Font footerFont = new Font(Font.FontFamily.HELVETICA, 10, Font.ITALIC, BaseColor.DARK_GRAY);
+            Paragraph footer = new Paragraph("Thank you for choosing us!", footerFont);
             footer.setAlignment(Element.ALIGN_CENTER);
             document.add(footer);
+
 
             document.close();
 
